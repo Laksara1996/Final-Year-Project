@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class DataService {
 
 	
-	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\src\\main\\java\\io\\fyp\\fypapi\\DataSet.csv";
+	private String csvFile = "/home/sewwandi/Github/Final-Year-Project/fyp-dataset-api/src/main/java/io/fyp/fypapi/DataSet.csv";
 	private String line = "";
 	private String cvsSplitBy = ",";
     
