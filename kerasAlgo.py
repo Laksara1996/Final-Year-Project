@@ -1,3 +1,8 @@
+# create first network with Keras
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy
+
 # Load libraries
 from pandas import read_csv
 from pandas.plotting import scatter_matrix
@@ -36,15 +41,15 @@ from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
 
+
 # Just disables the warning, doesn't enable AVX/FMA
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
+# fix random seed for reproducibility
+seed = 7
+numpy.random.seed(seed)
 
-# first neural network with keras tutorial
-from numpy import loadtxt
-from keras.models import Sequential
-from keras.layers import Dense
 
 # load the dataset
 dataset = pd.read_csv('dataset.csv')
@@ -55,18 +60,17 @@ print(array)
 X = array[:,[0,2]]
 Y = array[:,1]
 
-# convert integers to dummy variables (i.e. one hot encoded)
-dummy_y = np_utils.to_categorical(Y)
-
-# print('Accuracy: %.2f' % (accuracy*100))
-
 def baseline_model():
 	# create model
 	model = Sequential()
-	model.add(Dense(32, input_dim=2, activation='tanh'))
-	model.add(Dense(3, activation='softmax'))
-	# Compile model
-	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	model.add(Dense(32, input_dim=2, activation='relu'))
+	model.add(Dense(12,  activation='relu'))
+	model.add(Dense(5, activation='softmax'))
+
+
+	# compile model
+	model.compile(loss='categorical_crossentropy' , optimizer='adam', metrics=['accuracy'])
+
 	return model
 
 
@@ -74,18 +78,8 @@ estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=5, v
 #split train and test
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.20, random_state=0)
 estimator.fit(X_train, Y_train)
-
-# #get probabilities
-# predictions = estimator.predict_proba(X_test)
-# print(predictions)
-
-#print class predictions
 print(estimator.predict(X_test))
-# print(Y_test)
 print('Accuracy: ',accuracy_score(Y_test, estimator.predict(X_test)))
-# kfold = KFold(n_splits=10, shuffle=True)
-# results = cross_val_score(estimator, X, dummy_y, cv=kfold)
-# print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 
 
 # load the dataset
@@ -100,5 +94,3 @@ Y = array[:,1]
 print(estimator.predict(X))
 df = pd.DataFrame(estimator.predict(X), columns = ['output'])
 print(df['output'].values.tolist())
-
-print(Y)
