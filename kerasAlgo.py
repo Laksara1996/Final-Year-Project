@@ -65,14 +65,11 @@ def baseline_model():
 	model = Sequential()
 	model.add(Dense(32, input_dim=2, activation='relu'))
 	model.add(Dense(12,  activation='relu'))
-	model.add(Dense(5, activation='softmax'))
-
-
+	model.add(Dense(4, activation='softmax'))
 	# compile model
 	model.compile(loss='categorical_crossentropy' , optimizer='adam', metrics=['accuracy'])
 
 	return model
-
 
 estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=5, verbose=0)
 #split train and test
@@ -83,7 +80,7 @@ print('Accuracy: ',accuracy_score(Y_test, estimator.predict(X_test)))
 
 
 # load the dataset
-dataset = pd.read_csv('fileID1_ProcessedTripData.csv')
+dataset = pd.read_csv('dataset.csv')
 # considering columns (Passenger Count, Air conditioning status, Window Opening)
 array = dataset.iloc[:, [8, 10, 11]].values
 print(array)
@@ -92,5 +89,7 @@ X = array[:,[0,2]]
 Y = array[:,1]
 
 print(estimator.predict(X))
+
 df = pd.DataFrame(estimator.predict(X), columns = ['output'])
 print(df['output'].values.tolist())
+
