@@ -6,6 +6,7 @@ import requests
 from flask import Flask, jsonify
 
 import json
+
 from json import JSONEncoder
 
 
@@ -41,6 +42,16 @@ def window_opening_lists():
 
     number_array = get_window_opening_data()
     return jsonify(number_array)
+
+
+@app.route('/input', methods=['GET'])
+def input_list():
+    """ Get lists based on window_opening """
+
+    number_array = train_split("input")
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    return encodedNumpyData
 
 
 @app.route('/x_train', methods=['GET'])
@@ -157,9 +168,10 @@ def train_split(req):
         return X_train
     elif req == "y_train":
         return Y_train
+    elif req == "input":
+        return X
     else:
         return Y_test
-
 
 
 if __name__ == '__main__':
