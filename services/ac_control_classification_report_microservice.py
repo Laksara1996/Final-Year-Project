@@ -1,6 +1,7 @@
 # Load libraries
-from sklearn.metrics import accuracy_score
 import numpy as np
+
+from sklearn.metrics import classification_report
 
 import requests
 from flask import Flask
@@ -19,11 +20,12 @@ class NumpyArrayEncoder(JSONEncoder):
 app = Flask(__name__)
 
 
-@app.route('/accuracy', methods=['GET'])
+@app.route('/classification_report', methods=['GET'])
 def ac_status_output():
     """ Get lists based on window_opening """
-    accuracy_value = accuracy()
-    return str(accuracy_value)
+    classification_report_function()
+    return "hello"
+    # return str(confusion_matrix_value)
 
 
 def get_y_test_data():
@@ -50,12 +52,11 @@ def get_predict_data():
     return finalNumpyArray
 
 
-def accuracy():
-    print("hello")
-    accuracy_value = accuracy_score(get_y_test_data(), get_predict_data())
-    print('Accuracy: ', accuracy_value)
-    return accuracy_value
+def classification_report_function():
+
+    print('classification_report: ')
+    print(classification_report(get_y_test_data(), get_predict_data()))
 
 
 if __name__ == '__main__':
-    app.run(port=3002, debug=True)
+    app.run(port=3005, debug=True)
