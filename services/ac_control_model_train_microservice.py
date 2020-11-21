@@ -7,10 +7,13 @@ from keras.wrappers.scikit_learn import KerasClassifier
 
 import requests
 from flask import Flask
+from flask_caching import Cache
 import os
 
 import json
 from json import JSONEncoder
+
+import time
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -20,26 +23,41 @@ class NumpyArrayEncoder(JSONEncoder):
         return JSONEncoder.default(self, obj)
 
 
+config = {
+    "DEBUG": True,  # some Flask specific configs
+    "CACHE_TYPE": "simple",  # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
+
 app = Flask(__name__)
+
+app.config.from_mapping(config)
+cache = Cache(app)
 
 
 @app.route('/predict', methods=['GET'])
+@cache.cached(timeout=300)
 def predict_data():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = predict()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---predict_data %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
 @app.route('/output', methods=['GET'])
+@cache.cached(timeout=300)
 def output_data():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---output_data %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
@@ -114,7 +132,6 @@ def estimator_train():
 
 
 def predict():
-
     estimator = estimator_train()
     predict_value = estimator.predict(get_x_test_data())
 
@@ -122,7 +139,6 @@ def predict():
 
 
 def output():
-
     estimator = estimator_train()
     output_value = estimator.predict(get_input_data())
 

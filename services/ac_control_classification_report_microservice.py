@@ -9,6 +9,7 @@ from flask import Flask
 import json
 from json import JSONEncoder
 
+import time
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -21,10 +22,12 @@ app = Flask(__name__)
 
 
 @app.route('/classification_report', methods=['GET'])
-def ac_status_output():
+def classification_report_output():
     """ Get lists based on window_opening """
+    start_time = time.time()
     classification_report_function()
-    return "hello"
+    print("---classification_report %s seconds ---" % (time.time() - start_time))
+    return "classification report"
     # return str(confusion_matrix_value)
 
 

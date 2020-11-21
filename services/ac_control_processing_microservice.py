@@ -4,10 +4,13 @@ import numpy as np
 
 import requests
 from flask import Flask, jsonify
+from flask_caching import Cache
 
 import json
 
 from json import JSONEncoder
+
+import time
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -17,80 +20,80 @@ class NumpyArrayEncoder(JSONEncoder):
         return JSONEncoder.default(self, obj)
 
 
+config = {
+    "DEBUG": True,  # some Flask specific configs
+    "CACHE_TYPE": "simple",  # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
+
 app = Flask(__name__)
 
-
-@app.route('/lists/air_condition', methods=['GET'])
-def air_condition_lists():
-    """ Get lists based on air_condition """
-
-    number_array = get_air_condition_data()
-    return jsonify(number_array)
-
-
-@app.route('/lists/passenger_count', methods=['GET'])
-def passenger_count_lists():
-    """ Get lists based on passenger_count """
-
-    number_array = get_passenger_count_data()
-    return jsonify(number_array)
-
-
-@app.route('/lists/window_opening', methods=['GET'])
-def window_opening_lists():
-    """ Get lists based on window_opening """
-
-    number_array = get_window_opening_data()
-    return jsonify(number_array)
+app.config.from_mapping(config)
+cache = Cache(app)
 
 
 @app.route('/input', methods=['GET'])
+@cache.cached(timeout=300)
 def input_list():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = train_split("input")
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---input %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
 @app.route('/x_train', methods=['GET'])
+@cache.cached(timeout=300)
 def x_train():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = train_split("x_train")
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---x_train %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
 @app.route('/x_test', methods=['GET'])
+@cache.cached(timeout=300)
 def x_test():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = train_split("x_test")
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---x_test %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
 @app.route('/y_test', methods=['GET'])
+@cache.cached(timeout=300)
 def y_test():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = train_split("y_test")
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_test %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
 @app.route('/y_train', methods=['GET'])
+@cache.cached(timeout=300)
 def y_train():
     """ Get lists based on window_opening """
 
+    start_time = time.time()
     number_array = train_split("y_train")
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_train %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 

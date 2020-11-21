@@ -8,6 +8,7 @@ from flask import Flask
 import json
 from json import JSONEncoder
 
+import time
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -22,7 +23,9 @@ app = Flask(__name__)
 @app.route('/accuracy', methods=['GET'])
 def ac_status_output():
     """ Get lists based on window_opening """
+    start_time = time.time()
     accuracy_value = accuracy()
+    print("---accuracy %s seconds ---" % (time.time() - start_time))
     return str(accuracy_value)
 
 
@@ -51,7 +54,7 @@ def get_predict_data():
 
 
 def accuracy():
-    print("hello")
+    # print("hello")
     accuracy_value = accuracy_score(get_y_test_data(), get_predict_data())
     print('Accuracy: ', accuracy_value)
     return accuracy_value
