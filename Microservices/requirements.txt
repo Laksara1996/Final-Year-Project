@@ -1,0 +1,12 @@
+numpy
+click
+configobj
+Flask
+itsdangerous
+Jinja2
+MarkupSafe
+requests
+simplejson
+six
+Werkzeug
+re
