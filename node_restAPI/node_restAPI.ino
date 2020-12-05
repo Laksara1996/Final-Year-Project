@@ -20,7 +20,7 @@ ESP8266WebServer http_rest_server(HTTP_REST_PORT);
 int init_wifi() {
   int retries = 0;
 
-  Serial.println("Connecting to WiFi AP..........");
+  Serial.println("Connecting to WiFi..........");
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(wifi_ssid, wifi_passwd);
