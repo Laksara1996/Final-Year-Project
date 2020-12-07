@@ -77,6 +77,22 @@ def elbow_method():
     # checking for min of K value
     print(np.min(Sum_of_squared_distances))
 
+    # checking for min of K value
+    arr = Sum_of_squared_distances
+    diff = []
+    r = range(0, 8)
+    for i in r:
+        n = arr[i] - arr[i + 1]
+        diff.append(n)
+
+    q = range(0, 8)
+    for i in q:
+        lbow = diff[i + 1] * 3
+        if diff[i] < lbow:
+            number_of_clusters = i + 1
+            # print(number_of_clusters)
+            break
+
     # Plotting for change in K value
     # plt.plot(K, Sum_of_squared_distances, 'bx-')
     # plt.title('Elbow Method')
@@ -84,7 +100,7 @@ def elbow_method():
     # plt.ylabel('Sum_of_squared_distances')
     # plt.show()
 
-    return 3
+    return number_of_clusters
 
 
 if __name__ == '__main__':
