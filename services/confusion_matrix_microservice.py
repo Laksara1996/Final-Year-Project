@@ -40,6 +40,15 @@ def breaking_confuion():
     # return str(confusion_matrix_value)
 
 
+@app.route('/speed/confusion_matrix', methods=['GET'])
+def speed_confuion():
+    start_time = time.time()
+    speed_confusion_matrix_function()
+    print("--- %s seconds ---" % (time.time() - start_time))
+    return "confusion matrix"
+    # return str(confusion_matrix_value)
+
+
 def get_ac_control_y_test_data():
     try:
         req = requests.get("http://localhost:3001/ac_control/y_test")
@@ -88,6 +97,30 @@ def get_breaking_predict_data():
     return finalNumpyArray
 
 
+def get_speed_y_test_data():
+    try:
+        req = requests.get("http://localhost:3001/speed/y_test")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_speed_predict_data():
+    try:
+        req = requests.get("http://localhost:3201/speed/predict")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
 def ac_control_confusion_matrix_function():
     print('confusion_matrix: ')
     confusion_matrix_value = confusion_matrix(get_ac_control_y_test_data(), get_ac_control_predict_data())
@@ -98,6 +131,13 @@ def ac_control_confusion_matrix_function():
 def breaking_confusion_matrix_function():
     print('confusion_matrix: ')
     confusion_matrix_value = confusion_matrix(get_breaking_y_test_data(), get_breaking_predict_data())
+    print(confusion_matrix_value)
+    # return confusion_matrix_value
+
+
+def speed_confusion_matrix_function():
+    print('confusion_matrix: ')
+    confusion_matrix_value = confusion_matrix(get_speed_y_test_data(), get_speed_predict_data())
     print(confusion_matrix_value)
     # return confusion_matrix_value
 

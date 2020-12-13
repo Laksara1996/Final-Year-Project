@@ -14,6 +14,7 @@ import json
 from json import JSONEncoder
 
 import time
+from threading import Timer
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -21,6 +22,32 @@ class NumpyArrayEncoder(JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return JSONEncoder.default(self, obj)
+
+
+class RepeatedTimer(object):
+    def __init__(self, interval, function, *args, **kwargs):
+        self._timer = None
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+        self.is_running = False
+        self.start()
+
+    def _run(self):
+        self.is_running = False
+        self.start()
+        self.function(*self.args, **self.kwargs)
+
+    def start(self):
+        if not self.is_running:
+            self._timer = Timer(self.interval, self._run)
+            self._timer.start()
+            self.is_running = True
+
+    def stop(self):
+        self._timer.cancel()
+        self.is_running = False
 
 
 config = {
@@ -34,11 +61,12 @@ app = Flask(__name__)
 app.config.from_mapping(config)
 cache = Cache(app)
 
+# estimator = 0
+
 
 @app.route('/breaking/predict', methods=['GET'])
 @cache.cached(timeout=300)
 def predict_data():
-
     start_time = time.time()
     number_array = predict()
     numpyData = {"array": number_array}
@@ -50,7 +78,6 @@ def predict_data():
 @app.route('/breaking/output', methods=['GET'])
 @cache.cached(timeout=300)
 def output_data():
-
     start_time = time.time()
     number_array = output()
     numpyData = {"array": number_array}
@@ -118,6 +145,8 @@ def estimator_train():
     # seed = 7
     # np.random.seed(seed)
 
+    global estimator
+
     def baseline_model():
         # create model
         model = Sequential()
@@ -137,18 +166,20 @@ def estimator_train():
 
 
 def predict():
+    # global estimator
     estimator = estimator_train()
     predict_value = estimator.predict(get_x_test_data())
-    print(predict_value)
     return predict_value
 
 
 def output():
+    # global estimator
     estimator = estimator_train()
     output_value = estimator.predict(get_input_data())
-    print(output_value)
     return output_value
 
+
+# rt = RepeatedTimer(50, estimator_train)  # it auto-starts, no need of rt.start()
 
 if __name__ == '__main__':
     app.run(port=3103, debug=True)
