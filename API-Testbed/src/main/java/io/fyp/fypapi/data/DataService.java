@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService {
 
-	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Testbed\\src\\main\\java\\io\\fyp\\fypapi\\DataSetSal.csv";
+	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Testbed\\src\\main\\java\\io\\fyp\\fypapi\\speedData.csv";
 	private String line = "";
 	private String cvsSplitBy = ",";
     
@@ -32,6 +32,7 @@ public class DataService {
 	private ArrayList<Double> visibility = new ArrayList<Double>();
 	private ArrayList<Double> drivers_wellbeing = new ArrayList<Double>();
 	private ArrayList<Double> driver_rush = new ArrayList<Double>();
+
 
     {
 	    try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -101,7 +102,7 @@ public class DataService {
 				return rain_intensity;
 			case "visibility":
 				return visibility;
-			case "DriverWellBeing":
+			case "driverWellBeing":
 				return drivers_wellbeing;
 			default:
 				return driver_rush;
