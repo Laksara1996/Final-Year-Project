@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="39db05bc-badd-488a-9fa0-8c291ea6c534" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/todo-master.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/dependencies.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/run.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/ac_control_model_train_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/accuracy_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/breaking.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/breaking_elbow_method.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/breaking_k_means_computation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/breaking_model_train_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/classification_report_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/confusion_matrix_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/datasetold.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/processing_microservice.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/speed_model_train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/ssdata.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Roof Microservices/services/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Final-Year-Project-sonalib (1)/Final-Year-Project-sonalib/.idea/Final-Year-Project-sonalib.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Final-Year-Project-sonalib (1)/Final-Year-Project-sonalib/geek.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Final-Year-Project-sonalib/.idea/Final-Year-Project-sonalib.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Neural Network/.idea/Neural Network.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Neural Network/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sal/Neural Network/kerasAlgo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/todo-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ac_control_model_train_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/accuracy_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/breaking.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/breaking_elbow_method.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/breaking_k_means_computation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/breaking_model_train_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/classification_report_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/confusion_matrix_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/dataset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/datasetold.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/processing_microservice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/speed_model_train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ssdata.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/users.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../fyp-dataset-api/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/DataSet.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/DataSetTrial.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/FypApiApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/data/Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/data/DataController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/java/io/fyp/fypapi/data/DataService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fyp-dataset-api/src/test/java/io/fyp/fypapi/FypApiApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1j2rDypSX1aOKrLOx5pB0HZ68Vo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Roof Microservices" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.speed">
+    <configuration name="accuracy_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="todo-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/services" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/services/accuracy_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="classification_report_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="todo-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/services" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/services/classification_report_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="confusion_matrix_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="todo-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/services" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/services/confusion_matrix_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="speed" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="todo-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/speed.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="speed_model_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="todo-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/services" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/services/speed_model_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.speed" />
+        <item itemvalue="Python.classification_report_microservice" />
+        <item itemvalue="Python.confusion_matrix_microservice" />
+        <item itemvalue="Python.accuracy_microservice" />
+        <item itemvalue="Python.speed_model_train" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39db05bc-badd-488a-9fa0-8c291ea6c534" name="Default Changelist" comment="" />
+      <created>1603012911445</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603012911445</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="165" y="179" key="FileChooserDialogImpl" timestamp="1607946344239">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="165" y="179" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1607946344239" />
+    <state width="1515" height="262" key="GridCell.Tab.0.bottom" timestamp="1607853429378">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="262" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607853429378" />
+    <state width="1515" height="262" key="GridCell.Tab.0.center" timestamp="1607853429378">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="262" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607853429378" />
+    <state width="1515" height="262" key="GridCell.Tab.0.left" timestamp="1607853429377">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="262" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607853429377" />
+    <state width="1515" height="262" key="GridCell.Tab.0.right" timestamp="1607853429378">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="262" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607853429378" />
+    <state width="745" height="260" key="GridCell.Tab.1.bottom" timestamp="1607361991995">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="745" height="260" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607361991995" />
+    <state width="745" height="260" key="GridCell.Tab.1.center" timestamp="1607361991994">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="745" height="260" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1607361991994" />
+    <state width="745" height="260" key="GridCell.Tab.1.left" timestamp="1607361991994">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="745" height="260" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1607361991994" />
+    <state width="745" height="260" key="GridCell.Tab.1.right" timestamp="1607361991995">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="745" height="260" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1607361991995" />
+    <state x="0" y="69" key="SettingsEditor" timestamp="1605533801114">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="69" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605533801114" />
+    <state x="101" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1603113324164">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="101" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1603113324164" />
+    <state x="762" y="0" width="781" height="830" key="dock-window-1" timestamp="1607849283054">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="762" y="0" width="781" height="830" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1607849283054" />
+    <state x="762" y="0" width="781" height="830" key="dock-window-2" timestamp="1607853810568">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="762" y="0" width="781" height="830" key="dock-window-2/0.0.1536.824@0.0.1536.824" timestamp="1607853810568" />
+    <state x="88" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1603557836411">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="88" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1603557836411" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/services/processing_microservice.py</url>
+          <line>578</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/services/test.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
