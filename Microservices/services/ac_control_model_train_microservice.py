@@ -14,6 +14,7 @@ import json
 from json import JSONEncoder
 
 import time
+from threading import Timer
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -21,6 +22,32 @@ class NumpyArrayEncoder(JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return JSONEncoder.default(self, obj)
+
+
+class RepeatedTimer(object):
+    def __init__(self, interval, function, *args, **kwargs):
+        self._timer = None
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+        self.is_running = False
+        self.start()
+
+    def _run(self):
+        self.is_running = False
+        self.start()
+        self.function(*self.args, **self.kwargs)
+
+    def start(self):
+        if not self.is_running:
+            self._timer = Timer(self.interval, self._run)
+            self._timer.start()
+            self.is_running = True
+
+    def stop(self):
+        self._timer.cancel()
+        self.is_running = False
 
 
 config = {
@@ -34,12 +61,12 @@ app = Flask(__name__)
 app.config.from_mapping(config)
 cache = Cache(app)
 
+# estimator = 0
 
-@app.route('/predict', methods=['GET'])
+
+@app.route('/ac_control/predict', methods=['GET'])
 @cache.cached(timeout=300)
 def predict_data():
-    """ Get lists based on window_opening """
-
     start_time = time.time()
     number_array = predict()
     numpyData = {"array": number_array}
@@ -48,11 +75,9 @@ def predict_data():
     return encodedNumpyData
 
 
-@app.route('/output', methods=['GET'])
+@app.route('/ac_control/output', methods=['GET'])
 @cache.cached(timeout=300)
 def output_data():
-    """ Get lists based on window_opening """
-
     start_time = time.time()
     number_array = output()
     numpyData = {"array": number_array}
@@ -63,7 +88,7 @@ def output_data():
 
 def get_x_train_data():
     try:
-        req = requests.get("http://localhost:3001/x_train")
+        req = requests.get("http://localhost:3001/ac_control/x_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -75,7 +100,7 @@ def get_x_train_data():
 
 def get_y_train_data():
     try:
-        req = requests.get("http://localhost:3001/y_train")
+        req = requests.get("http://localhost:3001/ac_control/y_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -87,7 +112,7 @@ def get_y_train_data():
 
 def get_x_test_data():
     try:
-        req = requests.get("http://localhost:3001/x_test")
+        req = requests.get("http://localhost:3001/ac_control/x_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -99,7 +124,7 @@ def get_x_test_data():
 
 def get_input_data():
     try:
-        req = requests.get("http://localhost:3001/input")
+        req = requests.get("http://localhost:3001/ac_control/input")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -132,6 +157,7 @@ def estimator_train():
 
 
 def predict():
+    # global estimator
     estimator = estimator_train()
     predict_value = estimator.predict(get_x_test_data())
 
@@ -139,11 +165,14 @@ def predict():
 
 
 def output():
+    # global estimator
     estimator = estimator_train()
     output_value = estimator.predict(get_input_data())
 
     return output_value
 
+
+# rt = RepeatedTimer(50, estimator_train)  # it auto-starts, no need of rt.start()
 
 if __name__ == '__main__':
     app.run(port=3003, debug=True)
