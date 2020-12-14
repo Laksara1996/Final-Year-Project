@@ -10,7 +10,7 @@ from flask import Flask, jsonify
 from flask_caching import Cache
 
 import json
-
+import logging
 from json import JSONEncoder
 
 import time
@@ -55,7 +55,8 @@ config = {
 }
 
 app = Flask(__name__)
-
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(message)s')
+logger = logging.getLogger('processing_microservice')
 app.config.from_mapping(config)
 cache = Cache(app)
 
@@ -173,6 +174,7 @@ def breaking_y_train():
 @app.route('/ac_control/input', methods=['GET'])
 @cache.cached(timeout=300)
 def ac_control_input_list():
+    logger.info('ac_control import list requested')
     start_time = time.time()
     number_array = ac_control_train_split("input")
     numpyData = {"array": number_array}
@@ -226,21 +228,21 @@ def ac_control_y_train():
 
 def get_shift_data():
     try:
-        number_array = request_data("http://192.168.1.105/shiftNumber")
+        number_array = request_data("http://192.168.1.100/shiftNumber")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_pitch_data():
     try:
-        number_array = request_data("http://192.168.1.105/pitch")
+        number_array = request_data("http://192.168.1.100/pitch")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_rain_intensity_data():
     try:
-        number_array = request_data("http://192.168.1.105/rainIntensity")
+        number_array = request_data("http://192.168.1.100/rainIntensity")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
@@ -248,14 +250,14 @@ def get_rain_intensity_data():
 
 def get_visibility_data():
     try:
-        number_array = request_data("http://192.168.1.105/visibility")
+        number_array = request_data("http://192.168.1.100/visibility")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_driver_rush_data():
     try:
-        number_array = request_data("http://192.168.1.105/get_driver_rush_data")
+        number_array = request_data("http://192.168.1.100/get_driver_rush_data")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
@@ -263,14 +265,14 @@ def get_driver_rush_data():
 
 def get_load_data():
     try:
-        number_array = request_data("http://192.168.1.105/carLoad")
+        number_array = request_data("http://192.168.1.100/carLoad")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_vehicle_speed_data():
     try:
-        number_array = request_data("http://192.168.1.105/vehicleSpeed")
+        number_array = request_data("http://192.168.1.100/vehicleSpeed")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
@@ -290,25 +292,34 @@ def speed_display_data():
 
 
 def get_air_condition_data():
+    logger.info('get_air_condition_data called')
     try:
-        number_array = request_data("http://192.168.1.105/airConditionStatus")
+        number_array = request_data("http://192.168.1.100/airConditionStatus")
+        logger.info('get_air_condition_data : %s', number_array)
     except requests.exceptions.ConnectionError:
+        logger.error('error data getting')
         return "Service unavailable"
     return number_array
 
 
 def get_passenger_count_data():
+    logger.info('get_passenger_count_data called')
     try:
-        number_array = request_data("http://192.168.1.105/passengerCount")
+        number_array = request_data("http://192.168.1.100/passengerCount")
+        logger.info('get_passenger_count_data : %s', number_array)
     except requests.exceptions.ConnectionError:
+        logger.error('error data getting')
         return "Service unavailable"
     return number_array
 
 
 def get_window_opening_data():
+    logger.info('get_window_opening_data called')
     try:
-        number_array = request_data("http://192.168.1.105/windowOpening")
+        number_array = request_data("http://192.168.1.100/windowOpening")
+        logger.info('get_window_opening_data : %s',number_array)
     except requests.exceptions.ConnectionError:
+        logger.error('error data getting')
         return "Service unavailable"
     return number_array
 
@@ -380,11 +391,13 @@ def breaking_train_split(req):
 
 
 def ac_control_train_split(req):
+    logger.info('ac_control_train_split called')
     window_opening_data = [int(i) for i in get_window_opening_data()]
+    logger.info('window_opening_data retrieved')
     passenger_count_data = [int(i) for i in get_passenger_count_data()]
-
+    logger.info('passenger_count_data retrieved')
     air_condition_data = [int(i) for i in get_air_condition_data()]
-
+    logger.info('air_condition_data retrieved')
     X = np.array((passenger_count_data, window_opening_data)).T
     Y = air_condition_data
 

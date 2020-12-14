@@ -1,4 +1,6 @@
 # Load libraries
+import logging
+
 import numpy as np
 
 from keras.models import Sequential
@@ -63,14 +65,19 @@ cache = Cache(app)
 
 # estimator = 0
 
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(message)s')
+logger = logging.getLogger('ac_control_model_microservice')
 
 @app.route('/ac_control/predict', methods=['GET'])
 @cache.cached(timeout=300)
 def predict_data():
+    logger.debug('predict data requested')
     start_time = time.time()
     number_array = predict()
+    logger.debug('predicted data:%s',number_array)
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    logger.debug('json file loaded')
     print("---predict_data %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
@@ -87,11 +94,15 @@ def output_data():
 
 
 def get_x_train_data():
+    logger.debug('get_x_train_data requested')
     try:
         req = requests.get("http://localhost:3001/ac_control/x_train")
+        logger.debug('req:%s',req.text)
         decodedArrays = json.loads(req.text)
+        logger.debug('Json file loaded')
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
+        logger.debug('value:%s',finalNumpyArray)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
@@ -99,11 +110,14 @@ def get_x_train_data():
 
 
 def get_y_train_data():
+    logger.debug('get_y_train_data requested')
     try:
         req = requests.get("http://localhost:3001/ac_control/y_train")
+        logger.debug('req:%s', req.text)
         decodedArrays = json.loads(req.text)
-
+        logger.debug('Json file loaded')
         finalNumpyArray = np.asarray(decodedArrays["array"])
+        logger.debug('value:%s', finalNumpyArray)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
@@ -152,22 +166,33 @@ def estimator_train():
         return model
 
     estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=5, verbose=0)
-    estimator.fit(get_x_train_data(), get_y_train_data())
+    x_data = get_x_train_data()
+    y_data = get_y_train_data()
+    logger.debug('estimator.fit is going to call')
+    estimator.fit(x_data, y_data)
+    logger.debug('estimator.fit completed')
     return estimator
 
 
 def predict():
+    logger.debug('predict requsted')
     # global estimator
     estimator = estimator_train()
+    logger.debug('estimator:%s',estimator)
     predict_value = estimator.predict(get_x_test_data())
+    logger.debug('predict_value:%s',predict_value)
 
     return predict_value
 
 
 def output():
+
+    logger.debug('output requsted')
     # global estimator
     estimator = estimator_train()
+    logger.debug('estimator:%s', estimator)
     output_value = estimator.predict(get_input_data())
+    logger.debug('output_value:%s', output_value)
 
     return output_value
 
