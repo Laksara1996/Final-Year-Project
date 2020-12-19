@@ -228,38 +228,38 @@ def ac_control_y_train():
 # speed_array = []
 
 
-# @app.route('/speed', methods=['GET'])
-# # @cache.cached(timeout=300)
-# def speed_display():
-#     start_time = time.time()
-#     # number_array = get_speed_data()
-#     # numpyData = {"array": number_array}
-#     print(get_speed_data.speed_array)
-#     numpyData = {"array": get_speed_data.speed_array}
-#     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-#     print("---y_train %s seconds ---" % (time.time() - start_time))
-#     return encodedNumpyData
+@app.route('/speed', methods=['GET'])
+# @cache.cached(timeout=300)
+def speed_display():
+    start_time = time.time()
+    # number_array = get_speed_data()
+    # numpyData = {"array": number_array}
+    print(get_speed_data.speed_array)
+    numpyData = {"array": get_speed_data.speed_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_train %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
 
 
-# def get_speed_data():
-#     try:
-#         req = requests.get("http://localhost:5000//data/vehicleSpeed")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 number = ""
-#                 continue
-#             number = number + i
-#         number_array = [float(i) for i in number_array]
-#         get_speed_data.speed_array = number_array.copy()
-#         # print(number_array)
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
+def get_speed_data():
+    try:
+        req = requests.get("http://localhost:5000//data/vehicleSpeed")
+        req_text = req.text[1:-1]
+        number = ""
+        number_array = []
+        for i in req_text:
+            if i == ',':
+                number_array.append(number)
+                number = ""
+                continue
+            number = number + i
+        number_array = [float(i) for i in number_array]
+        get_speed_data.speed_array = number_array.copy()
+        # print(number_array)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return number_array
 
 
 def get_shift_data():
@@ -396,7 +396,7 @@ def get_vehicle_speed_data():
 
 
 @app.route('/speed', methods=['GET'])
-@cache.cached(timeout=300)
+# @cache.cached(timeout=300)
 def speed_display_data():
     start_time = time.time()
     number_array = get_vehicle_speed_data()
@@ -574,7 +574,7 @@ def speed_train_split(req):
         return Y_test
 
 
-# rt = RepeatedTimer(3, get_speed_data)  # it auto-starts, no need of rt.start()
+rt = RepeatedTimer(5, get_speed_data)  # it auto-starts, no need of rt.start()
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True)
