@@ -42,6 +42,8 @@ def predict_data():
     print("---predict_data %s seconds ---" % (time.time() - start_time))
     return str(elbow_number)
 
+def send_data():
+    requests.post(url="http://localhost:3001/test",json=filename)
 
 def get_input_data():
     try:
