@@ -1,7 +1,7 @@
 # Load libraries
 import numpy as np
 
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 import requests
 from flask import Flask
@@ -22,27 +22,27 @@ class NumpyArrayEncoder(JSONEncoder):
 app = Flask(__name__)
 
 
-@app.route('/ac_control/confusion_matrix', methods=['GET'])
-def ac_status_confuion():
+@app.route('/ac_control/classification_report', methods=['GET'])
+def ac_classification_report_output():
     start_time = time.time()
-    ac_control_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
-    return "confusion matrix"
+    ac_control_classification_report_function()
+    print("---classification_report ac %s seconds ---" % (time.time() - start_time))
+    return "classification report"
     # return str(confusion_matrix_value)
 
 
-@app.route('/speed/confusion_matrix', methods=['GET'])
-def speed_confuion():
+@app.route('/speed/classification_report', methods=['GET'])
+def speed_classification_report_output():
     start_time = time.time()
-    speed_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
-    return "confusion matrix"
+    speed_classification_report_function()
+    print("---classification_report speed %s seconds ---" % (time.time() - start_time))
+    return "classification report"
     # return str(confusion_matrix_value)
 
 
 def get_ac_control_y_test_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/y_test")
+        req = requests.get("http://localhost:4001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -54,7 +54,7 @@ def get_ac_control_y_test_data():
 
 def get_ac_control_predict_data():
     try:
-        req = requests.get("http://localhost:3003/ac_control/predict")
+        req = requests.get("http://localhost:4003/ac_control/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -66,7 +66,7 @@ def get_ac_control_predict_data():
 
 def get_speed_y_test_data():
     try:
-        req = requests.get("http://localhost:3001/speed/y_test")
+        req = requests.get("http://localhost:4001/speed/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -78,7 +78,7 @@ def get_speed_y_test_data():
 
 def get_speed_predict_data():
     try:
-        req = requests.get("http://localhost:3201/speed/predict")
+        req = requests.get("http://localhost:4201/speed/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -88,19 +88,15 @@ def get_speed_predict_data():
     return finalNumpyArray
 
 
-def ac_control_confusion_matrix_function():
-    print('confusion_matrix: ')
-    confusion_matrix_value = confusion_matrix(get_ac_control_y_test_data(), get_ac_control_predict_data())
-    print(confusion_matrix_value)
-    # return confusion_matrix_value
+def ac_control_classification_report_function():
+    print('classification_report: ')
+    print(classification_report(get_ac_control_y_test_data(), get_ac_control_predict_data()))
 
 
-def speed_confusion_matrix_function():
-    print('confusion_matrix: ')
-    confusion_matrix_value = confusion_matrix(get_speed_y_test_data(), get_speed_predict_data())
-    print(confusion_matrix_value)
-    # return confusion_matrix_value
+def speed_classification_report_function():
+    print('classification_report: ')
+    print(classification_report(get_speed_y_test_data(), get_speed_predict_data()))
 
 
 if __name__ == '__main__':
-    app.run(port=3004, debug=True)
+    app.run(port=4005, debug=True)

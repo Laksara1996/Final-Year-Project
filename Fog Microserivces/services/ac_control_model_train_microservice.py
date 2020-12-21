@@ -105,6 +105,8 @@ cache = Cache(app)
 
 y_predict_array = []
 
+weight_matrix = 2 * np.random.random((2, 1)) - 1
+
 
 @app.route('/ac_control/predict', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -128,9 +130,22 @@ def output_data():
     return encodedNumpyData
 
 
+@app.route('/fog/weight_matrix', methods=['GET'])
+# @cache.cached(timeout=300)
+def weight_matrix_data():
+    global weight_matrix
+
+    start_time = time.time()
+    number_array = weight_matrix
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---output_data %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
 def get_x_train_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/x_train")
+        req = requests.get("http://localhost:4001/ac_control/x_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -142,7 +157,7 @@ def get_x_train_data():
 
 def get_y_train_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/y_train")
+        req = requests.get("http://localhost:4001/ac_control/y_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -154,7 +169,7 @@ def get_y_train_data():
 
 def get_x_test_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/x_test")
+        req = requests.get("http://localhost:4001/ac_control/x_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -166,7 +181,7 @@ def get_x_test_data():
 
 def get_y_test_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/y_test")
+        req = requests.get("http://localhost:4001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -178,7 +193,7 @@ def get_y_test_data():
 
 def get_input_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/input")
+        req = requests.get("http://localhost:4001/ac_control/input")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -186,42 +201,10 @@ def get_input_data():
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return finalNumpyArray
-
-
-def get_fog_weight_matrix():
-    try:
-        req = requests.get("http://localhost:4003/fog/weight_matrix")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_roof_accuracy():
-    try:
-        req = requests.get("http://localhost:3002/ac_control/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
-
-
-def get_fog_accuracy():
-    try:
-        req = requests.get("http://localhost:4002/ac_control/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
 
 
 def model_train():
-    global y_predict_array
+    global y_predict_array, weight_matrix
     # initializing the neuron class
     neural_network = NeuralNetwork()
 
@@ -231,20 +214,10 @@ def model_train():
     arrY = np.array([get_y_train_data()]).T
     training_outputs = arrY / 10.
 
-    roof_accuracy = get_roof_accuracy()
-    fog_accuracy = get_fog_accuracy()
-
-    print("roof", roof_accuracy)
-    print("fog", fog_accuracy)
+    print("input len", len(training_inputs))
+    print("output len", len(training_outputs))
 
     if len(training_inputs) == len(training_outputs):
-
-        print("before", neural_network.synaptic_weights)
-
-        if fog_accuracy > roof_accuracy:
-            neural_network.synaptic_weights = get_fog_weight_matrix()
-
-        print("after", neural_network.synaptic_weights)
 
         # training taking place
         neural_network.train(training_inputs, training_outputs, 20000)
@@ -272,6 +245,8 @@ def model_train():
             y_predict_array[i] = output_neural
 
         print(y_predict_array)
+        weight_matrix = neural_network.synaptic_weights
+
         return y_predict_array
 
 
@@ -289,7 +264,7 @@ def output():
     return y_predict_array
 
 
-model_train_automated = RepeatedTimer(15, model_train)
+model_train_automated = RepeatedTimer(25, model_train)
 
 if __name__ == '__main__':
-    app.run(port=3003, debug=True)
+    app.run(port=4003, debug=True)

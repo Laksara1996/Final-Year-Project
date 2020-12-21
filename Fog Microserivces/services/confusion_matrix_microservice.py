@@ -42,7 +42,7 @@ def speed_confuion():
 
 def get_ac_control_y_test_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/y_test")
+        req = requests.get("http://localhost:4001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -54,7 +54,7 @@ def get_ac_control_y_test_data():
 
 def get_ac_control_predict_data():
     try:
-        req = requests.get("http://localhost:3003/ac_control/predict")
+        req = requests.get("http://localhost:4003/ac_control/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -66,7 +66,7 @@ def get_ac_control_predict_data():
 
 def get_speed_y_test_data():
     try:
-        req = requests.get("http://localhost:3001/speed/y_test")
+        req = requests.get("http://localhost:4001/speed/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -78,7 +78,7 @@ def get_speed_y_test_data():
 
 def get_speed_predict_data():
     try:
-        req = requests.get("http://localhost:3201/speed/predict")
+        req = requests.get("http://localhost:4201/speed/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -103,4 +103,4 @@ def speed_confusion_matrix_function():
 
 
 if __name__ == '__main__':
-    app.run(port=3004, debug=True)
+    app.run(port=4004, debug=True)
