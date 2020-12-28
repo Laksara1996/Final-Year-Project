@@ -72,38 +72,39 @@ public class DataLoader {
 
         switch (id) {
             case "time":
-                return new ArrayList<Double>(time.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(time.subList(count * 10, (count * 10) + 10));
             case "vehicleSpeed":
-                return new ArrayList<Double>(vehicle_speed.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(vehicle_speed.subList(count * 10, (count * 10) + 10));
             case "shiftNumber":
-                return new ArrayList<Double>(shift_number.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(shift_number.subList(count * 10, (count * 10) + 10));
             case "engineLoad":
-                return new ArrayList<Double>(engine_load.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(engine_load.subList(count * 10, (count * 10) + 10));
             case "totalAcceleration":
-                return new ArrayList<Double>(total_acceleration.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(total_acceleration.subList(count * 10, (count * 10) + 10));
             case "engineRPM":
-                return new ArrayList<Double>(engine_rpm.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(engine_rpm.subList(count * 10, (count * 10) + 10));
             case "pitch":
-                return new ArrayList<Double>(pitch.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(pitch.subList(count * 10, (count * 10) + 10));
             case "lateralAcceleration":
-                return new ArrayList<Double>(lateral_acceleration.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(lateral_acceleration.subList(count * 10, (count * 10) + 10));
             case "passengerCount":
-                return new ArrayList<Double>(passenger_count.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(passenger_count.subList(count * 10, (count * 10) + 10));
             case "carLoad":
-                return new ArrayList<Double>(cars_load.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(cars_load.subList(count * 10, (count * 10) + 10));
             case "airConditionStatus":
-                return new ArrayList<Double>(air_condition_status.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(air_condition_status.subList(count * 10, (count * 10) + 10));
             case "windowOpening":
+                return new ArrayList<Double>(window_opening.subList(count * 10, (count * 10) + 10));
             case "radioVolume":
-                return new ArrayList<Double>(radio_volume.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(radio_volume.subList(count * 10, (count * 10) + 10));
             case "rainIntensity":
-                return new ArrayList<Double>(rain_intensity.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(rain_intensity.subList(count * 10, (count * 10) + 10));
             case "visibility":
-                return new ArrayList<Double>(visibility.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(visibility.subList(count * 10, (count * 10) + 10));
             case "driverWellBeing":
-                return new ArrayList<Double>(drivers_wellbeing.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(drivers_wellbeing.subList(count * 10, (count * 10) + 10));
             default:
-                return new ArrayList<Double>(driver_rush.subList(count * 5, (count * 5) + 5));
+                return new ArrayList<Double>(driver_rush.subList(count * 10, (count * 10) + 10));
         }
     }
 }

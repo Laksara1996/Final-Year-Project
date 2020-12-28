@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 import requests
-from flask import Flask, jsonify, logging
+from flask import Flask, jsonify
 from flask_caching import Cache
 
 import json
@@ -56,15 +56,61 @@ config = {
 }
 
 app = Flask(__name__)
-# logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(message)s')
-# logger = logging.getLogger('processing_microservice')
+
 app.config.from_mapping(config)
 cache = Cache(app)
 
+# test here
 air_condition_data_array = []
 passenger_count_data_array = []
 window_opening_data_array = []
 
+ac_x_train = []
+ac_x_test = []
+ac_y_train = []
+ac_y_test = []
+ac_input = []
+
+
+# Sent Data To the Roof
+
+@app.route('/roof/ac_data', methods=['GET'])
+# @cache.cached(timeout=300)
+def ac_data():
+    global air_condition_data_array
+    start_time = time.time()
+    number_array = air_condition_data_array
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_train %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+@app.route('/roof/passenger_data', methods=['GET'])
+# @cache.cached(timeout=300)
+def passenger_data():
+    global passenger_count_data_array
+    start_time = time.time()
+    number_array = passenger_count_data_array
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_train %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+@app.route('/roof/window_data', methods=['GET'])
+# @cache.cached(timeout=300)
+def window_data():
+    global window_opening_data_array
+    start_time = time.time()
+    number_array = window_opening_data_array
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---y_train %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+# Speed REST Apis
 
 @app.route('/speed/input', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -121,11 +167,15 @@ def speed_y_train():
     return encodedNumpyData
 
 
+# AC REST Apis
+
 @app.route('/ac_control/input', methods=['GET'])
 # @cache.cached(timeout=300)
 def ac_control_input_list():
+    global ac_input
+
     start_time = time.time()
-    number_array = ac_control_train_split("input")
+    number_array = ac_input
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---input %s seconds ---" % (time.time() - start_time))
@@ -135,8 +185,10 @@ def ac_control_input_list():
 @app.route('/ac_control/x_train', methods=['GET'])
 # @cache.cached(timeout=300)
 def ac_control_x_train():
+    global ac_x_train
+
     start_time = time.time()
-    number_array = ac_control_train_split("x_train")
+    number_array = ac_x_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_train %s seconds ---" % (time.time() - start_time))
@@ -146,8 +198,10 @@ def ac_control_x_train():
 @app.route('/ac_control/x_test', methods=['GET'])
 # @cache.cached(timeout=300)
 def ac_control_x_test():
+    global ac_x_test
+
     start_time = time.time()
-    number_array = ac_control_train_split("x_test")
+    number_array = ac_x_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_test %s seconds ---" % (time.time() - start_time))
@@ -157,8 +211,10 @@ def ac_control_x_test():
 @app.route('/ac_control/y_test', methods=['GET'])
 # @cache.cached(timeout=300)
 def ac_control_y_test():
+    global ac_y_test
+
     start_time = time.time()
-    number_array = ac_control_train_split("y_test")
+    number_array = ac_y_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_test %s seconds ---" % (time.time() - start_time))
@@ -168,30 +224,35 @@ def ac_control_y_test():
 @app.route('/ac_control/y_train', methods=['GET'])
 # @cache.cached(timeout=300)
 def ac_control_y_train():
+    global ac_y_train
+
     start_time = time.time()
-    number_array = ac_control_train_split("y_train")
+    number_array = ac_y_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
+
+# Getting Data From Testbed
+
 def get_shift_data():
     try:
-        number_array = request_data("http://192.168.1.101/shiftNumber")
+        number_array = request_data("http://192.168.1.110/shiftNumber")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_pitch_data():
     try:
-        number_array = request_data("http://192.168.1.101/pitch")
+        number_array = request_data("http://192.168.1.110/pitch")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_rain_intensity_data():
     try:
-        number_array = request_data("http://192.168.1.101/rainIntensity")
+        number_array = request_data("http://192.168.1.110/rainIntensity")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
@@ -199,14 +260,14 @@ def get_rain_intensity_data():
 
 def get_visibility_data():
     try:
-        number_array = request_data("http://192.168.1.101/visibility")
+        number_array = request_data("http://192.168.1.110/visibility")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_driver_rush_data():
     try:
-        number_array = request_data("http://192.168.1.101/get_driver_rush_data")
+        number_array = request_data("http://192.168.1.110/get_driver_rush_data")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
@@ -214,60 +275,23 @@ def get_driver_rush_data():
 
 def get_load_data():
     try:
-        number_array = request_data("http://192.168.1.101/carLoad")
+        number_array = request_data("http://192.168.1.110/carLoad")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 def get_vehicle_speed_data():
     try:
-        number_array = request_data("http://192.168.1.101/vehicleSpeed")
+        number_array = request_data("http://192.168.1.110/vehicleSpeed")
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return number_array
 
 
-
-
-@app.route('/ac', methods=['GET'])
-# @cache.cached(timeout=300)
-def ac_data():
-    global air_condition_data_array
-    start_time = time.time()
-    number_array = air_condition_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/passenger', methods=['GET'])
-# @cache.cached(timeout=300)
-def passenger_data():
-    global passenger_count_data_array
-    start_time = time.time()
-    number_array = passenger_count_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/window', methods=['GET'])
-# @cache.cached(timeout=300)
-def window_data():
-    global window_opening_data_array
-    start_time = time.time()
-    number_array = window_opening_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
 def get_air_condition_data():
     # logger.info('get_air_condition_data called')
     try:
-        number_array = request_data("http://192.168.1.101/airConditionStatus")
+        number_array = request_data("http://192.168.1.110/airConditionStatus")
         # logger.info('get_air_condition_data : %s', number_array)
     except requests.exceptions.ConnectionError:
         # logger.error('error data getting')
@@ -278,7 +302,7 @@ def get_air_condition_data():
 def get_passenger_count_data():
     # logger.info('get_passenger_count_data called')
     try:
-        number_array = request_data("http://192.168.1.101/passengerCount")
+        number_array = request_data("http://192.168.1.110/passengerCount")
         # logger.info('get_passenger_count_data : %s', number_array)
     except requests.exceptions.ConnectionError:
         # logger.error('error data getting')
@@ -289,7 +313,7 @@ def get_passenger_count_data():
 def get_window_opening_data():
     # logger.info('get_window_opening_data called')
     try:
-        number_array = request_data("http://192.168.1.101/windowOpening")
+        number_array = request_data("http://192.168.1.110/windowOpening")
         # logger.info('get_window_opening_data : %s',number_array)
     except requests.exceptions.ConnectionError:
         # logger.error('error data getting')
@@ -320,8 +344,11 @@ def request_data(address):
 
 
 
-def ac_control_train_split(req):
-    global air_condition_data_array, window_opening_data_array, passenger_count_data_array
+def ac_control_train_split():
+    global air_condition_data_array, window_opening_data_array, passenger_count_data_array, ac_x_train, ac_x_test, \
+        ac_y_train, ac_y_test, ac_input
+    print(air_condition_data_array)
+
     window_opening_data = [int(i) for i in window_opening_data_array]
     passenger_count_data = [int(i) for i in passenger_count_data_array]
 
@@ -330,18 +357,9 @@ def ac_control_train_split(req):
     X = np.array((passenger_count_data, window_opening_data)).T
     Y = air_condition_data
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.20, random_state=0)
+    ac_input = X.copy()
 
-    if req == "x_test":
-        return X_test
-    elif req == "x_train":
-        return X_train
-    elif req == "y_train":
-        return Y_train
-    elif req == "input":
-        return X
-    else:
-        return Y_test
+    ac_x_train, ac_x_test, ac_y_train, ac_y_test = train_test_split(X, Y, test_size=0.20, random_state=0)
 
 
 def speed_train_split(req):
@@ -388,9 +406,11 @@ def speed_train_split(req):
         return Y_test
 
 
-passenger_data_automated = RepeatedTimer(10, get_passenger_count_data)
-window_data_automated = RepeatedTimer(10, get_window_opening_data)
-ac_data_automated = RepeatedTimer(10, get_air_condition_data)
+passenger_data_automated = RepeatedTimer(20, get_passenger_count_data)
+window_data_automated = RepeatedTimer(20, get_window_opening_data)
+ac_data_automated = RepeatedTimer(20, get_air_condition_data)
+
+ac_train_split_automated = RepeatedTimer(30, ac_control_train_split)
 
 if __name__ == '__main__':
     app.run(port=3001, debug=True)

@@ -20,15 +20,27 @@ class DataHolder:
         if DataHolder.__instance is not None:
             raise Exception("This is a singleton")
         else:
-            self.tempdata_q = queue.Queue()
+            self.__tempdata_q = queue.Queue()
+            self.__speeddata_q = queue.Queue()
             DataHolder.__instance = self
 
     def addData(self, data):
         if data is not None:
-            self.tempdata_q.put(data)
+            self.__tempdata_q.put(data)
 
     def getData(self):
-        return self.tempdata_q.get(timeout=100)
+        if not self.__tempdata_q.empty():
+            return self.__tempdata_q.get(timeout=100)
+        return "No data found"
+
+    def addSpeedata(self, data):
+        if data is not None:
+            self.__speeddata_q.put(data)
+
+    def getSpeedData(self):
+        return self.__speeddata_q.get(timeout=100)
+
+
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -45,23 +57,19 @@ config = {
 }
 
 app = Flask(__name__)
-
 app.config.from_mapping(config)
 cache = Cache(app)
 
 
 @app.route('/lst/tempdata', methods=['POST'])
-@cache.cached(timeout=300)
 def add_testdata_to_queue():
     record = json.loads(request.data)
-    dataHolder = DataHolder.getInstance()
-    dataHolder.addData(record)
-    data = dataHolder.getData()
-    # DataHolder.addData(record)
-    # data = DataHolder.getData()
-    print("data add")
+    DataHolder.getInstance().addData(record)
     return "success"
 
+@app.route('/lst/gettempdata', methods=['GET'])
+def get_testdata_to_queue():
+    return DataHolder.getInstance().getData()
 
 if __name__ == '__main__':
     app.run(port=3101, debug=True)

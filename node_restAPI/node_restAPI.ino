@@ -10,6 +10,7 @@
 const char* wifi_ssid = "TP-LINK_CA9E68";
 const char* wifi_passwd = "Mallika1959";
 String inputString = "";
+String passenger_count_String = "";
 
 ESP8266WebServer http_rest_server(HTTP_REST_PORT);
 
@@ -283,7 +284,7 @@ void get_passengerCount_data() {
     // get the new byte:
     char inChar = (char)Serial.read();
     // add it to the inputString:
-    inputString += inChar;
+    passenger_count_String += inChar;
     // if the incoming character is a newline, That mean finished reciving data
     if (inChar == '\n') {
       break;
@@ -295,12 +296,12 @@ void get_passengerCount_data() {
   JsonObject& jsonObj = jsonBuffer.createObject();
   char JSONmessageBuffer[200];
 
-  jsonObj["dataSet"] = inputString;
+  jsonObj["dataSet"] = passenger_count_String;
   jsonObj.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
   http_rest_server.send(200, "application/json", JSONmessageBuffer);
 
   // Data has send, lets reset the serial data keeping string
-  inputString = "";
+  passenger_count_String = "";
 }
 void get_carLoad_data() {
   // #T will be the request code/ the Java app will return data for #T code
@@ -557,7 +558,7 @@ void config_rest_server_routing() {
   http_rest_server.on("/engineRPM", HTTP_GET, get_engineRPM_data);
   http_rest_server.on("/pitch", HTTP_GET, get_pitch_data);
   http_rest_server.on("/lateralAcceleration", HTTP_GET, get_lateralAcceleration_data);
-  http_rest_server.on("/passengerCount", HTTP_GET, get_passengerCount_data);
+  http_rest_server.on("/passengerCount", HTTP_GET, get_passengegrCount_data);
   http_rest_server.on("/carLoad", HTTP_GET, get_carLoad_data);
   http_rest_server.on("/airConditionStatus", HTTP_GET, get_airConditionStatus_data);
   http_rest_server.on("/windowOpening", HTTP_GET, get_windowOpening_data);
