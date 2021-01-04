@@ -143,7 +143,7 @@ def speed_accuracy_check():
     print('Accuracy: ', speed_accuracy)
 
 
-# ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)
+ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)
 speed_accuracy_automated = RepeatedTimer(25, speed_accuracy_check)
 
 if __name__ == '__main__':

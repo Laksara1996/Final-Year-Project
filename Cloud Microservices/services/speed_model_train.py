@@ -81,6 +81,14 @@ cache = Cache(app)
 
 y_predict_array = []
 
+input_nodes = 5
+hidden_nodes = 8
+output_labels = 6
+wh = np.random.rand(input_nodes, hidden_nodes)
+bh = np.random.randn(hidden_nodes)
+wo = np.random.rand(hidden_nodes, output_labels)
+bo = np.random.randn(output_labels)
+
 
 @app.route('/speed/predict', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -104,7 +112,7 @@ def output_data():
     return encodedNumpyData
 
 
-@app.route('/fog/wh', methods=['GET'])
+@app.route('/cloud/wh', methods=['GET'])
 # @cache.cached(timeout=300)
 def wh_data():
     global wh
@@ -117,7 +125,7 @@ def wh_data():
     return encodedNumpyData
 
 
-@app.route('/fog/bh', methods=['GET'])
+@app.route('/cloud/bh', methods=['GET'])
 # @cache.cached(timeout=300)
 def bh_data():
     global bh
@@ -130,7 +138,7 @@ def bh_data():
     return encodedNumpyData
 
 
-@app.route('/fog/wo', methods=['GET'])
+@app.route('/cloud/wo', methods=['GET'])
 # @cache.cached(timeout=300)
 def wo_data():
     global wo
@@ -143,7 +151,7 @@ def wo_data():
     return encodedNumpyData
 
 
-@app.route('/fog/bo', methods=['GET'])
+@app.route('/cloud/bo', methods=['GET'])
 # @cache.cached(timeout=300)
 def bo_data():
     global bo
@@ -217,7 +225,7 @@ def get_input_data():
 
 
 def model_train():
-    global y_predict_array
+    global y_predict_array, wh, bh, wo, bo
 
     y_train = get_y_train_data()
     # print("y_train", y_train)
@@ -234,13 +242,13 @@ def model_train():
             # print("Y_train i", y_train[i])
             one_hot_labels[i, y_train[i]] = 1
 
-        input_nodes = 5
-        hidden_nodes = 8
-        output_labels = 6
-        wh = np.random.rand(input_nodes, hidden_nodes)
-        bh = np.random.randn(hidden_nodes)
-        wo = np.random.rand(hidden_nodes, output_labels)
-        bo = np.random.randn(output_labels)
+        # input_nodes = 5
+        # hidden_nodes = 8
+        # output_labels = 6
+        # wh = np.random.rand(input_nodes, hidden_nodes)
+        # bh = np.random.randn(hidden_nodes)
+        # wo = np.random.rand(hidden_nodes, output_labels)
+        # bo = np.random.randn(output_labels)
         lr = 10e-4
 
         error_cost = []

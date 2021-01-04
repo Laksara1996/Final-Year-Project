@@ -227,7 +227,7 @@ def get_input_data():
 
 
 def model_train():
-    global y_predict_array, weight_matrix
+    global y_predict_array, wh, bh, wo, bo
     y_train = get_x_train_data()
     x_train = get_x_train_data()
     x_test = get_x_test_data()
@@ -240,13 +240,13 @@ def model_train():
         for i in range(len(y_train)):
             one_hot_labels[i, y_train[i]] = 1
 
-        input_nodes = 2
-        hidden_nodes = 8
-        output_labels = 6
-        wh = np.random.rand(input_nodes, hidden_nodes)
-        bh = np.random.randn(hidden_nodes)
-        wo = np.random.rand(hidden_nodes, output_labels)
-        bo = np.random.randn(output_labels)
+        # input_nodes = 2
+        # hidden_nodes = 8
+        # output_labels = 6
+        # wh = np.random.rand(input_nodes, hidden_nodes)
+        # bh = np.random.randn(hidden_nodes)
+        # wo = np.random.rand(hidden_nodes, output_labels)
+        # bo = np.random.randn(output_labels)
         lr = 10e-4
 
         error_cost = []
