@@ -48,6 +48,7 @@ class RepeatedTimer(object):
 app = Flask(__name__)
 
 ac_accuracy = 0
+speed_accuracy = 0
 
 
 @app.route('/ac_control/accuracy', methods=['GET'])
@@ -61,9 +62,10 @@ def ac_status_accuracy():
 
 
 @app.route('/speed/accuracy', methods=['GET'])
-def speed_accuracy():
+def speed_accuracy_output():
+    global speed_accuracy
     start_time = time.time()
-    accuracy_value = speed_accuracy()
+    accuracy_value = speed_accuracy
     print("---speed accuracy %s seconds ---" % (time.time() - start_time))
     return str(accuracy_value)
 
@@ -129,14 +131,22 @@ def ac_control_accuracy():
     print('Accuracy: ', ac_accuracy)
 
 
-def speed_accuracy():
-    # print("hello")
-    accuracy_value = accuracy_score(get_speed_y_test_data(), get_speed_predict_data())
-    print('Accuracy: ', accuracy_value)
-    return accuracy_value
+def speed_accuracy_calculator():
+    global speed_accuracy
+
+    y_test = get_speed_y_test_data()
+    predict_data = get_speed_predict_data()
+
+    print("predict len", len(predict_data))
+    print("y_test len", len(y_test[:len(predict_data)]))
+
+    speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
+    print('Accuracy: ', ac_accuracy)
 
 
-ac_accuracy_automated = RepeatedTimer(40, ac_control_accuracy)
+# ac_accuracy_automated = RepeatedTimer(40, ac_control_accuracy)
+speed_accuracy_automated = RepeatedTimer(40, speed_accuracy_calculator)
+
 
 if __name__ == '__main__':
     app.run(port=4002, debug=True)

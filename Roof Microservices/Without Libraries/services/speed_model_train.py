@@ -166,7 +166,7 @@ def get_input_data():
 
 def get_fog_wh():
     try:
-        req = requests.get("http://localhost:4003/fog/wh")
+        req = requests.get("http://localhost:4201/fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -178,7 +178,7 @@ def get_fog_wh():
 
 def get_fog_bh():
     try:
-        req = requests.get("http://localhost:4003/fog/bh")
+        req = requests.get("http://localhost:4201/fog/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -190,7 +190,7 @@ def get_fog_bh():
 
 def get_fog_wo():
     try:
-        req = requests.get("http://localhost:4003/fog/wo")
+        req = requests.get("http://localhost:4201/fog/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -202,19 +202,7 @@ def get_fog_wo():
 
 def get_fog_bo():
     try:
-        req = requests.get("http://localhost:4003/fog/bo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_fog_wh():
-    try:
-        req = requests.get("http://localhost:4003/fog/wh")
+        req = requests.get("http://localhost:4201/fog/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -318,16 +306,19 @@ def model_train():
 
         # End of for loop (End of training phase)
 
-        # roof_accuracy = get_roof_accuracy()
-        # fog_accuracy = get_fog_accuracy()
-        #
-        # if fog_accuracy > roof_accuracy:
-        #     wh = get_fog_wh()
-        #     bh = get_fog_bh()
-        #     wo = get_fog_wo()
-        #     bo = get_fog_bo()
+        roof_accuracy = get_roof_accuracy()
+        fog_accuracy = get_fog_accuracy()
 
-            # Make predictions
+        print("roof", roof_accuracy)
+        print("fog", fog_accuracy)
+
+        if fog_accuracy > roof_accuracy:
+            wh = get_fog_wh()
+            bh = get_fog_bh()
+            wo = get_fog_wo()
+            bo = get_fog_bo()
+
+        # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
 
         y_predict = []

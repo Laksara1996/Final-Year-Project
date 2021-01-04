@@ -96,7 +96,7 @@ def speed_data():
     return encodedNumpyData
 
 
-@app.route('/roof/visibility_data', methods=['GET'])
+@app.route('/roof/driver_rush_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def driver_rush_data():
     global driver_rush_data_array
@@ -485,6 +485,8 @@ def get_window_opening_data():
     return number_array
 
 
+# AC Train Split
+
 def ac_control_train_split():
     global air_condition_data_array, window_opening_data_array, passenger_count_data_array, ac_x_train, ac_x_test, \
         ac_y_train, ac_y_test, ac_input
@@ -502,6 +504,8 @@ def ac_control_train_split():
 
         ac_x_train, ac_x_test, ac_y_train, ac_y_test = train_test_split(X, Y, test_size=0.20, random_state=0)
 
+
+# Speed Train Split
 
 def speed_train_split():
     global pitch_data_array, passenger_count_data_array, rain_intensity_data_array, \
