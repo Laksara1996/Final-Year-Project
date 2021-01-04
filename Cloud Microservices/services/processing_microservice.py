@@ -81,110 +81,6 @@ speed_y_test_data = []
 speed_input = []
 
 
-# Sent Data To the Cloud
-
-@app.route('/fog/speed_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def speed_data():
-    global speed_data_array
-
-    start_time = time.time()
-    number_array = speed_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/driver_rush_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def driver_rush_data():
-    global driver_rush_data_array
-
-    start_time = time.time()
-    number_array = driver_rush_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/visibility_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def visibility_data():
-    global visibility_data_array
-
-    start_time = time.time()
-    number_array = visibility_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/rain_intensity_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def rain_intensity_data():
-    global rain_intensity_data_array
-
-    start_time = time.time()
-    number_array = rain_intensity_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/pitch_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def pitch_data():
-    global pitch_data_array
-
-    start_time = time.time()
-    number_array = pitch_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/ac_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def ac_data():
-    global air_condition_data_array
-
-    start_time = time.time()
-    number_array = air_condition_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/passenger_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def passenger_data():
-    global passenger_count_data_array
-    start_time = time.time()
-    number_array = passenger_count_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
-@app.route('/fog/window_data', methods=['GET'])
-# @cache.cached(timeout=300)
-def window_data():
-    global window_opening_data_array
-    start_time = time.time()
-    number_array = window_opening_data_array
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
 # Speed REST Apis
 
 @app.route('/speed/input', methods=['GET'])
@@ -318,7 +214,7 @@ def ac_control_y_train():
 def get_air_condition_data_roof():
     global air_condition_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/ac_data")
+        req = requests.get("http://localhost:4001/fog/ac_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -332,7 +228,7 @@ def get_air_condition_data_roof():
 def get_passenger_count_data_roof():
     global passenger_count_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/passenger_data")
+        req = requests.get("http://localhost:4001/fog/passenger_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -346,7 +242,7 @@ def get_passenger_count_data_roof():
 def get_window_opening_data_roof():
     global window_opening_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/window_data")
+        req = requests.get("http://localhost:4001/fog/window_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -360,7 +256,7 @@ def get_window_opening_data_roof():
 def get_speed_data_roof():
     global speed_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/speed_data")
+        req = requests.get("http://localhost:4001/fog/speed_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -374,7 +270,7 @@ def get_speed_data_roof():
 def get_driver_rush_data_roof():
     global driver_rush_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/driver_rush_data")
+        req = requests.get("http://localhost:4001/fog/driver_rush_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -388,7 +284,7 @@ def get_driver_rush_data_roof():
 def get_visibility_data_roof():
     global visibility_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/visibility_data")
+        req = requests.get("http://localhost:4001/fog/visibility_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -402,7 +298,7 @@ def get_visibility_data_roof():
 def get_rain_intensity_data_roof():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/rain_intensity_data")
+        req = requests.get("http://localhost:4001/fog/rain_intensity_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -416,7 +312,7 @@ def get_rain_intensity_data_roof():
 def get_pitch_data_roof():
     global pitch_data_array
     try:
-        req = requests.get("http://localhost:3001/roof/pitch_data")
+        req = requests.get("http://localhost:4001/fog/pitch_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -490,17 +386,17 @@ def speed_train_split():
                                                                                                         random_state=0)
 
 
-passenger_data_automated = RepeatedTimer(15, get_passenger_count_data_roof)
-window_data_automated = RepeatedTimer(15, get_window_opening_data_roof)
-ac_data_automated = RepeatedTimer(15, get_air_condition_data_roof)
-pitch_data_automated = RepeatedTimer(15, get_pitch_data_roof)
-rain_intensity_data_automated = RepeatedTimer(15, get_rain_intensity_data_roof)
-visibility_data_automated = RepeatedTimer(15, get_visibility_data_roof)
-driver_rush_data_automated = RepeatedTimer(15, get_driver_rush_data_roof)
-speed_data_automated = RepeatedTimer(15, get_speed_data_roof)
+passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_roof)
+window_data_automated = RepeatedTimer(60, get_window_opening_data_roof)
+ac_data_automated = RepeatedTimer(60, get_air_condition_data_roof)
+pitch_data_automated = RepeatedTimer(60, get_pitch_data_roof)
+rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_roof)
+visibility_data_automated = RepeatedTimer(60, get_visibility_data_roof)
+driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_roof)
+speed_data_automated = RepeatedTimer(60, get_speed_data_roof)
 
-ac_train_split_automated = RepeatedTimer(20, ac_control_train_split)
-speed_train_split_automated = RepeatedTimer(20, speed_train_split)
+ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)
+speed_train_split_automated = RepeatedTimer(70, speed_train_split)
 
 if __name__ == '__main__':
-    app.run(port=4001, debug=True)
+    app.run(port=5001, debug=True)
