@@ -99,4 +99,4 @@ def speed_classification_report_function():
 
 
 if __name__ == '__main__':
-    app.run(port=4005, debug=True)
+    app.run(port=4005, host= '0.0.0.0', debug=True)

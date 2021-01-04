@@ -563,4 +563,4 @@ ac_train_split_automated = RepeatedTimer(10, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(10, speed_train_split)
 
 if __name__ == '__main__':
-    app.run(port=3001, debug=True)
+    app.run(port=3001, host= '0.0.0.0', debug=True)

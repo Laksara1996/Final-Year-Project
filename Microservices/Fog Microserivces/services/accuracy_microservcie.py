@@ -149,4 +149,4 @@ speed_accuracy_automated = RepeatedTimer(40, speed_accuracy_calculator)
 
 
 if __name__ == '__main__':
-    app.run(port=4002, debug=True)
+    app.run(port=4002, host= '0.0.0.0', debug=True)

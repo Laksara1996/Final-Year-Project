@@ -2,23 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96be99b2-2df5-4f7c-b3f6-6165b6aef863" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../Cloud Microservices/.idea/todo-master.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Fog Microserivces/.idea/todo-master.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/.idea/services.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Roof Microservices with Node/Using Libraries/.idea/todo-master.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Roof Microservices with Node/Without Libraries/.idea/todo-master.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Roof Microservices with Node/Without Libraries/services/.idea/services.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_holder_service_ac_control_raspberry_pi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_holder_service_speed_raspberry_pi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../WithoutLibraries/services/.idea/services.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/todo-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/todo-master.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/ac_control_model_train_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/ac_control_model_train_microservice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/accuracy_microservcie.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/accuracy_microservcie.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/classification_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/classification_microservice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/confusion_matrix_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/confusion_matrix_microservice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/data_holder_service_ac_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/data_holder_service_ac_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/data_holder_service_speed.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/data_holder_service_speed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/processing_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/processing_microservice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Fog Microserivces/services/speed_model_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Fog Microserivces/services/speed_model_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ac_control_model_train_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/ac_control_model_train_microservice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accuracy_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/accuracy_microservice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_holder_service.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_holder_service_raspberry_pi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_report_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_report_microservice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/confusion_matrix_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/confusion_matrix_microservice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/processing_microservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/processing_microservice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/speed_model_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/speed_model_train.py" afterDir="false" />
     </list>
@@ -47,6 +43,78 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+  </component>
+  <component name="RunManager" selected="Python.processing_microservice">
+    <configuration name="ac_control_model_train_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="services" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ac_control_model_train_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="accuracy_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="services" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/accuracy_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="processing_microservice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="services" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/processing_microservice.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.processing_microservice" />
+        <item itemvalue="Python.accuracy_microservice" />
+        <item itemvalue="Python.ac_control_model_train_microservice" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

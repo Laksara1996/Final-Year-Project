@@ -147,4 +147,4 @@ ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)
 speed_accuracy_automated = RepeatedTimer(25, speed_accuracy_check)
 
 if __name__ == '__main__':
-    app.run(port=3002, debug=True)
+    app.run(port=3002, host= '0.0.0.0', debug=True)
