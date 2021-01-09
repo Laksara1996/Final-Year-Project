@@ -1,14 +1,10 @@
 # Load libraries
 import numpy as np
-
 from sklearn.metrics import confusion_matrix
-
 import requests
 from flask import Flask
-
 import json
 from json import JSONEncoder
-
 import time
 
 
@@ -103,4 +99,4 @@ def speed_confusion_matrix_function():
 
 
 if __name__ == '__main__':
-    app.run(port=5004, debug=True)
+    app.run(port=5004, host='0.0.0.0', debug=True)

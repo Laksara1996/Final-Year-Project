@@ -95,6 +95,7 @@ def add_fog_data_to_queue():
     DataHolder.getInstance().add_fog_wh_data(record)
     return "success"
 
+
 @app.route('/fog/ac_control/get_fog_wh', methods=['GET'])
 def get_fog_data_to_queue():
     return DataHolder.getInstance().get_fog_wh_data()
@@ -106,10 +107,10 @@ def add_fog_data_to_queue():
     DataHolder.getInstance().add_fog_bh_data(record)
     return "success"
 
+
 @app.route('/fog/ac_control/get_fog_bh', methods=['GET'])
 def get_fog_data_to_queue():
     return DataHolder.getInstance().get_fog_bh_data()
-
 
 
 @app.route('/fog/ac_control/add_fog_wo', methods=['POST'])
@@ -118,10 +119,10 @@ def add_fog_data_to_queue():
     DataHolder.getInstance().add_fog_wo_data(record)
     return "success"
 
+
 @app.route('/fog/ac_control/get_fog_wo', methods=['GET'])
 def get_fog_data_to_queue():
     return DataHolder.getInstance().get_fog_wo_data()
-
 
 
 @app.route('/fog/ac_control/add_fog_bo', methods=['POST'])
@@ -130,10 +131,10 @@ def add_fog_data_to_queue():
     DataHolder.getInstance().add_fog_bo_data(record)
     return "success"
 
+
 @app.route('/fog/ac_control/get_fog_bo', methods=['GET'])
 def get_fog_data_to_queue():
     return DataHolder.getInstance().get_fog_bo_data()
-
 
 
 @app.route('/fog/ac_control/add_fog_accuracy', methods=['POST'])
@@ -142,10 +143,11 @@ def add_fog_data_to_queue():
     DataHolder.getInstance().add_fog_acuracy_Data(record)
     return "success"
 
+
 @app.route('/fog/ac_control/get_fog_accuracy', methods=['GET'])
 def get_fog_data_to_queue():
     return DataHolder.getInstance().get_fog_accuracy_Data()
 
 
 if __name__ == '__main__':
-    app.run(port=3101, host= '0.0.0.0', debug=True)
+    app.run(port=3101, host='0.0.0.0', debug=True)

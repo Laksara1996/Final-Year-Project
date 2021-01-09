@@ -216,7 +216,7 @@ def get_y_test_data():
 
 def get_cloud_wh():
     try:
-        req = requests.get("http://localhost:5003/cloud/wh")
+        req = requests.get("http://34.126.124.227:5003/cloud/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -228,7 +228,7 @@ def get_cloud_wh():
 
 def get_cloud_bh():
     try:
-        req = requests.get("http://localhost:5003/cloud/bh")
+        req = requests.get("http://34.126.124.227:5003/cloud/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -240,7 +240,7 @@ def get_cloud_bh():
 
 def get_cloud_wo():
     try:
-        req = requests.get("http://localhost:5003/cloud/wo")
+        req = requests.get("http://34.126.124.227:5003/cloud/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -252,7 +252,7 @@ def get_cloud_wo():
 
 def get_cloud_bo():
     try:
-        req = requests.get("http://localhost:5003/cloud/bo")
+        req = requests.get("http://34.126.124.227:5003/cloud/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -286,7 +286,7 @@ def get_fog_accuracy():
 
 def get_cloud_accuracy():
     try:
-        req = requests.get("http://localhost:5002/ac_control/accuracy")
+        req = requests.get("http://34.126.124.227:5002/ac_control/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
