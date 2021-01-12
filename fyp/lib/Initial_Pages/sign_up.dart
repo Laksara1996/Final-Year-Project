@@ -77,6 +77,7 @@ class _SignUpState extends State<SignUp> {
                         print(nameController.text);
                         print(emailController.text);
                         print(passwordController.text);
+                        Navigator.pushNamed(context, '/home');
                       },
                     )),
                 // Container(

@@ -71,6 +71,7 @@ class _SignInState extends State<SignIn> {
                       onPressed: () {
                         print(emailController.text);
                         print(passwordController.text);
+                        Navigator.pushNamed(context, '/home');
                       },
                     )),
                 Container(
