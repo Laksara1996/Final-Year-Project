@@ -21,9 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  adobe_xd:
   flutter:
     sdk: flutter
+  google_maps_flutter:
+  flutter_dotenv: ^2.1.0
+  google_place:
 
 
   # The following adds the Cupertino Icons font to your application.

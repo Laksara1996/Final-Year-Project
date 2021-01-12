@@ -3,6 +3,9 @@
    <application
         android:label="fyp"
         android:icon="@mipmap/ic_launcher">
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCsDTVRBo_ADFcvwjy7jGLeTxHbe1S48Xc"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
