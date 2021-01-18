@@ -90,17 +90,30 @@ def get_speed_predict_data():
 
 def ac_control_confusion_matrix_function():
     print('confusion_matrix: ')
-    confusion_matrix_value = confusion_matrix(get_ac_control_y_test_data(), get_ac_control_predict_data())
+    y_test = get_ac_control_y_test_data()
+    predict_data = get_ac_control_predict_data()
+
+    print("y_test len", len(y_test))
+    print("predict len", len(predict_data))
+
+    confusion_matrix_value = confusion_matrix(y_test[:len(predict_data)], predict_data)
     print(confusion_matrix_value)
     # return confusion_matrix_value
 
 
 def speed_confusion_matrix_function():
     print('confusion_matrix: ')
-    confusion_matrix_value = confusion_matrix(get_speed_y_test_data(), get_speed_predict_data())
+
+    y_test = get_speed_y_test_data()
+    predict_data = get_speed_predict_data()
+
+    print("y_test len", len(y_test))
+    print("predict len", len(predict_data))
+
+    confusion_matrix_value = confusion_matrix(y_test[:len(predict_data)], predict_data)
     print(confusion_matrix_value)
     # return confusion_matrix_value
 
 
 if __name__ == '__main__':
-    app.run(port=4004, host= '0.0.0.0', debug=True)
+    app.run(port=4004, host='0.0.0.0', debug=True)

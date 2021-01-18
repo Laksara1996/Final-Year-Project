@@ -57,6 +57,7 @@ def ac_status_accuracy():
 
     start_time = time.time()
     accuracy_value = ac_accuracy
+    print(accuracy_value.__sizeof__())
     print("---ac accuracy %s seconds ---" % (time.time() - start_time))
     return str(accuracy_value)
 
@@ -66,6 +67,7 @@ def speed_accuracy_output():
     global speed_accuracy
     start_time = time.time()
     accuracy_value = speed_accuracy
+
     print("---speed accuracy %s seconds ---" % (time.time() - start_time))
     return str(accuracy_value)
 
@@ -108,6 +110,8 @@ def get_speed_y_test_data():
 
 def get_speed_predict_data():
     try:
+        # requests.post("http:34.126.124.227:3102//cloud/ac_control/add_cloud_wh",data='the data which want to send cloud as a json ')
+
         req = requests.get("http://localhost:4201/speed/predict")
         decodedArrays = json.loads(req.text)
 
@@ -149,4 +153,4 @@ speed_accuracy_automated = RepeatedTimer(40, speed_accuracy_calculator)
 
 
 if __name__ == '__main__':
-    app.run(port=4002, host= '0.0.0.0', debug=True)
+    app.run(port=4002, host='0.0.0.0', debug=True)

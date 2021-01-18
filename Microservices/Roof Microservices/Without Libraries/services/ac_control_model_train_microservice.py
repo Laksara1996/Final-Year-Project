@@ -90,6 +90,7 @@ def predict_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---predict_data %s seconds ---" % (time.time() - start_time))
+    print("----predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -101,6 +102,7 @@ def output_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("----output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -416,4 +418,4 @@ def output():
 model_train_automated = RepeatedTimer(15, model_train)
 
 if __name__ == '__main__':
-    app.run(port=3003, host= '0.0.0.0', debug=True)
+    app.run(port=3003, host='0.0.0.0', debug=True)

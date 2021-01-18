@@ -90,13 +90,25 @@ def get_speed_predict_data():
 
 def ac_control_classification_report_function():
     print('classification_report: ')
-    print(classification_report(get_ac_control_y_test_data(), get_ac_control_predict_data()))
+    y_test = get_ac_control_y_test_data()
+    predict_data = get_ac_control_predict_data()
+
+    print("y_test len", len(y_test))
+    print("predict len", len(predict_data))
+
+    print(classification_report(y_test[:len(predict_data)], predict_data))
 
 
 def speed_classification_report_function():
     print('classification_report: ')
-    print(classification_report(get_speed_y_test_data(), get_speed_predict_data()))
+    y_test = get_speed_y_test_data()
+    predict_data = get_speed_predict_data()
+
+    print("y_test len", len(y_test))
+    print("predict len", len(predict_data))
+
+    print(classification_report(y_test[:len(predict_data)], predict_data))
 
 
 if __name__ == '__main__':
-    app.run(port=4005, host= '0.0.0.0', debug=True)
+    app.run(port=4005, host='0.0.0.0', debug=True)

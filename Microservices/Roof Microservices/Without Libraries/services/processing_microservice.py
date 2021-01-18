@@ -93,6 +93,7 @@ def speed_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("----speed amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -106,6 +107,7 @@ def driver_rush_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("----amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -119,6 +121,7 @@ def visibility_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("----amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -196,6 +199,7 @@ def speed_input_list():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---input %s seconds ---" % (time.time() - start_time))
+    print("----input amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -209,6 +213,7 @@ def speed_x_train():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_train %s seconds ---" % (time.time() - start_time))
+    print("----x_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -221,6 +226,7 @@ def speed_x_test():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_test %s seconds ---" % (time.time() - start_time))
+    print("----x_test_amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -233,6 +239,7 @@ def speed_y_test():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_test %s seconds ---" % (time.time() - start_time))
+    print("----y_test_amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -245,6 +252,7 @@ def speed_y_train():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("----y_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -260,6 +268,7 @@ def ac_control_input_list():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---input %s seconds ---" % (time.time() - start_time))
+    print("----input amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -273,6 +282,7 @@ def ac_control_x_train():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_train %s seconds ---" % (time.time() - start_time))
+    print("----x_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -286,6 +296,7 @@ def ac_control_x_test():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_test %s seconds ---" % (time.time() - start_time))
+    print("----x_test amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -299,6 +310,7 @@ def ac_control_y_test():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_test %s seconds ---" % (time.time() - start_time))
+    print("----y_test amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -312,6 +324,7 @@ def ac_control_y_train():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("----y_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -320,7 +333,7 @@ def ac_control_y_train():
 def get_pitch_data():
     global pitch_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/pitch")
+        req = requests.get("http://192.168.1.100:5000//data/pitch")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -341,7 +354,7 @@ def get_pitch_data():
 def get_rain_intensity_data():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/rainIntensity")
+        req = requests.get("http://192.168.1.100:5000//data/rainIntensity")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -362,7 +375,7 @@ def get_rain_intensity_data():
 def get_visibility_data():
     global visibility_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/visibility")
+        req = requests.get("http://192.168.1.100:5000//data/visibility")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -383,7 +396,7 @@ def get_visibility_data():
 def get_driver_rush_data():
     global driver_rush_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/driver_rush")
+        req = requests.get("http://192.168.1.100:5000//data/driver_rush")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -404,7 +417,7 @@ def get_driver_rush_data():
 def get_vehicle_speed_data():
     global speed_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/vehicleSpeed")
+        req = requests.get("http://192.168.1.100:5000//data/vehicleSpeed")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -425,7 +438,7 @@ def get_vehicle_speed_data():
 def get_air_condition_data():
     global air_condition_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/airConditionStatus")
+        req = requests.get("http://192.168.1.100:5000//data/airConditionStatus")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -446,7 +459,7 @@ def get_air_condition_data():
 def get_passenger_count_data():
     global passenger_count_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/passengerCount")
+        req = requests.get("http://192.168.1.100:5000//data/passengerCount")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -467,7 +480,7 @@ def get_passenger_count_data():
 def get_window_opening_data():
     global window_opening_data_array
     try:
-        req = requests.get("http://192.168.1.112:5000//data/windowOpening")
+        req = requests.get("http://192.168.1.100:5000//data/windowOpening")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -563,4 +576,4 @@ ac_train_split_automated = RepeatedTimer(10, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(10, speed_train_split)
 
 if __name__ == '__main__':
-    app.run(port=3001, host= '0.0.0.0', debug=True)
+    app.run(port=3001, host='0.0.0.0', debug=True)

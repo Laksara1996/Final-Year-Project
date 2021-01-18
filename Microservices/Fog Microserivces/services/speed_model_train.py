@@ -226,52 +226,52 @@ def get_input_data():
     return finalNumpyArray
 
 
-def get_cloud_wh():
-    try:
-        req = requests.get("http://localhost:5201/cloud/wh")
-        decodedArrays = json.loads(req.text)
+# def get_cloud_wh():
+#     try:
+#         req = requests.get("http://localhost:5201/cloud/wh")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_cloud_bh():
-    try:
-        req = requests.get("http://localhost:5201/cloud/bh")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_cloud_wo():
-    try:
-        req = requests.get("http://localhost:5201/cloud/wo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
+#
+# def get_cloud_bh():
+#     try:
+#         req = requests.get("http://localhost:5201/cloud/bh")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
 
 
-def get_cloud_bo():
-    try:
-        req = requests.get("http://localhost:5201/cloud/bo")
-        decodedArrays = json.loads(req.text)
+# def get_cloud_wo():
+#     try:
+#         req = requests.get("http://localhost:5201/cloud/wo")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
+#
+# def get_cloud_bo():
+#     try:
+#         req = requests.get("http://localhost:5201/cloud/bo")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
 
 
 def get_fog_accuracy():
@@ -283,15 +283,15 @@ def get_fog_accuracy():
         return "Service unavailable"
     return accuracy
 
-
-def get_cloud_accuracy():
-    try:
-        req = requests.get("http://localhost:5002/speed/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
+#
+# def get_cloud_accuracy():
+#     try:
+#         req = requests.get("http://localhost:5002/speed/accuracy")
+#         accuracy = float(req.text)
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return accuracy
 
 
 def model_train():
@@ -406,4 +406,4 @@ def output():
 model_train_automated = RepeatedTimer(25, model_train)
 
 if __name__ == '__main__':
-    app.run(port=4201, host= '0.0.0.0', debug=True)
+    app.run(port=4201, host='0.0.0.0', debug=True)

@@ -298,7 +298,7 @@ def get_visibility_data_roof():
 def get_rain_intensity_data_roof():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/rain_intensity_data")
+        req = requests.get("http://localhost:3102/fog/rain_intensity_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
