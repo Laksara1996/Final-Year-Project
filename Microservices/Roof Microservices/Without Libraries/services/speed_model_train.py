@@ -277,7 +277,7 @@ def get_roof_accuracy():
 
 def get_fog_accuracy():
     try:
-        req = requests.get("http://192.168.1.112:4002/speed/accuracy")
+        req = requests.get("http://localhost:4002/speed/accuracy")
         # req = requests.get("http://127.0.0.1:3102/fog/speed/get_fog_accuracy")
         # if req is "No data found":
         #  TODO: what is called for accuracy if no data i found
@@ -422,4 +422,4 @@ def output():
 model_train_automated = RepeatedTimer(15, model_train)
 
 if __name__ == '__main__':
-    app.run(port=3201, host= '0.0.0.0', debug=True)
+    app.run(port=3201, host='0.0.0.0', debug=True)

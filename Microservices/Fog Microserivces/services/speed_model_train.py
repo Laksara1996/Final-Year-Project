@@ -368,14 +368,15 @@ def model_train():
 
         # End of for loop (End of training phase)
 
-        cloud_accuracy = get_cloud_accuracy()
+        # cloud_accuracy = get_cloud_accuracy()
+
         fog_accuracy = get_fog_accuracy()
 
-        if cloud_accuracy > fog_accuracy:
-            wh = get_cloud_wh()
-            bh = get_cloud_bh()
-            wo = get_cloud_wo()
-            bo = get_cloud_bo()
+        # if cloud_accuracy > fog_accuracy:
+        #     wh = get_cloud_wh()
+        #     bh = get_cloud_bh()
+        #     wo = get_cloud_wo()
+        #     bo = get_cloud_bo()
 
         # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
