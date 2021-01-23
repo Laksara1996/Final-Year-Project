@@ -100,6 +100,7 @@ def predict_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---predict_data %s seconds ---" % (time.time() - start_time))
+    print("----predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -111,6 +112,7 @@ def output_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("----predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -226,52 +228,52 @@ def get_input_data():
     return finalNumpyArray
 
 
-# def get_cloud_wh():
-#     try:
-#         req = requests.get("http://localhost:5201/cloud/wh")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+def get_cloud_wh():
+    try:
+        req = requests.get("http://34.126.124.227:5201/cloud/wh")
+        decodedArrays = json.loads(req.text)
 
-#
-# def get_cloud_bh():
-#     try:
-#         req = requests.get("http://localhost:5201/cloud/bh")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
-# def get_cloud_wo():
-#     try:
-#         req = requests.get("http://localhost:5201/cloud/wo")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+def get_cloud_bh():
+    try:
+        req = requests.get("http://34.126.124.227:5201/cloud/bh")
+        decodedArrays = json.loads(req.text)
 
-#
-# def get_cloud_bo():
-#     try:
-#         req = requests.get("http://localhost:5201/cloud/bo")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_cloud_wo():
+    try:
+        req = requests.get("http://34.126.124.227:5201/cloud/wo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_cloud_bo():
+    try:
+        req = requests.get("http://34.126.124.227:5201/cloud/bo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
 def get_fog_accuracy():
@@ -283,15 +285,15 @@ def get_fog_accuracy():
         return "Service unavailable"
     return accuracy
 
-#
-# def get_cloud_accuracy():
-#     try:
-#         req = requests.get("http://localhost:5002/speed/accuracy")
-#         accuracy = float(req.text)
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return accuracy
+
+def get_cloud_accuracy():
+    try:
+        req = requests.get("http://34.126.124.227:5002/speed/accuracy")
+        accuracy = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return accuracy
 
 
 def model_train():
@@ -368,15 +370,15 @@ def model_train():
 
         # End of for loop (End of training phase)
 
-        # cloud_accuracy = get_cloud_accuracy()
+        cloud_accuracy = get_cloud_accuracy()
 
         fog_accuracy = get_fog_accuracy()
 
-        # if cloud_accuracy > fog_accuracy:
-        #     wh = get_cloud_wh()
-        #     bh = get_cloud_bh()
-        #     wo = get_cloud_wo()
-        #     bo = get_cloud_bo()
+        if cloud_accuracy > fog_accuracy:
+            wh = get_cloud_wh()
+            bh = get_cloud_bh()
+            wo = get_cloud_wo()
+            bo = get_cloud_bo()
 
         # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
