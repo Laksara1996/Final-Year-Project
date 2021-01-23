@@ -211,6 +211,7 @@ def ac_control_y_train():
     return encodedNumpyData
 
 
+# get data from fog
 def get_air_condition_data_roof():
     global air_condition_data_array
     try:

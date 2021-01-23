@@ -102,52 +102,52 @@ def get_cloud_data_to_queue():
 
 
 @app.route('/cloud/speed/add_cloud_bh', methods=['POST'])
-def add_cloud_data_to_queue():
+def add_cloud_data_to_queue1():
     record = json.loads(request.data)
     DataHolder.getInstance().add_cloud_bh_data(record)
     return "success"
 
 
 @app.route('/cloud/speed/get_cloud_bh', methods=['GET'])
-def get_cloud_data_to_queue():
+def get_cloud_data_to_queue1():
     return DataHolder.getInstance().get_cloud_bh_data()
 
 
 @app.route('/cloud/speed/add_cloud_wo', methods=['POST'])
-def add_cloud_data_to_queue():
+def add_cloud_data_to_queue2():
     record = json.loads(request.data)
     DataHolder.getInstance().add_cloud_wo_data(record)
     return "success"
 
 
 @app.route('/cloud/speed/get_cloud_wo', methods=['GET'])
-def get_cloud_data_to_queue():
+def get_cloud_data_to_queue2():
     return DataHolder.getInstance().get_cloud_wo_data()
 
 
 @app.route('/cloud/speed/add_cloud_bo', methods=['POST'])
-def add_cloud_data_to_queue():
+def add_cloud_data_to_queue3():
     record = json.loads(request.data)
     DataHolder.getInstance().add_cloud_bo_data(record)
     return "success"
 
 
 @app.route('/cloud/speed/get_cloud_bo', methods=['GET'])
-def get_cloud_data_to_queue():
+def get_cloud_data_to_queue3():
     return DataHolder.getInstance().get_cloud_bo_data()
 
 
 @app.route('/cloud/speed/add_cloud_accuracy', methods=['POST'])
-def add_cloud_data_to_queue():
+def add_cloud_data_to_queue4():
     record = json.loads(request.data)
     DataHolder.getInstance().add_cloud_acuracy_Data(record)
     return "success"
 
 
 @app.route('/cloud/speed/get_cloud_accuracy', methods=['GET'])
-def get_cloud_data_to_queue():
+def get_cloud_data_to_queue4():
     return DataHolder.getInstance().get_cloud_accuracy_Data()
 
 
 if __name__ == '__main__':
-    app.run(port=3102, host='0.0.0.0', debug=True)
+    app.run(port=3102,host='0.0.0.0', debug=True)
