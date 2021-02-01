@@ -14,6 +14,10 @@ from json import JSONEncoder
 
 import time
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -48,16 +52,25 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
+
+# Use the application default credentials
+cred = credentials.Certificate(
+    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Test\gcp\FinalYearProject-e8c0676a307f.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+doc_ref = db.collection('Vehicle_Data').document()
+
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -211,13 +224,13 @@ def ac_control_y_train():
     return encodedNumpyData
 
 
-def get_air_condition_data_roof():
+def get_air_condition_data_fog():
     global air_condition_data_array
     try:
         req = requests.get("http://localhost:4001/fog/ac_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         air_condition_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -225,13 +238,13 @@ def get_air_condition_data_roof():
     return finalNumpyArray
 
 
-def get_passenger_count_data_roof():
+def get_passenger_count_data_fog():
     global passenger_count_data_array
     try:
         req = requests.get("http://localhost:4001/fog/passenger_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         passenger_count_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -239,13 +252,13 @@ def get_passenger_count_data_roof():
     return finalNumpyArray
 
 
-def get_window_opening_data_roof():
+def get_window_opening_data_fog():
     global window_opening_data_array
     try:
         req = requests.get("http://localhost:4001/fog/window_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         window_opening_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -253,27 +266,28 @@ def get_window_opening_data_roof():
     return finalNumpyArray
 
 
-def get_speed_data_roof():
+def get_speed_data_fog():
     global speed_data_array
     try:
         req = requests.get("http://localhost:4001/fog/speed_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         speed_data_array = finalNumpyArray.copy()
+        print(speed_data_array)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return finalNumpyArray
 
 
-def get_driver_rush_data_roof():
+def get_driver_rush_data_fog():
     global driver_rush_data_array
     try:
         req = requests.get("http://localhost:4001/fog/driver_rush_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         driver_rush_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -281,13 +295,13 @@ def get_driver_rush_data_roof():
     return finalNumpyArray
 
 
-def get_visibility_data_roof():
+def get_visibility_data_fog():
     global visibility_data_array
     try:
         req = requests.get("http://localhost:4001/fog/visibility_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         visibility_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -295,13 +309,13 @@ def get_visibility_data_roof():
     return finalNumpyArray
 
 
-def get_rain_intensity_data_roof():
+def get_rain_intensity_data_fog():
     global rain_intensity_data_array
     try:
         req = requests.get("http://localhost:4001/fog/rain_intensity_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         rain_intensity_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -309,13 +323,13 @@ def get_rain_intensity_data_roof():
     return finalNumpyArray
 
 
-def get_pitch_data_roof():
+def get_pitch_data_fog():
     global pitch_data_array
     try:
         req = requests.get("http://localhost:4001/fog/pitch_data")
         decodedArrays = json.loads(req.text)
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
+        finalNumpyArray = np.asarray(decodedArrays["array"]).tolist()
         pitch_data_array = finalNumpyArray.copy()
 
     except requests.exceptions.ConnectionError:
@@ -386,17 +400,36 @@ def speed_train_split():
                                                                                                         random_state=0)
 
 
-passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_roof)
-window_data_automated = RepeatedTimer(60, get_window_opening_data_roof)
-ac_data_automated = RepeatedTimer(60, get_air_condition_data_roof)
-pitch_data_automated = RepeatedTimer(60, get_pitch_data_roof)
-rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_roof)
-visibility_data_automated = RepeatedTimer(60, get_visibility_data_roof)
-driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_roof)
-speed_data_automated = RepeatedTimer(60, get_speed_data_roof)
+def send_data():
+    global pitch_data_array, passenger_count_data_array, rain_intensity_data_array, \
+        visibility_data_array, driver_rush_data_array, speed_data_array, window_opening_data_array, \
+        air_condition_data_array
+
+    doc_ref.set({
+        'pitch': pitch_data_array,
+        'passenger_count': passenger_count_data_array,
+        'rain_intensity': rain_intensity_data_array,
+        'visibility': visibility_data_array,
+        'driver_rush': driver_rush_data_array,
+        'speed': speed_data_array,
+        'window_opening': window_opening_data_array,
+        'air_condition_status': air_condition_data_array,
+    })
+
+
+passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_fog)
+window_data_automated = RepeatedTimer(60, get_window_opening_data_fog)
+ac_data_automated = RepeatedTimer(60, get_air_condition_data_fog)
+pitch_data_automated = RepeatedTimer(60, get_pitch_data_fog)
+rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_fog)
+visibility_data_automated = RepeatedTimer(60, get_visibility_data_fog)
+driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_fog)
+speed_data_automated = RepeatedTimer(60, get_speed_data_fog)
 
 ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(70, speed_train_split)
 
+data_sent_automated = RepeatedTimer(70, send_data)
+
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(port=5001)

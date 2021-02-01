@@ -48,16 +48,16 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -365,6 +365,7 @@ def get_speed_data_roof():
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
         speed_data_array = finalNumpyArray.copy()
+        print(speed_data_array)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
@@ -503,4 +504,4 @@ ac_train_split_automated = RepeatedTimer(20, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(20, speed_train_split)
 
 if __name__ == '__main__':
-    app.run(port=4001, debug=True)
+    app.run(port=4001)
