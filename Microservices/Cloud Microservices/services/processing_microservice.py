@@ -215,7 +215,7 @@ def ac_control_y_train():
 def get_air_condition_data_roof():
     global air_condition_data_array
     try:
-        req = requests.get("http://34.126.124.227:4001/fog/ac_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_ac_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -229,7 +229,7 @@ def get_air_condition_data_roof():
 def get_passenger_count_data_roof():
     global passenger_count_data_array
     try:
-        req = requests.get("http://34.126.124.227:4001/fog/passenger_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_passenger_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -243,7 +243,7 @@ def get_passenger_count_data_roof():
 def get_window_opening_data_roof():
     global window_opening_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/window_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_window_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -257,7 +257,7 @@ def get_window_opening_data_roof():
 def get_speed_data_roof():
     global speed_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/speed_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_speed_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -271,7 +271,7 @@ def get_speed_data_roof():
 def get_driver_rush_data_roof():
     global driver_rush_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/driver_rush_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_driver_rush_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -285,7 +285,7 @@ def get_driver_rush_data_roof():
 def get_visibility_data_roof():
     global visibility_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/visibility_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_visibility_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -299,7 +299,7 @@ def get_visibility_data_roof():
 def get_rain_intensity_data_roof():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://localhost:3102/fog/rain_intensity_data")
+        req = requests.get("http://localhost:3101/cloud/get_rain_intensity_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -313,7 +313,7 @@ def get_rain_intensity_data_roof():
 def get_pitch_data_roof():
     global pitch_data_array
     try:
-        req = requests.get("http://192.168.1.112:4001/fog/pitch_data")
+        req = requests.get("http://localhost:3101/cloud/get_fog_pitch_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
