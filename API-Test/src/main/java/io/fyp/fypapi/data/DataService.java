@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService {
 
-	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Testbed\\src\\main\\java\\io\\fyp\\fypapi\\dataset.csv";
+	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Testbed\\src\\main\\java\\io\\fyp\\fypapi\\ssdata.csv";
 	private String line = "";
 	private String cvsSplitBy = ",";
     
@@ -33,6 +33,7 @@ public class DataService {
 	private ArrayList<Double> drivers_wellbeing = new ArrayList<Double>();
 	private ArrayList<Double> driver_rush = new ArrayList<Double>();
 
+	private int [] number_of_requests = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     {
 	    try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 	
@@ -69,42 +70,60 @@ public class DataService {
     }
 
 	
-    public ArrayList<Double> getData(String id, int count) {
+    public ArrayList<Double> getData(String id) {
 //		System.out.println(count);
 		switch(id) {
 			case "time":
-				return new ArrayList<Double>(time.subList(count * 10, (count * 10) + 10));
+				number_of_requests[0] += 1;
+				return new ArrayList<Double>(time.subList(number_of_requests[0] * 5, (number_of_requests[0] * 5) + 6));
 			case "vehicleSpeed":
-				return new ArrayList<Double>(vehicle_speed.subList(count * 10, (count * 10) + 10));
+				number_of_requests[1] += 1;
+				return new ArrayList<Double>(vehicle_speed.subList(number_of_requests[1] * 5, (number_of_requests[1] * 5) + 6));
 			case "shiftNumber":
-				return new ArrayList<Double>(shift_number.subList(count * 10, (count * 10) + 10));
+				number_of_requests[2] += 1;
+				return new ArrayList<Double>(shift_number.subList(number_of_requests[2] * 5, (number_of_requests[2] * 5) + 6));
 			case "engineLoad":
-				return new ArrayList<Double>(engine_load.subList(count * 10, (count * 10) + 10));
+				number_of_requests[3] += 1;
+				return new ArrayList<Double>(engine_load.subList(number_of_requests[3] * 5, (number_of_requests[3] * 5) + 6));
 			case "totalAcceleration":
-				return new ArrayList<Double>(total_acceleration.subList(count * 10, (count * 10) + 10));
+				number_of_requests[4] += 1;
+				return new ArrayList<Double>(total_acceleration.subList(number_of_requests[4] * 5, (number_of_requests[4] * 5) + 6));
 			case "engineRPM":
-				return new ArrayList<Double>(engine_rpm.subList(count * 10, (count * 10) + 10));
+				number_of_requests[5] += 1;
+				return new ArrayList<Double>(engine_rpm.subList(number_of_requests[5] * 5, (number_of_requests[5] * 5) + 6));
 			case "pitch":
-				return new ArrayList<Double>(pitch.subList(count * 10, (count * 10) + 10));
+				number_of_requests[6] += 1;
+				return new ArrayList<Double>(pitch.subList(number_of_requests[6] * 5, (number_of_requests[6] * 5) + 6));
 			case "lateralAcceleration":
-				return new ArrayList<Double>(lateral_acceleration.subList(count * 10, (count * 10) + 10));
+				number_of_requests[7] += 1;
+				return new ArrayList<Double>(lateral_acceleration.subList(number_of_requests[7] * 5, (number_of_requests[7] * 5) + 6));
 			case "passengerCount":
-				return new ArrayList<Double>(passenger_count.subList(count * 10, (count * 10) + 10));
+				number_of_requests[8] += 1;
+				return new ArrayList<Double>(passenger_count.subList(number_of_requests[8] * 5, (number_of_requests[8] * 5) + 6));
 			case "carLoad":
-				return new ArrayList<Double>(cars_load.subList(count * 10, (count * 10) + 10));
+				number_of_requests[9] += 1;
+				return new ArrayList<Double>(cars_load.subList(number_of_requests[9] * 5, (number_of_requests[9] * 5) + 6));
 			case "airConditionStatus":
-				return new ArrayList<Double>(air_condition_status.subList(count * 10, (count * 10) + 10));
+				number_of_requests[10] += 1;
+				return new ArrayList<Double>(air_condition_status.subList(number_of_requests[10] * 5, (number_of_requests[10] * 5) + 6));
 			case "windowOpening":
+				number_of_requests[11] += 1;
+				return new ArrayList<Double>(window_opening.subList(number_of_requests[11] * 5, (number_of_requests[11] * 5) + 6));
 			case "radioVolume":
-				return new ArrayList<Double>(radio_volume.subList(count * 10, (count * 10) + 10));
+				number_of_requests[12] += 1;
+				return new ArrayList<Double>(radio_volume.subList(number_of_requests[12] * 5, (number_of_requests[12] * 5) + 6));
 			case "rainIntensity":
-				return new ArrayList<Double>(rain_intensity.subList(count * 10, (count * 10) + 10));
+				number_of_requests[13] += 1;
+				return new ArrayList<Double>(rain_intensity.subList(number_of_requests[13] * 5, (number_of_requests[13] * 5) + 6));
 			case "visibility":
-				return new ArrayList<Double>(visibility.subList(count * 10, (count * 10) + 10));
+				number_of_requests[14] += 1;
+				return new ArrayList<Double>(visibility.subList(number_of_requests[14] * 5, (number_of_requests[14] * 5) + 6));
 			case "DriverWellBeing":
-				return new ArrayList<Double>(drivers_wellbeing.subList(count * 10, (count * 10) + 10));
+				number_of_requests[15] += 1;
+				return new ArrayList<Double>(drivers_wellbeing.subList(number_of_requests[15] * 5, (number_of_requests[15] * 5) + 6));
 			default:
-				return new ArrayList<Double>(driver_rush.subList(count * 10, (count * 10) + 10));
+				number_of_requests[16] += 1;
+				return new ArrayList<Double>(driver_rush.subList(number_of_requests[16] * 5, (number_of_requests[16] * 5) + 6));
 		}
 	}
 }
