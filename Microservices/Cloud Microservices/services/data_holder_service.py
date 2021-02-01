@@ -120,14 +120,14 @@ app.config.from_mapping(config)
 
 
 @app.route('/cloud/add_fog_speed_data', methods=['POST'])
-def add_fog_driver_rush_data_to_queue():
+def add_fog_speed_data_to_queue():
     record = json.loads(request.data)
     DataHolder.getInstance().add_fog_speed_data(record)
     return "success"
 
 
 @app.route('/cloud/get_fog_speed_data', methods=['GET'])
-def get_fog_driver_rush_data_to_queue():
+def get_fog_speed_to_queue():
     return DataHolder.getInstance().get_fog_speed_data()
 
 
