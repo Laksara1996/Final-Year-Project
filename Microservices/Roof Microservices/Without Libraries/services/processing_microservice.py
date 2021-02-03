@@ -334,7 +334,7 @@ def ac_control_y_train():
 def get_pitch_data():
     global pitch_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/pitch")
+        req = requests.get("http://192.168.1.102:5000//data/pitch")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -357,7 +357,7 @@ def get_pitch_data():
 def get_rain_intensity_data():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/rainIntensity")
+        req = requests.get("http://192.168.1.102:5000//data/rainIntensity")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -380,7 +380,7 @@ def get_rain_intensity_data():
 def get_visibility_data():
     global visibility_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/visibility")
+        req = requests.get("http://192.168.1.102:5000//data/visibility")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -403,7 +403,7 @@ def get_visibility_data():
 def get_driver_rush_data():
     global driver_rush_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/driver_rush")
+        req = requests.get("http://192.168.1.102:5000//data/driver_rush")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -426,7 +426,7 @@ def get_driver_rush_data():
 def get_vehicle_speed_data():
     global speed_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/vehicleSpeed")
+        req = requests.get("http://192.168.1.102:5000//data/vehicleSpeed")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -449,7 +449,7 @@ def get_vehicle_speed_data():
 def get_air_condition_data():
     global air_condition_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/airConditionStatus")
+        req = requests.get("http://192.168.1.102:5000//data/airConditionStatus")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -472,7 +472,7 @@ def get_air_condition_data():
 def get_passenger_count_data():
     global passenger_count_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/passengerCount")
+        req = requests.get("http://192.168.1.102:5000//data/passengerCount")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
@@ -495,7 +495,7 @@ def get_passenger_count_data():
 def get_window_opening_data():
     global window_opening_data_array
     try:
-        req = requests.get("http://192.168.1.105:5000//data/windowOpening")
+        req = requests.get("http://192.168.1.102:5000//data/windowOpening")
         req_text = req.text[1:-1]
         number = ""
         number_array = []
