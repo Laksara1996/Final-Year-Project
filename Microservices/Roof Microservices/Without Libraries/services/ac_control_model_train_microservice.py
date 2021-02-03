@@ -218,52 +218,53 @@ def get_fog_bo():
     return finalNumpyArray
 
 
-# def get_cloud_wh():
-#     try:
-#         req = requests.get("http://localhost:5003/cloud/wh")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+# Get weight matrices from cloud
+def get_cloud_wh():
+    try:
+        req = requests.get("http://34.126.124.227:5003/cloud/wh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
-# def get_cloud_bh():
-#     try:
-#         req = requests.get("http://localhost:5003/cloud/bh")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+def get_cloud_bh():
+    try:
+        req = requests.get("http://34.126.124.227:5003/cloud/bh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
-# def get_cloud_wo():
-#     try:
-#         req = requests.get("http://localhost:5003/cloud/wo")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+def get_cloud_wo():
+    try:
+        req = requests.get("http://34.126.124.227:5003/cloud/wo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
-# def get_cloud_bo():
-#     try:
-#         req = requests.get("http://localhost:5003/cloud/bo")
-#         decodedArrays = json.loads(req.text)
-#
-#         finalNumpyArray = np.asarray(decodedArrays["array"])
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return finalNumpyArray
+def get_cloud_bo():
+    try:
+        req = requests.get("http://34.126.124.227:5003/cloud/bo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
 
 
 def get_roof_accuracy():
@@ -276,15 +277,14 @@ def get_roof_accuracy():
     return accuracy
 
 
+# Get fog accuracy
 def get_fog_accuracy():
     try:
         req = requests.get("http://192.168.1.112:4002/ac_control/accuracy")
 
         # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_accuracy")
         # if req is "No data found":
-        #  TODO: what is called for accuracy if no data i found
         # return
-
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -292,14 +292,15 @@ def get_fog_accuracy():
     return accuracy
 
 
-# def get_cloud_accuracy():
-#     try:
-#         req = requests.get("http://localhost:5002/ac_control/accuracy")
-#         accuracy = float(req.text)
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return accuracy
+# Get cloud accuracy
+def get_cloud_accuracy():
+    try:
+        req = requests.get("http://34.126.124.227:5002/ac_control/accuracy")
+        accuracy = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return accuracy
 
 
 def model_train():
@@ -375,7 +376,7 @@ def model_train():
 
         roof_accuracy = get_roof_accuracy()
         fog_accuracy = get_fog_accuracy()
-        # cloud_accuracy = get_cloud_accuracy()
+        cloud_accuracy = get_cloud_accuracy()
 
         if fog_accuracy > roof_accuracy:
             wh = get_fog_wh()
@@ -383,11 +384,11 @@ def model_train():
             wo = get_fog_wo()
             bo = get_fog_bo()
 
-            # if cloud_accuracy > fog_accuracy:
-            #     wh = get_cloud_wh()
-            #     bh = get_cloud_bh()
-            #     wo = get_cloud_wo()
-            #     bo = get_cloud_bo()
+            if cloud_accuracy > fog_accuracy:
+                wh = get_cloud_wh()
+                bh = get_cloud_bh()
+                wo = get_cloud_wo()
+                bo = get_cloud_bo()
 
             # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)

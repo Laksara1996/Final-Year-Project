@@ -10,7 +10,7 @@ class DataHolder:
     __instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if DataHolder.__instance is None:
             DataHolder()
         return DataHolder.__instance
@@ -122,94 +122,97 @@ app.config.from_mapping(config)
 @app.route('/cloud/add_fog_speed_data', methods=['POST'])
 def add_fog_speed_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_speed_data(record)
+    DataHolder.get_instance().add_fog_speed_data(record)
     return "success"
 
 
 @app.route('/cloud/get_fog_speed_data', methods=['GET'])
 def get_fog_speed_to_queue():
-    return DataHolder.getInstance().get_fog_speed_data()
+    return DataHolder.get_instance().get_fog_speed_data()
 
 
 @app.route('/cloud/add_fog_driver_rush_data', methods=['POST'])
 def add_fog_driver_rush_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_driver_rush_data(record)
+    DataHolder.get_instance().add_fog_driver_rush_data(record)
     return "success"
 
 
 @app.route('/cloud/get_fog_driver_rush_data', methods=['GET'])
 def get_fog_driver_rush_data_to_queue():
-    return DataHolder.getInstance().get_fog_driver_rush_data()
-
+    return DataHolder.get_instance().get_fog_driver_rush_data()
 
 
 @app.route('/cloud/add_fog_visibility_data', methods=['POST'])
 def add_fog_visibility_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_visibility_data(record)
+    DataHolder.get_instance().add_fog_visibility_data(record)
     return "success"
+
 
 @app.route('/cloud/get_fog_visibility_data', methods=['GET'])
 def get_fog_visibility_data_to_queue():
-    return DataHolder.getInstance().get_fog_visibility_data()
+    return DataHolder.get_instance().get_fog_visibility_data()
 
 
 @app.route('/cloud/add_rain_intensity_data', methods=['POST'])
 def add_fog_rain_intensity_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_rain_intensity_data(record)
+    DataHolder.get_instance().add_fog_rain_intensity_data(record)
     return "success"
 
 
 @app.route('/cloud/get_rain_intensity_data', methods=['GET'])
 def get_fog_rain_intensity_data_to_queue():
-    return DataHolder.getInstance().get_fog_rain_intensity_data()
+    return DataHolder.get_instance().get_fog_rain_intensity_data()
 
 
 @app.route('/cloud/add_fog_pitch_data', methods=['POST'])
 def add_fog_pitch_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_pitch_data(record)
+    DataHolder.get_instance().add_fog_pitch_data(record)
     return "success"
 
 
 @app.route('/cloud/get_fog_pitch_data', methods=['GET'])
 def get_fog_pitch_data_to_queue():
-    return DataHolder.getInstance().get_fog_pitch_data()
+    return DataHolder.get_instance().get_fog_pitch_data()
 
 
 @app.route('/cloud/add_fog_ac_data', methods=['POST'])
 def add_fog_ac_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_ac_data(record)
+    DataHolder.get_instance().add_fog_ac_data(record)
     return "success"
 
 
 @app.route('/cloud/get_fog_ac_data', methods=['GET'])
 def get_fog_ac_data_to_queue():
-    return DataHolder.getInstance().get_fog_ac_data()
+    return DataHolder.get_instance().get_fog_ac_data()
 
 
 @app.route('/cloud/add_fog_passenger_data', methods=['POST'])
 def add_fog_passenger_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_passenger_data(record)
+    DataHolder.get_instance().add_fog_passenger_data(record)
     return "success"
+
 
 @app.route('/cloud/get_fog_passenger_data', methods=['GET'])
 def get_fog_passenger_data_to_queue():
-    return DataHolder.getInstance().get_fog_passenger_data()
+    return DataHolder.get_instance().get_fog_passenger_data()
+
 
 @app.route('/cloud/add_fog_window_data', methods=['POST'])
 def add_fog__window_data_to_queue():
     record = json.loads(request.data)
-    DataHolder.getInstance().add_fog_window_data(record)
+    DataHolder.get_instance().add_fog_window_data(record)
     return "success"
+
 
 @app.route('/cloud/get_fog_window_data', methods=['GET'])
 def get_fog__window_data_to_queue():
-    return DataHolder.getInstance().get_fog_window_data()
+    return DataHolder.get_instance().get_fog_window_data()
 
 
 if __name__ == '__main__':
