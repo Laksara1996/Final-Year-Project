@@ -5,7 +5,6 @@ from numpy import argmax
 import requests
 from flask import Flask
 from flask_caching import Cache
-import os
 
 import json
 from json import JSONEncoder
@@ -68,16 +67,16 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 y_predict_array = []
 
@@ -98,7 +97,6 @@ def predict_data():
     start_time = time.time()
     number_array = predict_output()
     numpyData = {"array": number_array}
-    # print(number_array.__sizeof__())
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---predict_data %s seconds ---" % (time.time() - start_time))
     print("----predict amount of data = %s ------" % len(number_array))

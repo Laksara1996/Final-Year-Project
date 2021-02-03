@@ -48,16 +48,17 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+#
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -344,6 +345,8 @@ def get_pitch_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -365,6 +368,8 @@ def get_rain_intensity_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -386,6 +391,8 @@ def get_visibility_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -407,6 +414,8 @@ def get_driver_rush_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -428,6 +437,8 @@ def get_vehicle_speed_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -449,6 +460,8 @@ def get_air_condition_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -470,6 +483,8 @@ def get_passenger_count_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -491,6 +506,8 @@ def get_window_opening_data():
                 number = ""
                 continue
             number = number + i
+        if number != "":
+            number_array.append(number)
         number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
@@ -563,17 +580,24 @@ def speed_train_split():
         # print(speed_y_train_data)
 
 
-passenger_data_automated = RepeatedTimer(5, get_passenger_count_data)
-window_data_automated = RepeatedTimer(5, get_window_opening_data)
-ac_data_automated = RepeatedTimer(5, get_air_condition_data)
-pitch_data_automated = RepeatedTimer(5, get_pitch_data)
-rain_intensity_data_automated = RepeatedTimer(5, get_rain_intensity_data)
-visibility_data_automated = RepeatedTimer(5, get_visibility_data)
-driver_rush_data_automated = RepeatedTimer(5, get_driver_rush_data)
-speed_data_automated = RepeatedTimer(5, get_vehicle_speed_data)
+def automated_data_request():
+    get_passenger_count_data()
+    get_window_opening_data()
+    get_air_condition_data()
+    get_pitch_data()
+    get_rain_intensity_data()
+    get_visibility_data()
+    get_driver_rush_data()
+    get_vehicle_speed_data()
 
-ac_train_split_automated = RepeatedTimer(10, ac_control_train_split)
-speed_train_split_automated = RepeatedTimer(10, speed_train_split)
+
+def automated_train_split():
+    ac_control_train_split()
+    speed_train_split()
+
+
+data_request_automated = RepeatedTimer(5, automated_data_request)
+train_split_automated = RepeatedTimer(11, automated_train_split)
 
 if __name__ == '__main__':
     app.run(port=3001, host='0.0.0.0', debug=True)

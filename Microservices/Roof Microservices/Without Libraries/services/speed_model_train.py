@@ -5,7 +5,6 @@ from numpy import argmax
 import requests
 from flask import Flask
 from flask_caching import Cache
-import os
 import json
 from json import JSONEncoder
 
@@ -67,16 +66,16 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 y_predict_array = []
 
@@ -277,7 +276,7 @@ def get_roof_accuracy():
 
 def get_fog_accuracy():
     try:
-        req = requests.get("http://localhost:4002/speed/accuracy")
+        req = requests.get("http://192.168.1.112:4002/speed/accuracy")
         # req = requests.get("http://127.0.0.1:3102/fog/speed/get_fog_accuracy")
         # if req is "No data found":
         #  TODO: what is called for accuracy if no data i found

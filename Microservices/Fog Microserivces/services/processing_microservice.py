@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 import requests
-from flask import Flask, jsonify
+from flask import Flask
 from flask_caching import Cache
 
 import json
@@ -49,16 +49,16 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-config = {
-    "DEBUG": True,  # some Flask specific configs
-    "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
 
 app = Flask(__name__)
 
-app.config.from_mapping(config)
-cache = Cache(app)
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -84,7 +84,7 @@ speed_input = []
 
 # Sent Data To the Cloud
 
-# noinspection PyUnreachableCode
+
 @app.route('/fog/speed_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def speed_data():
@@ -104,6 +104,7 @@ def speed_data():
         return "Service unavailable"
     return encodedNumpyData
 
+
 @app.route('/fog/driver_rush_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def driver_rush_data():
@@ -117,11 +118,12 @@ def driver_rush_data():
     print("----amount of data = %s ------" % len(number_array))
 
     try:
-        req = requests.post("http://34.126.124.227:3101/cloud/add_fog_driver_rush_data", data=encodedNumpyData)
+        requests.post("http://34.126.124.227:3101/cloud/add_fog_driver_rush_data", data=encodedNumpyData)
         # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
+
 
 @app.route('/fog/visibility_data', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -142,6 +144,7 @@ def visibility_data():
         return "Service unavailable"
     return encodedNumpyData
 
+
 @app.route('/fog/rain_intensity_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def rain_intensity_data():
@@ -160,6 +163,7 @@ def rain_intensity_data():
         return "Service unavailable"
     return encodedNumpyData
 
+
 @app.route('/fog/pitch_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def pitch_data():
@@ -177,6 +181,7 @@ def pitch_data():
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
+
 
 @app.route('/fog/ac_data', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -197,6 +202,7 @@ def ac_data():
         return "Service unavailable"
     return encodedNumpyData
 
+
 @app.route('/fog/passenger_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def passenger_data():
@@ -214,6 +220,7 @@ def passenger_data():
         return "Service unavailable"
     return encodedNumpyData
 
+
 @app.route('/fog/window_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def window_data():
@@ -230,6 +237,7 @@ def window_data():
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
+
 
 # Speed REST Apis
 
@@ -559,6 +567,5 @@ speed_data_automated = RepeatedTimer(15, get_speed_data_roof)
 
 ac_train_split_automated = RepeatedTimer(20, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(20, speed_train_split)
-
 if __name__ == '__main__':
     app.run(port=4001, host='0.0.0.0', debug=True)
