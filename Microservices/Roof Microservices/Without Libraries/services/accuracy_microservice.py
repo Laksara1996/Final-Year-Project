@@ -128,7 +128,7 @@ def ac_control_accuracy():
     print("predict len", len(predict_data))
 
     ac_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
-    print('Accuracy: ', ac_accuracy)
+    print('AC Control Accuracy: ', ac_accuracy)
 
 
 def speed_accuracy_check():
@@ -140,7 +140,7 @@ def speed_accuracy_check():
     print("predict len", len(predict_data))
 
     speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
-    print('Accuracy: ', speed_accuracy)
+    print('Speed Accuracy: ', speed_accuracy)
 
 
 ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)

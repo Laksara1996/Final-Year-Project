@@ -48,7 +48,6 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-#
 # config = {
 #     "DEBUG": True,  # some Flask specific configs
 #     "CACHE_TYPE": "simple",  # Flask-Caching related configs
@@ -93,8 +92,8 @@ def speed_data():
     number_array = speed_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    print("----speed amount of data = %s ------" % len(number_array))
+    print("---roof speed_data %s seconds ---" % (time.time() - start_time))
+    print("----roof speed_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -107,8 +106,8 @@ def driver_rush_data():
     number_array = driver_rush_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    print("----amount of data = %s ------" % len(number_array))
+    print("---roof driver_rush_data  %s seconds ---" % (time.time() - start_time))
+    print("----roof driver_rush_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -121,8 +120,8 @@ def visibility_data():
     number_array = visibility_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    print("----amount of data = %s ------" % len(number_array))
+    print("---roof visibility_data %s seconds ---" % (time.time() - start_time))
+    print("----roof visibility_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -135,7 +134,8 @@ def rain_intensity_data():
     number_array = rain_intensity_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("---roof rain_intensity_data %s seconds ---" % (time.time() - start_time))
+    print("----roof rain_intensity_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -148,7 +148,8 @@ def pitch_data():
     number_array = pitch_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("---roof pitch_data %s seconds ---" % (time.time() - start_time))
+    print("----roof pitch_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -161,7 +162,8 @@ def ac_data():
     number_array = air_condition_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("---roof ac_data %s seconds ---" % (time.time() - start_time))
+    print("----roof ac_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -173,7 +175,8 @@ def passenger_data():
     number_array = passenger_count_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("---roof passenger_data %s seconds ---" % (time.time() - start_time))
+    print("----roof passenger_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -185,7 +188,8 @@ def window_data():
     number_array = window_opening_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
+    print("---roof window_data  %s seconds ---" % (time.time() - start_time))
+    print("----roof window_data amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -199,8 +203,8 @@ def speed_input_list():
     number_array = speed_input
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---input %s seconds ---" % (time.time() - start_time))
-    print("----input amount of data = %s ------" % len(number_array))
+    print("---speed input %s seconds ---" % (time.time() - start_time))
+    print("----speed input amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -213,8 +217,8 @@ def speed_x_train():
     number_array = speed_x_train_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---x_train %s seconds ---" % (time.time() - start_time))
-    print("----x_train amount of data = %s ------" % len(number_array))
+    print("---speed x_train %s seconds ---" % (time.time() - start_time))
+    print("----speed x_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -226,8 +230,8 @@ def speed_x_test():
     number_array = speed_x_test_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---x_test %s seconds ---" % (time.time() - start_time))
-    print("----x_test_amount of data = %s ------" % len(number_array))
+    print("---speed x_test %s seconds ---" % (time.time() - start_time))
+    print("----speed x_test_amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -239,8 +243,8 @@ def speed_y_test():
     number_array = speed_y_test_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_test %s seconds ---" % (time.time() - start_time))
-    print("----y_test_amount of data = %s ------" % len(number_array))
+    print("---speed y_test %s seconds ---" % (time.time() - start_time))
+    print("----speed y_test_amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -252,8 +256,8 @@ def speed_y_train():
     number_array = speed_y_train_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    print("----y_train amount of data = %s ------" % len(number_array))
+    print("---speed y_train %s seconds ---" % (time.time() - start_time))
+    print("----speed x_test_amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -268,8 +272,8 @@ def ac_control_input_list():
     number_array = ac_input
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---input %s seconds ---" % (time.time() - start_time))
-    print("----input amount of data = %s ------" % len(number_array))
+    print("---ac_control input %s seconds ---" % (time.time() - start_time))
+    print("----ac_control input amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -282,8 +286,8 @@ def ac_control_x_train():
     number_array = ac_x_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---x_train %s seconds ---" % (time.time() - start_time))
-    print("----x_train amount of data = %s ------" % len(number_array))
+    print("---ac_control x_train %s seconds ---" % (time.time() - start_time))
+    print("----ac_control x_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -296,8 +300,8 @@ def ac_control_x_test():
     number_array = ac_x_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---x_test %s seconds ---" % (time.time() - start_time))
-    print("----x_test amount of data = %s ------" % len(number_array))
+    print("---ac_control x_test %s seconds ---" % (time.time() - start_time))
+    print("----ac_control x_test amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -310,8 +314,8 @@ def ac_control_y_test():
     number_array = ac_y_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_test %s seconds ---" % (time.time() - start_time))
-    print("----y_test amount of data = %s ------" % len(number_array))
+    print("---x_test y_test %s seconds ---" % (time.time() - start_time))
+    print("----ac_control y_test amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -324,201 +328,17 @@ def ac_control_y_train():
     number_array = ac_y_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---y_train %s seconds ---" % (time.time() - start_time))
-    print("----y_train amount of data = %s ------" % len(number_array))
+    print("---ac_control y_train %s seconds ---" % (time.time() - start_time))
+    print("----ac_control y_train amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
 # Getting Data From Testbed
 
-# def get_pitch_data():
-#     global pitch_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/pitch")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 pitch_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_rain_intensity_data():
-#     global rain_intensity_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/rainIntensity")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 rain_intensity_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_visibility_data():
-#     global visibility_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/visibility")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 visibility_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_driver_rush_data():
-#     global driver_rush_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/driver_rush")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 driver_rush_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_vehicle_speed_data():
-#     global speed_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/vehicleSpeed")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 speed_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_air_condition_data():
-#     global air_condition_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/airConditionStatus")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 air_condition_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_passenger_count_data():
-#     global passenger_count_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/passengerCount")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 passenger_count_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-#
-#
-# def get_window_opening_data():
-#     global window_opening_data_array
-#     try:
-#         req = requests.get("http://192.168.1.102:5000//data/windowOpening")
-#         req_text = req.text[1:-1]
-#         number = ""
-#         number_array = []
-#         for i in req_text:
-#             if i == ',':
-#                 number_array.append(number)
-#                 window_opening_data_array.append(float(number))
-#                 number = ""
-#                 continue
-#             number = number + i
-#         if number != "":
-#             number_array.append(number)
-#         number_array = [float(i) for i in number_array]
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return number_array
-
-
 def get_pitch_data():
     global pitch_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/pitch")
+        req = requests.get("http://192.168.1.112:5000//data/pitch")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -539,7 +359,7 @@ def get_pitch_data():
 def get_rain_intensity_data():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/rainIntensity")
+        req = requests.get("http://192.168.1.112:5000//data/rainIntensity")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -560,7 +380,7 @@ def get_rain_intensity_data():
 def get_visibility_data():
     global visibility_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/visibility")
+        req = requests.get("http://192.168.1.112:5000//data/visibility")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -581,7 +401,7 @@ def get_visibility_data():
 def get_driver_rush_data():
     global driver_rush_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/driver_rush")
+        req = requests.get("http://192.168.1.112:5000//data/driver_rush")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -602,7 +422,7 @@ def get_driver_rush_data():
 def get_vehicle_speed_data():
     global speed_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/vehicleSpeed")
+        req = requests.get("http://192.168.1.112:5000//data/vehicleSpeed")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -624,7 +444,7 @@ def get_vehicle_speed_data():
 def get_air_condition_data():
     global air_condition_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/airConditionStatus")
+        req = requests.get("http://192.168.1.112:5000//data/airConditionStatus")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -645,7 +465,7 @@ def get_air_condition_data():
 def get_passenger_count_data():
     global passenger_count_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/passengerCount")
+        req = requests.get("http://192.168.1.112:5000//data/passengerCount")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -666,7 +486,7 @@ def get_passenger_count_data():
 def get_window_opening_data():
     global window_opening_data_array
     try:
-        req = requests.get("http://192.168.1.102:5000//data/windowOpening")
+        req = requests.get("http://192.168.1.112:5000//data/windowOpening")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -682,7 +502,6 @@ def get_window_opening_data():
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     # return number_array
-
 
 
 # AC Train Split
@@ -770,4 +589,4 @@ data_request_automated = RepeatedTimer(5, automated_data_request)
 train_split_automated = RepeatedTimer(11, automated_train_split)
 
 if __name__ == '__main__':
-    app.run(port=3001, host='0.0.0.0', debug=True)
+    app.run(port=3001, host='0.0.0.0')

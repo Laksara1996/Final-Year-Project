@@ -5,6 +5,7 @@ from numpy import argmax
 import requests
 from flask import Flask
 from flask_caching import Cache
+import os
 
 import json
 from json import JSONEncoder
@@ -67,7 +68,6 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-#
 # config = {
 #     "DEBUG": True,  # some Flask specific configs
 #     "CACHE_TYPE": "simple",  # Flask-Caching related configs
@@ -89,8 +89,8 @@ def predict_data():
     number_array = predict_output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---predict_data %s seconds ---" % (time.time() - start_time))
-    print("----predict amount of data = %s ------" % len(number_array))
+    print("---ac control_predict_data %s seconds ---" % (time.time() - start_time))
+    print("----ac control_predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -101,8 +101,8 @@ def output_data():
     number_array = output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
-    print("----output amount of data = %s ------" % len(number_array))
+    print("---ac control output_data %s seconds ---" % (time.time() - start_time))
+    print("----ac control output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -169,7 +169,6 @@ def get_input_data():
 def get_fog_wh():
     try:
         req = requests.get("http://192.168.1.112:4003/fog/wh")
-        # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -182,7 +181,6 @@ def get_fog_wh():
 def get_fog_bh():
     try:
         req = requests.get("http://192.168.1.112:4003/fog/bh")
-        # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -195,7 +193,6 @@ def get_fog_bh():
 def get_fog_wo():
     try:
         req = requests.get("http://192.168.1.112:4003/fog/wo")
-        # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -208,7 +205,6 @@ def get_fog_wo():
 def get_fog_bo():
     try:
         req = requests.get("http://192.168.1.112:4003/fog/bo")
-        # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -277,14 +273,9 @@ def get_roof_accuracy():
     return accuracy
 
 
-# Get fog accuracy
 def get_fog_accuracy():
     try:
         req = requests.get("http://192.168.1.112:4002/ac_control/accuracy")
-
-        # req = requests.get("http://127.0.0.1:3101/fog/ac_control/get_fog_accuracy")
-        # if req is "No data found":
-        # return
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -292,7 +283,6 @@ def get_fog_accuracy():
     return accuracy
 
 
-# Get cloud accuracy
 def get_cloud_accuracy():
     try:
         req = requests.get("http://34.126.124.227:5002/ac_control/accuracy")
@@ -419,4 +409,4 @@ def output():
 model_train_automated = RepeatedTimer(15, model_train)
 
 if __name__ == '__main__':
-    app.run(port=3003, host='0.0.0.0', debug=True)
+    app.run(port=3003, host='0.0.0.0')

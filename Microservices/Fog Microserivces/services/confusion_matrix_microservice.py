@@ -11,7 +11,9 @@ from json import JSONEncoder
 
 import time
 import datetime
+
 a = datetime.datetime.now()
+
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -115,8 +117,9 @@ def speed_confusion_matrix_function():
     print(confusion_matrix_value)
     # return confusion_matrix_value
 
+
 b = datetime.datetime.now()
 print("Time:")
-print(b-a)
+print(b - a)
 if __name__ == '__main__':
     app.run(port=4004, host='0.0.0.0', debug=True)
