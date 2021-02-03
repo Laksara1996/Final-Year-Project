@@ -331,27 +331,209 @@ def ac_control_y_train():
 
 # Getting Data From Testbed
 
+# def get_pitch_data():
+#     global pitch_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/pitch")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 pitch_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_rain_intensity_data():
+#     global rain_intensity_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/rainIntensity")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 rain_intensity_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_visibility_data():
+#     global visibility_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/visibility")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 visibility_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_driver_rush_data():
+#     global driver_rush_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/driver_rush")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 driver_rush_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_vehicle_speed_data():
+#     global speed_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/vehicleSpeed")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 speed_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_air_condition_data():
+#     global air_condition_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/airConditionStatus")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 air_condition_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_passenger_count_data():
+#     global passenger_count_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/passengerCount")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 passenger_count_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+#
+#
+# def get_window_opening_data():
+#     global window_opening_data_array
+#     try:
+#         req = requests.get("http://192.168.1.102:5000//data/windowOpening")
+#         req_text = req.text[1:-1]
+#         number = ""
+#         number_array = []
+#         for i in req_text:
+#             if i == ',':
+#                 number_array.append(number)
+#                 window_opening_data_array.append(float(number))
+#                 number = ""
+#                 continue
+#             number = number + i
+#         if number != "":
+#             number_array.append(number)
+#         number_array = [float(i) for i in number_array]
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return number_array
+
+
 def get_pitch_data():
     global pitch_data_array
     try:
         req = requests.get("http://192.168.1.102:5000//data/pitch")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 pitch_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_rain_intensity_data():
@@ -360,21 +542,19 @@ def get_rain_intensity_data():
         req = requests.get("http://192.168.1.102:5000//data/rainIntensity")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 rain_intensity_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_visibility_data():
@@ -383,21 +563,19 @@ def get_visibility_data():
         req = requests.get("http://192.168.1.102:5000//data/visibility")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 visibility_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_driver_rush_data():
@@ -406,21 +584,19 @@ def get_driver_rush_data():
         req = requests.get("http://192.168.1.102:5000//data/driver_rush")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 driver_rush_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_vehicle_speed_data():
@@ -429,21 +605,20 @@ def get_vehicle_speed_data():
         req = requests.get("http://192.168.1.102:5000//data/vehicleSpeed")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 speed_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # print(speed_data_array)
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_air_condition_data():
@@ -452,21 +627,19 @@ def get_air_condition_data():
         req = requests.get("http://192.168.1.102:5000//data/airConditionStatus")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 air_condition_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_passenger_count_data():
@@ -475,21 +648,19 @@ def get_passenger_count_data():
         req = requests.get("http://192.168.1.102:5000//data/passengerCount")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 passenger_count_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
 
 
 def get_window_opening_data():
@@ -498,21 +669,20 @@ def get_window_opening_data():
         req = requests.get("http://192.168.1.102:5000//data/windowOpening")
         req_text = req.text[1:-1]
         number = ""
-        number_array = []
+        # number_array = []
         for i in req_text:
             if i == ',':
-                number_array.append(number)
+                # number_array.append(number)
                 window_opening_data_array.append(float(number))
                 number = ""
                 continue
             number = number + i
-        if number != "":
-            number_array.append(number)
-        number_array = [float(i) for i in number_array]
+        # number_array = [float(i) for i in number_array]
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    return number_array
+    # return number_array
+
 
 
 # AC Train Split
