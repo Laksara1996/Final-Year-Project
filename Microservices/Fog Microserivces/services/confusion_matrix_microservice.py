@@ -29,7 +29,7 @@ app = Flask(__name__)
 def ac_status_confuion():
     start_time = time.time()
     ac_control_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- ac control confusion_matrix %s seconds ---" % (time.time() - start_time))
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
@@ -38,7 +38,7 @@ def ac_status_confuion():
 def speed_confuion():
     start_time = time.time()
     speed_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    print("---speed confusion_matrix %s seconds ---" % (time.time() - start_time))
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
@@ -117,9 +117,9 @@ def speed_confusion_matrix_function():
     print(confusion_matrix_value)
     # return confusion_matrix_value
 
-
 b = datetime.datetime.now()
-print("Time:")
-print(b - a)
+print("Execution Time:")
+print(b-a)
+
 if __name__ == '__main__':
-    app.run(port=4004, host='0.0.0.0', debug=True)
+    app.run(port=4004,host='0.0.0.0', debug=True)

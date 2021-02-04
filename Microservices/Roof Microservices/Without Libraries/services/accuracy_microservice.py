@@ -10,6 +10,9 @@ from json import JSONEncoder
 
 import time
 from threading import Timer
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -145,6 +148,11 @@ def speed_accuracy_check():
 
 ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)
 speed_accuracy_automated = RepeatedTimer(25, speed_accuracy_check)
+
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b-a)
 
 if __name__ == '__main__':
     app.run(port=3002, host='0.0.0.0', debug=True)

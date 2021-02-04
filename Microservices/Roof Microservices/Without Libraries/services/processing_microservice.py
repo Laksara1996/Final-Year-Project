@@ -13,6 +13,9 @@ import json
 from json import JSONEncoder
 
 import time
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -587,6 +590,11 @@ def automated_train_split():
 
 data_request_automated = RepeatedTimer(5, automated_data_request)
 train_split_automated = RepeatedTimer(11, automated_train_split)
+
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b-a)
 
 if __name__ == '__main__':
     app.run(port=3001, host='0.0.0.0')

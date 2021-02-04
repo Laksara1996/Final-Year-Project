@@ -5,12 +5,16 @@ from numpy import argmax
 import requests
 from flask import Flask
 from flask_caching import Cache
+import os
 
 import json
 from json import JSONEncoder
 
 import time
 from threading import Timer
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -98,8 +102,8 @@ def predict_data():
     number_array = predict_output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---predict_data %s seconds ---" % (time.time() - start_time))
-    print("----predict amount of data = %s ------" % len(number_array))
+    print("---speed predict_data %s seconds ---" % (time.time() - start_time))
+    print("----speed predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -110,8 +114,8 @@ def output_data():
     number_array = output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
-    print("----predict amount of data = %s ------" % len(number_array))
+    print("---speed output_data %s seconds ---" % (time.time() - start_time))
+    print("----speed output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -124,7 +128,8 @@ def wh_data():
     number_array = wh
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("---speed fog wh %s seconds ---" % (time.time() - start_time))
+    print("----speed fog wh amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -137,7 +142,8 @@ def bh_data():
     number_array = bh
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("---speed fog bh %s seconds ---" % (time.time() - start_time))
+    print("----speed fog bh amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -150,7 +156,8 @@ def wo_data():
     number_array = wo
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("---speed fog wo %s seconds ---" % (time.time() - start_time))
+    print("----speed fog wo amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -163,7 +170,8 @@ def bo_data():
     number_array = bo
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
+    print("---speed fog bo %s seconds ---" % (time.time() - start_time))
+    print("----speed fog bo amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -405,6 +413,10 @@ def output():
 
 
 model_train_automated = RepeatedTimer(25, model_train)
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b-a)
 
 if __name__ == '__main__':
     app.run(port=4201, host='0.0.0.0')

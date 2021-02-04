@@ -10,6 +10,9 @@ import json
 from json import JSONEncoder
 
 import time
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -109,6 +112,10 @@ def speed_classification_report_function():
 
     print(classification_report(y_test[:len(predict_data)], predict_data))
 
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b - a)
 
 if __name__ == '__main__':
     app.run(port=4005, host='0.0.0.0', debug=True)

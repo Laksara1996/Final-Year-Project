@@ -12,6 +12,9 @@ from json import JSONEncoder
 
 import time
 from threading import Timer
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -412,6 +415,10 @@ def output():
 
 
 model_train_automated = RepeatedTimer(15, model_train)
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b-a)
 
 if __name__ == '__main__':
     app.run(port=3201, host='0.0.0.0')

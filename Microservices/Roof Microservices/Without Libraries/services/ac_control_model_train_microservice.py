@@ -12,6 +12,9 @@ from json import JSONEncoder
 
 import time
 from threading import Timer
+import datetime
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -366,7 +369,7 @@ def model_train():
 
         roof_accuracy = get_roof_accuracy()
         fog_accuracy = get_fog_accuracy()
-        cloud_accuracy = get_cloud_accuracy()
+        # cloud_accuracy = get_cloud_accuracy()
 
         if fog_accuracy > roof_accuracy:
             wh = get_fog_wh()
@@ -374,11 +377,11 @@ def model_train():
             wo = get_fog_wo()
             bo = get_fog_bo()
 
-            if cloud_accuracy > fog_accuracy:
-                wh = get_cloud_wh()
-                bh = get_cloud_bh()
-                wo = get_cloud_wo()
-                bo = get_cloud_bo()
+            # if cloud_accuracy > fog_accuracy:
+            #     wh = get_cloud_wh()
+            #     bh = get_cloud_bh()
+            #     wo = get_cloud_wo()
+            #     bo = get_cloud_bo()
 
             # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
@@ -407,6 +410,10 @@ def output():
 
 
 model_train_automated = RepeatedTimer(15, model_train)
+
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b-a)
 
 if __name__ == '__main__':
     app.run(port=3003, host='0.0.0.0')
