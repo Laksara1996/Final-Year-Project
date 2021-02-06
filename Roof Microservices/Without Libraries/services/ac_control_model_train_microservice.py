@@ -276,7 +276,7 @@ def get_fog_accuracy():
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
-        return "Service unavailable"
+        return 0.0
     return accuracy
 
 
@@ -286,7 +286,7 @@ def get_cloud_accuracy():
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
-        return "Service unavailable"
+        return 0.0
     return accuracy
 
 
@@ -366,16 +366,17 @@ def model_train():
         cloud_accuracy = get_cloud_accuracy()
 
         if fog_accuracy > roof_accuracy:
-            wh = get_fog_wh()
-            bh = get_fog_bh()
-            wo = get_fog_wo()
-            bo = get_fog_bo()
 
             if cloud_accuracy > fog_accuracy:
                 wh = get_cloud_wh()
                 bh = get_cloud_bh()
                 wo = get_cloud_wo()
                 bo = get_cloud_bo()
+            else:
+                wh = get_fog_wh()
+                bh = get_fog_bh()
+                wo = get_fog_wo()
+                bo = get_fog_bo()
 
             # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)

@@ -124,11 +124,11 @@ def ac_control_accuracy():
     y_test = get_ac_control_y_test_data()
     predict_data = get_ac_control_predict_data()
 
-    print("y_test len", len(y_test))
-    print("predict len", len(predict_data))
+    # print("y_test len", len(y_test))
+    # print("predict len", len(predict_data))
 
     ac_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
-    print('Accuracy: ', ac_accuracy)
+    print('Accuracy ac: ', ac_accuracy)
 
 
 def speed_accuracy_check():
@@ -136,11 +136,11 @@ def speed_accuracy_check():
     y_test = get_speed_y_test_data()
     predict_data = get_speed_predict_data()
 
-    print("y_test len", len(y_test))
-    print("predict len", len(predict_data))
+    # print("y_test len", len(y_test))
+    # print("predict len", len(predict_data))
 
     speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
-    print('Accuracy: ', speed_accuracy)
+    print('Accuracy speed: ', speed_accuracy)
 
 
 ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)

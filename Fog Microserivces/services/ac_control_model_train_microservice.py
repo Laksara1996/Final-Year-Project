@@ -290,7 +290,7 @@ def get_cloud_accuracy():
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
-        return "Service unavailable"
+        return 0.0
     return accuracy
 
 
