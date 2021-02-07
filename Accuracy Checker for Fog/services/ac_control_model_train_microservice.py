@@ -13,10 +13,6 @@ from json import JSONEncoder
 import time
 from threading import Timer
 
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -77,14 +73,6 @@ def predict(wh, bh, wo, bo, X_test):
 #     "CACHE_TYPE": "simple",  # Flask-Caching related configs
 #     "CACHE_DEFAULT_TIMEOUT": 300
 # }
-
-cred = credentials.Certificate(
-    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
-
-doc_ref = db.collection('Global_Accuracy').document('test')
 
 app = Flask(__name__)
 
@@ -180,7 +168,7 @@ def bo_data():
 
 def get_x_train_data():
     try:
-        req = requests.get("http://localhost:4001/ac_control/x_train")
+        req = requests.get("http://localhost:4101/ac_control/x_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -192,7 +180,7 @@ def get_x_train_data():
 
 def get_y_train_data():
     try:
-        req = requests.get("http://localhost:4001/ac_control/y_train")
+        req = requests.get("http://localhost:4101/ac_control/y_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -204,7 +192,7 @@ def get_y_train_data():
 
 def get_x_test_data():
     try:
-        req = requests.get("http://localhost:4001/ac_control/x_test")
+        req = requests.get("http://localhost:4101/ac_control/x_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -216,7 +204,7 @@ def get_x_test_data():
 
 def get_y_test_data():
     try:
-        req = requests.get("http://localhost:4001/ac_control/y_test")
+        req = requests.get("http://localhost:4101/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -226,79 +214,84 @@ def get_y_test_data():
     return finalNumpyArray
 
 
-def get_cloud_wh():
-    global wh
-
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        return result["speed_wh"]
-    else:
-        return wh
-
-
-def get_cloud_bh():
-    global bh
-
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        return result["speed_bh"]
-    else:
-        return bh
-
-
-def get_cloud_wo():
-    global wo
-
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        return result["speed_wo"]
-    else:
-        return wo
-
-
-def get_cloud_bo():
-    global bo
-
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        return result["speed_bo"]
-    else:
-        return bo
-
-
-def get_input_data():
-    try:
-        req = requests.get("http://localhost:4001/ac_control/input")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_global_fog_accuracy():
-    try:
-        req = requests.get("http://localhost:4500/ac_control/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
-
-
-def get_cloud_accuracy():
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        return result["ac_accuracy"]
-    else:
-        return 0.0
+# def get_cloud_wh():
+#     try:
+#         req = requests.get("http://localhost:5003/cloud/wh")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
+#
+#
+# def get_cloud_bh():
+#     try:
+#         req = requests.get("http://localhost:5003/cloud/bh")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
+#
+#
+# def get_cloud_wo():
+#     try:
+#         req = requests.get("http://localhost:5003/cloud/wo")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
+#
+#
+# def get_cloud_bo():
+#     try:
+#         req = requests.get("http://localhost:5003/cloud/bo")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
+#
+#
+# def get_input_data():
+#     try:
+#         req = requests.get("http://localhost:4001/ac_control/input")
+#         decodedArrays = json.loads(req.text)
+#
+#         finalNumpyArray = np.asarray(decodedArrays["array"])
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return finalNumpyArray
+#
+#
+# def get_fog_accuracy():
+#     try:
+#         req = requests.get("http://localhost:4002/ac_control/accuracy")
+#         accuracy = float(req.text)
+#
+#     except requests.exceptions.ConnectionError:
+#         return "Service unavailable"
+#     return accuracy
+#
+#
+# def get_cloud_accuracy():
+#     try:
+#         req = requests.get("http://localhost:5002/ac_control/accuracy")
+#         accuracy = float(req.text)
+#
+#     except requests.exceptions.ConnectionError:
+#         return 0.0
+#     return accuracy
 
 
 def model_train():
@@ -371,14 +364,14 @@ def model_train():
 
         # End of for loop (End of training phase)
 
-        cloud_accuracy = get_cloud_accuracy()
-        fog_accuracy = get_global_fog_accuracy()
-
-        if cloud_accuracy > fog_accuracy:
-            wh = get_cloud_wh()
-            bh = get_cloud_bh()
-            wo = get_cloud_wo()
-            bo = get_cloud_bo()
+        # cloud_accuracy = get_cloud_accuracy()
+        # fog_accuracy = get_fog_accuracy()
+        #
+        # if cloud_accuracy > fog_accuracy:
+        #     wh = get_cloud_wh()
+        #     bh = get_cloud_bh()
+        #     wo = get_cloud_wo()
+        #     bo = get_cloud_bo()
 
         # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
@@ -409,4 +402,4 @@ def output():
 model_train_automated = RepeatedTimer(25, model_train)
 
 if __name__ == '__main__':
-    app.run(port=4003)
+    app.run(port=4103)

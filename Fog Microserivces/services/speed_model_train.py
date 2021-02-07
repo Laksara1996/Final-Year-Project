@@ -13,6 +13,10 @@ from json import JSONEncoder
 import time
 from threading import Timer
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -73,6 +77,14 @@ def predict(wh, bh, wo, bo, X_test):
 #     "CACHE_TYPE": "simple",  # Flask-Caching related configs
 #     "CACHE_DEFAULT_TIMEOUT": 300
 # }
+
+cred = credentials.Certificate(
+    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+doc_ref = db.collection('Global_Accuracy').document('test')
 
 app = Flask(__name__)
 
@@ -227,56 +239,52 @@ def get_input_data():
 
 
 def get_cloud_wh():
-    try:
-        req = requests.get("http://localhost:5201/cloud/wh")
-        decodedArrays = json.loads(req.text)
+    global wh
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
+    doc = doc_ref.get()
+    if doc.exists:
+        result = doc.to_dict()
+        return result["speed_wh"]
+    else:
+        return wh
 
 
 def get_cloud_bh():
-    try:
-        req = requests.get("http://localhost:5201/cloud/bh")
-        decodedArrays = json.loads(req.text)
+    global bh
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
+    doc = doc_ref.get()
+    if doc.exists:
+        result = doc.to_dict()
+        return result["speed_bh"]
+    else:
+        return bh
 
 
 def get_cloud_wo():
-    try:
-        req = requests.get("http://localhost:5201/cloud/wo")
-        decodedArrays = json.loads(req.text)
+    global wo
 
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
+    doc = doc_ref.get()
+    if doc.exists:
+        result = doc.to_dict()
+        return result["speed_wo"]
+    else:
+        return wo
 
 
 def get_cloud_bo():
+    global bo
+
+    doc = doc_ref.get()
+    if doc.exists:
+        result = doc.to_dict()
+        return result["speed_bo"]
+    else:
+        return bo
+
+
+def get_global_fog_accuracy():
     try:
-        req = requests.get("http://localhost:5201/cloud/bo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_fog_accuracy():
-    try:
-        req = requests.get("http://localhost:4002/speed/accuracy")
+        req = requests.get("http://localhost:4500/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -285,13 +293,12 @@ def get_fog_accuracy():
 
 
 def get_cloud_accuracy():
-    try:
-        req = requests.get("http://localhost:5002/speed/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
+    doc = doc_ref.get()
+    if doc.exists:
+        result = doc.to_dict()
+        return result["speed_accuracy"]
+    else:
         return 0.0
-    return accuracy
 
 
 def model_train():
@@ -369,7 +376,7 @@ def model_train():
         # End of for loop (End of training phase)
 
         cloud_accuracy = get_cloud_accuracy()
-        fog_accuracy = get_fog_accuracy()
+        fog_accuracy = get_global_fog_accuracy()
 
         if cloud_accuracy > fog_accuracy:
             wh = get_cloud_wh()

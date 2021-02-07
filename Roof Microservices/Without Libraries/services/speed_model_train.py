@@ -272,7 +272,7 @@ def get_roof_accuracy():
 
 def get_fog_accuracy():
     try:
-        req = requests.get("http://localhost:4002/speed/accuracy")
+        req = requests.get("http://localhost:4500/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
