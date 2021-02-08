@@ -324,7 +324,17 @@ def get_pitch_data_fog():
     return finalNumpyArray
 
 
+def get_performance_data_fog():
+    try:
+        req = requests.get("http://192.168.1.112:4006/roof/performance")
+        performance_data = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return performance_data
+
 # AC Train Split
+
 
 def ac_control_train_split():
     global air_condition_data_array, window_opening_data_array, passenger_count_data_array, ac_x_train, ac_x_test, \
@@ -403,15 +413,27 @@ def speed_train_split():
 #         'air_condition_status': air_condition_data_array,
 #     })
 
+def get_performance_fog():
+    performance_data = get_performance_data_fog()
+    if performance_data == 0:
+        automated_functions()
+    else:
+        return "service unavailable"
 
-passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_fog)
-window_data_automated = RepeatedTimer(60, get_window_opening_data_fog)
-ac_data_automated = RepeatedTimer(60, get_air_condition_data_fog)
-pitch_data_automated = RepeatedTimer(60, get_pitch_data_fog)
-rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_fog)
-visibility_data_automated = RepeatedTimer(60, get_visibility_data_fog)
-driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_fog)
-speed_data_automated = RepeatedTimer(60, get_speed_data_fog)
+
+performance_automated = RepeatedTimer(1, get_performance_fog)
+
+
+def automated_functions():
+    passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_fog)
+    window_data_automated = RepeatedTimer(60, get_window_opening_data_fog)
+    ac_data_automated = RepeatedTimer(60, get_air_condition_data_fog)
+    pitch_data_automated = RepeatedTimer(60, get_pitch_data_fog)
+    rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_fog)
+    visibility_data_automated = RepeatedTimer(60, get_visibility_data_fog)
+    driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_fog)
+    speed_data_automated = RepeatedTimer(60, get_speed_data_fog)
+
 
 ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(70, speed_train_split)

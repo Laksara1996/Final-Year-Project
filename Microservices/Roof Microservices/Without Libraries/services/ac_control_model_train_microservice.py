@@ -17,6 +17,7 @@ import datetime
 a = datetime.datetime.now()
 
 
+
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):

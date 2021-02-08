@@ -4,7 +4,6 @@ from numpy import argmax
 
 import requests
 from flask import Flask
-from flask_caching import Cache
 
 import json
 from json import JSONEncoder

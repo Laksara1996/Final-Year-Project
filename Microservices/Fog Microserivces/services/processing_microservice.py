@@ -489,6 +489,16 @@ def get_pitch_data_roof():
     return finalNumpyArray
 
 
+def get_performance_data_roof():
+    try:
+        req = requests.get("http://192.168.1.102:3006/roof/performance")
+        performance = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return performance
+
+
 # AC Train Split
 
 def ac_control_train_split():
@@ -552,21 +562,34 @@ def speed_train_split():
                                                                                                         random_state=0)
 
 
-passenger_data_automated = RepeatedTimer(15, get_passenger_count_data_roof)
-window_data_automated = RepeatedTimer(15, get_window_opening_data_roof)
-ac_data_automated = RepeatedTimer(15, get_air_condition_data_roof)
-pitch_data_automated = RepeatedTimer(15, get_pitch_data_roof)
-rain_intensity_data_automated = RepeatedTimer(15, get_rain_intensity_data_roof)
-visibility_data_automated = RepeatedTimer(15, get_visibility_data_roof)
-driver_rush_data_automated = RepeatedTimer(15, get_driver_rush_data_roof)
-speed_data_automated = RepeatedTimer(15, get_speed_data_roof)
+def get_performance_roof():
+    performance_data = get_performance_data_roof()
+    if performance_data == 1:
+        automated_functions()
+    else:
+        return "service unavailable"
+
+
+performance_automated = RepeatedTimer(1, get_performance_roof)
+
+
+def automated_functions():
+    passenger_data_automated = RepeatedTimer(15, get_passenger_count_data_roof)
+    window_data_automated = RepeatedTimer(15, get_window_opening_data_roof)
+    ac_data_automated = RepeatedTimer(15, get_air_condition_data_roof)
+    pitch_data_automated = RepeatedTimer(15, get_pitch_data_roof)
+    rain_intensity_data_automated = RepeatedTimer(15, get_rain_intensity_data_roof)
+    visibility_data_automated = RepeatedTimer(15, get_visibility_data_roof)
+    driver_rush_data_automated = RepeatedTimer(15, get_driver_rush_data_roof)
+    speed_data_automated = RepeatedTimer(15, get_speed_data_roof)
+
 
 ac_train_split_automated = RepeatedTimer(20, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(20, speed_train_split)
 
 b = datetime.datetime.now()
 print("Execution Time:")
-print(b-a)
+print(b - a)
 
 if __name__ == '__main__':
     app.run(port=4001, host='0.0.0.0')
