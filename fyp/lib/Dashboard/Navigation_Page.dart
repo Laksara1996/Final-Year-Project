@@ -1,8 +1,6 @@
-import 'dart:math' show cos, sqrt, asin;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import 'package:flutter_maps/flutter_maps.dart'; // Stores the Google Maps API Key
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,8 +12,8 @@ class NavigationClass extends StatefulWidget {
 
 class _NavigationClassState extends State<NavigationClass> {
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
-  GoogleMapController mapController;
 
+  GoogleMapController mapController;
   final Geolocator _geolocator = Geolocator();
 
   Position _currentPosition;
@@ -23,6 +21,7 @@ class _NavigationClassState extends State<NavigationClass> {
 
   final startAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
+  final fuelController = TextEditingController();
 
   String _startAddress = '';
   String _destinationAddress = '';
@@ -221,10 +220,17 @@ class _NavigationClassState extends State<NavigationClass> {
         //   destinationCoordinates.latitude,
         //   destinationCoordinates.longitude,
         // );
+        //
+        // // _placeDistance = distanceInMeters.toStringAsFixed(2);
+        //
+        // print("distance");
+        // print(distanceInMeters);
 
         await _createPolylines(startCoordinates, destinationCoordinates);
 
         double totalDistance = 0.0;
+
+        print(polylineCoordinates.length);
 
         // Calculating the total distance by adding the distance
         // between small segments
@@ -239,7 +245,7 @@ class _NavigationClassState extends State<NavigationClass> {
 
         setState(() {
           _placeDistance = totalDistance.toStringAsFixed(2);
-          print('DISTANCE: $_placeDistance km');
+          print('DISTANCE: $totalDistance km');
         });
 
         return true;
@@ -253,6 +259,10 @@ class _NavigationClassState extends State<NavigationClass> {
   // Formula for calculating distance between two coordinates
   // https://stackoverflow.com/a/54138876/11910277
   double _coordinateDistance(lat1, lon1, lat2, lon2) {
+    print(lat1);
+    print(lon1);
+    print(lat2);
+    print(lon2);
     var p = 0.017453292519943295;
     var c = cos;
     var a = 0.5 -
@@ -265,11 +275,14 @@ class _NavigationClassState extends State<NavigationClass> {
   _createPolylines(Position start, Position destination) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyCsDTVRBo_ADFcvwjy7jGLeTxHbe1S48Xc", // Google Maps API Key
+      "AIzaSyBGL3EY9siE0t-01NWLISlTPMeERZ1DQag", // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
       PointLatLng(destination.latitude, destination.longitude),
       travelMode: TravelMode.transit,
     );
+
+    print("result");
+    print(result.points);
 
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
@@ -295,29 +308,30 @@ class _NavigationClassState extends State<NavigationClass> {
 
   @override
   Widget build(BuildContext context) {
+    // Determining the screen width & height
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
     return Container(
       height: height,
       width: width,
       child: Scaffold(
-        key: _scaffoldKey,
         body: Stack(
           children: <Widget>[
-            // Map View
             GoogleMap(
-              markers: markers != null ? Set<Marker>.from(markers) : null,
               initialCameraPosition: _initialLocation,
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
               mapType: MapType.normal,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
+              markers: markers != null ? Set<Marker>.from(markers) : null,
               polylines: Set<Polyline>.of(polylines.values),
               onMapCreated: (GoogleMapController controller) {
                 mapController = controller;
               },
             ),
+
             // Show zoom buttons
             SafeArea(
               child: Padding(
@@ -366,8 +380,43 @@ class _NavigationClassState extends State<NavigationClass> {
                 ),
               ),
             ),
-            // Show the place input fields & button for
-            // showing the route
+
+            // Design for current location button
+            SafeArea(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                  child: ClipOval(
+                    child: Material(
+                      color: Colors.orange[100], // button color
+                      child: InkWell(
+                        splashColor: Colors.orange, // inkwell color
+                        child: SizedBox(
+                          width: 56,
+                          height: 56,
+                          child: Icon(Icons.my_location),
+                        ),
+                        onTap: () {
+                          mapController.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: LatLng(
+                                  _currentPosition.latitude,
+                                  _currentPosition.longitude,
+                                ),
+                                zoom: 18.0,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
             SafeArea(
               child: Align(
                 alignment: Alignment.topCenter,
@@ -423,6 +472,15 @@ class _NavigationClassState extends State<NavigationClass> {
                                   _destinationAddress = value;
                                 });
                               }),
+                          SizedBox(height: 10),
+                          _textField(
+                            label: 'Available Fuel',
+                            hint: 'Amount of Fuel',
+                            initialValue: '',
+                            prefixIcon: Icon(Icons.backpack_rounded),
+                            controller: fuelController,
+                            width: width,
+                          ),
                           SizedBox(height: 10),
                           Visibility(
                             visible: _placeDistance == null ? false : true,
@@ -483,41 +541,6 @@ class _NavigationClassState extends State<NavigationClass> {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            // Show current location button
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-                  child: ClipOval(
-                    child: Material(
-                      color: Colors.orange[100], // button color
-                      child: InkWell(
-                        splashColor: Colors.orange, // inkwell color
-                        child: SizedBox(
-                          width: 56,
-                          height: 56,
-                          child: Icon(Icons.my_location),
-                        ),
-                        onTap: () {
-                          mapController.animateCamera(
-                            CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                target: LatLng(
-                                  _currentPosition.latitude,
-                                  _currentPosition.longitude,
-                                ),
-                                zoom: 18.0,
-                              ),
-                            ),
-                          );
-                        },
                       ),
                     ),
                   ),
