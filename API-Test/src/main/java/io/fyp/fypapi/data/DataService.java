@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService {
 
-	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Testbed\\src\\main\\java\\io\\fyp\\fypapi\\ssdata.csv";
+	private String csvFile = "F:\\ACADEMIC\\Semester 7\\CO 421 CO 425 Final Year Project\\Project\\fyp-dataset-api\\API-Test\\src\\main\\java\\io\\fyp\\fypapi\\data\\dataset.csv";
 	private String line = "";
 	private String cvsSplitBy = ",";
     
@@ -35,7 +35,7 @@ public class DataService {
 	private ArrayList<Double> drivers_wellbeing = new ArrayList<Double>();
 	private ArrayList<Double> driver_rush = new ArrayList<Double>();
 
-	private int [] number_of_requests = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+	private int [] number_of_requests = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
 	private Instant start;
 	private Instant end;
@@ -48,6 +48,7 @@ public class DataService {
 	            // use comma as separator
 	        	
 	            String[] data = line.split(cvsSplitBy);
+	            
 //	            System.out.println(data[0]);
 	            
 	            time.add(Double.parseDouble(data[0]));
@@ -77,96 +78,260 @@ public class DataService {
 	    }
     }
 	
-//	public int getLength(Duration timeElapsed) {
-//		for (int i = 0; i < time.size(); i++) {
-//			if(time.get(i) > timeElapsed.toSeconds()) {
-//				return i - 1;
-//			}
-//		}
-//		
-//		return -1;
-//	}
+	public int getLength(Duration timeElapsed, int start_i) {
+		for (int i = start_i; i < time.size(); i++) {
+			if(time.get(i) > timeElapsed.toSeconds()) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 
 	
     public ArrayList<Double> getData(String id) {
-    	int length_to_send;
+    	int length_to_send, begining_length;
+    	Duration timeElapsed;
 //		System.out.println(count);
 		switch(id) {
 			case "time":
-				number_of_requests[0] += 1;
-				return new ArrayList<Double>(time.subList(number_of_requests[0] * 5, (number_of_requests[0] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[0]);
+				begining_length = number_of_requests[0];
+				
+				number_of_requests[0] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(time.subList(begining_length, length_to_send));
 			
 			case "vehicleSpeed":
-				number_of_requests[1] += 1;
 				
-//				end = Instant.now();
-//				Duration timeElapsed = Duration.between(start, end);
-//				length_to_send = getLength(timeElapsed);
-//				start = Instant.now();
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
 				
-//				System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
+				length_to_send = getLength(timeElapsed, number_of_requests[1]);
+				begining_length = number_of_requests[1];
+				
+				number_of_requests[1] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
 
-				return new ArrayList<Double>(vehicle_speed.subList(number_of_requests[1] * 5, (number_of_requests[1] * 5) + 5));
+				return new ArrayList<Double>(vehicle_speed.subList(begining_length, length_to_send));
 			
 			case "shiftNumber":
-				number_of_requests[2] += 1;
-				return new ArrayList<Double>(shift_number.subList(number_of_requests[2] * 5, (number_of_requests[2] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[2]);
+				begining_length = number_of_requests[2];
+				
+				number_of_requests[2] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(shift_number.subList(begining_length, length_to_send));
 			
 			case "engineLoad":
-				number_of_requests[3] += 1;
-				return new ArrayList<Double>(engine_load.subList(number_of_requests[3] * 5, (number_of_requests[3] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[3]);
+				begining_length = number_of_requests[3];
+				
+				number_of_requests[3] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(engine_load.subList(begining_length, length_to_send));
 			
 			case "totalAcceleration":
-				number_of_requests[4] += 1;
-				return new ArrayList<Double>(total_acceleration.subList(number_of_requests[4] * 5, (number_of_requests[4] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[4]);
+				begining_length = number_of_requests[4];
+				
+				number_of_requests[4] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(total_acceleration.subList(begining_length, length_to_send));
 			
 			case "engineRPM":
-				number_of_requests[5] += 1;
-				return new ArrayList<Double>(engine_rpm.subList(number_of_requests[5] * 5, (number_of_requests[5] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[5]);
+				begining_length = number_of_requests[5];
+				
+				number_of_requests[5] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(engine_rpm.subList(begining_length, length_to_send));
 			
 			case "pitch":
-				number_of_requests[6] += 1;
-				return new ArrayList<Double>(pitch.subList(number_of_requests[6] * 5, (number_of_requests[6] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[6]);
+				begining_length = number_of_requests[6];
+				
+				number_of_requests[6] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(pitch.subList(begining_length, length_to_send));
 			
 			case "lateralAcceleration":
-				number_of_requests[7] += 1;
-				return new ArrayList<Double>(lateral_acceleration.subList(number_of_requests[7] * 5, (number_of_requests[7] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[7]);
+				begining_length = number_of_requests[7];
+				
+				number_of_requests[7] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(lateral_acceleration.subList(begining_length, length_to_send));
 			
 			case "passengerCount":
-				number_of_requests[8] += 1;
-				return new ArrayList<Double>(passenger_count.subList(number_of_requests[8] * 5, (number_of_requests[8] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[8]);
+				begining_length = number_of_requests[8];
+				
+				number_of_requests[8] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(passenger_count.subList(begining_length, length_to_send));
 			
 			case "carLoad":
-				number_of_requests[9] += 1;
-				return new ArrayList<Double>(cars_load.subList(number_of_requests[9] * 5, (number_of_requests[9] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[9]);
+				begining_length = number_of_requests[9];
+				
+				number_of_requests[9] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(cars_load.subList(begining_length, length_to_send));
 			
 			case "airConditionStatus":
-				number_of_requests[10] += 1;
-				return new ArrayList<Double>(air_condition_status.subList(number_of_requests[10] * 5, (number_of_requests[10] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[10]);
+				begining_length = number_of_requests[10];
+				
+				number_of_requests[10] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(air_condition_status.subList(begining_length, length_to_send));
 			
 			case "windowOpening":
-				number_of_requests[11] += 1;
-				return new ArrayList<Double>(window_opening.subList(number_of_requests[11] * 5, (number_of_requests[11] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[11]);
+				begining_length = number_of_requests[11];
+				
+				number_of_requests[11] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(window_opening.subList(begining_length, length_to_send));
 			
 			case "radioVolume":
-				number_of_requests[12] += 1;
-				return new ArrayList<Double>(radio_volume.subList(number_of_requests[12] * 5, (number_of_requests[12] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[12]);
+				begining_length = number_of_requests[12];
+				
+				number_of_requests[12] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(radio_volume.subList(begining_length, length_to_send));
 			
 			case "rainIntensity":
-				number_of_requests[13] += 1;
-				return new ArrayList<Double>(rain_intensity.subList(number_of_requests[13] * 5, (number_of_requests[13] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[13]);
+				begining_length = number_of_requests[13];
+				
+				number_of_requests[13] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(rain_intensity.subList(begining_length, length_to_send));
 			
 			case "visibility":
-				number_of_requests[14] += 1;
-				return new ArrayList<Double>(visibility.subList(number_of_requests[14] * 5, (number_of_requests[14] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[14]);
+				begining_length = number_of_requests[14];
+				
+				number_of_requests[14] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(visibility.subList(begining_length, length_to_send));
 			
 			case "DriverWellBeing":
-				number_of_requests[15] += 1;
-				return new ArrayList<Double>(drivers_wellbeing.subList(number_of_requests[15] * 5, (number_of_requests[15] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[15]);
+				begining_length = number_of_requests[15];
+				
+				number_of_requests[15] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(drivers_wellbeing.subList(begining_length, length_to_send));
 			
 			default:
-				number_of_requests[16] += 1;
-				return new ArrayList<Double>(driver_rush.subList(number_of_requests[16] * 5, (number_of_requests[16] * 5) + 5));
+				end = Instant.now();
+				timeElapsed = Duration.between(start, end);
+				
+				length_to_send = getLength(timeElapsed, number_of_requests[16]);
+				begining_length = number_of_requests[16];
+				
+				number_of_requests[16] = length_to_send;
+				
+//				System.out.println("Time taken: "+ timeElapsed.toSeconds() +" seconds");
+//				System.out.println("length: "+ length_to_send);
+				
+				return new ArrayList<Double>(driver_rush.subList(begining_length, length_to_send));
 		}
 	}
 }
