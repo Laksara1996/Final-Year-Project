@@ -11,6 +11,7 @@ from json import JSONEncoder
 import time
 from threading import Timer
 import datetime
+import csv
 
 a = datetime.datetime.now()
 
@@ -52,23 +53,30 @@ app = Flask(__name__)
 
 ac_accuracy = 0
 speed_accuracy = 0
-time_ac_control_accuracy = 0
-time_speed_accuracy = 0
+
 time_get_ac_control_y_test_data = 0
 time_get_ac_control_predict_data = 0
 time_get_speed_y_test_data = 0
 time_get_speed_predict_data = 0
+time_ac_control_accuracy = 0
+time_speed_accuracy = 0
+
+
+def write_to_csv(fileName, data):
+    with open(fileName, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
 
 
 @app.route('/ac_control/accuracy', methods=['GET'])
 def ac_status_accuracy():
     global ac_accuracy
-    global time_ac_control_accuracy
 
     start_time = time.time()
     accuracy_value = ac_accuracy
     time_ac_control_accuracy = time.time() - start_time
     print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
+    write_to_csv('time_ac_control_accuracy.csv', time_ac_control_accuracy)
     return str(accuracy_value)
 
 
@@ -80,6 +88,8 @@ def speed_accuracy_output():
     accuracy_value = speed_accuracy
     time_speed_accuracy = time.time() - start_time
     print("---ac accuracy %s seconds ---" % time_speed_accuracy)
+    write_to_csv('time_ac_control_get_y_test_data.csv', time_ac_control_get_y_test_data)
+
     return str(accuracy_value)
 
 
@@ -96,6 +106,7 @@ def get_ac_control_y_test_data():
         return "Service unavailable"
     time_get_ac_control_y_test_data = time.time() - start_time
     print("--- time_get_ac_control_y_test_data %s seconds ---" % time_get_ac_control_y_test_data)
+    write_to_csv('time_ac_control_get_y_test_data.csv', time_ac_control_get_y_test_data)
     return finalNumpyArray
 
 
@@ -148,7 +159,7 @@ def get_speed_predict_data():
 
 
 def ac_control_accuracy():
-    # global time_ac_control_accuracy
+    global time_ac_control_accuracy
     start_time = time.time()
     global ac_accuracy
 
@@ -160,13 +171,13 @@ def ac_control_accuracy():
 
     ac_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('AC Control Accuracy: ', ac_accuracy)
-    # time_ac_control_accuracy = time.time() - start_time
-    # print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
+    time_ac_control_accuracy = time.time() - start_time
+    write_to_csv('time_ac_control_accuracy.csv', time_ac_control_accuracy)
 
 
 def speed_accuracy_check():
-    # global time_speed_accuracy
-    # start_time = time.time()
+    global time_speed_accuracy
+    start_time = time.time()
     global speed_accuracy
     y_test = get_speed_y_test_data()
     predict_data = get_speed_predict_data()
@@ -176,8 +187,8 @@ def speed_accuracy_check():
 
     speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('Speed Accuracy: ', speed_accuracy)
-    # time_ac_control_accuracy = time.time() - start_time
-    # print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
+    time_speed_accuracy = time.time() - start_time
+    write_to_csv('time_speed_accuracy.csv', time_speed_accuracy)
 
 
 ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)

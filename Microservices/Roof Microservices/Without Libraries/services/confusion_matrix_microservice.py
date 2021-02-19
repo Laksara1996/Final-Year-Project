@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 
 from sklearn.metrics import confusion_matrix
@@ -31,6 +33,12 @@ time_get_speed_y_test_data = 0
 time_get_speed_predict_data = 0
 
 
+def write_to_csv(fileName, data):
+    with open(fileName, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
 @app.route('/ac_control/confusion_matrix', methods=['GET'])
 def ac_status_confuion():
     global time_get_ac_status_confusion
@@ -38,6 +46,7 @@ def ac_status_confuion():
     ac_control_confusion_matrix_function()
     time_get_ac_status_confusion = time.time() - start_time
     print("---time_get_ac_status_confusion %s seconds ---" % time_get_ac_status_confusion)
+    write_to_csv('time_get_ac_status_confusion.csv', time_get_ac_status_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
@@ -49,6 +58,7 @@ def speed_confuion():
     speed_confusion_matrix_function()
     time_get_speed_confusion = time.time() - start_time
     print("---time_get_speed_confusion %s seconds ---" % time_get_speed_confusion)
+    write_to_csv('time_get_speed_confusion.csv', time_get_speed_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 

@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 
 from sklearn.metrics import classification_report
@@ -31,6 +33,12 @@ time_get_speed_y_test_data = 0
 time_get_speed_predict_data = 0
 
 
+def write_to_csv(fileName, data):
+    with open(fileName, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
 @app.route('/ac_control/classification_report', methods=['GET'])
 def ac_classification_report_output():
     global time_ac_classification_report_output
@@ -38,6 +46,7 @@ def ac_classification_report_output():
     ac_control_classification_report_function()
     time_ac_classification_report_output = time.time() - start_time
     print("---time_ac_classification_report_output ac %s seconds ---" % time_ac_classification_report_output)
+    write_to_csv('time_ac_classification_report_output.csv', time_ac_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 
@@ -49,6 +58,7 @@ def speed_classification_report_output():
     speed_classification_report_function()
     time_speed_classification_report_output = time.time() - start_time
     print("---time_speed_classification_report_output ac %s seconds ---" % time_speed_classification_report_output)
+    write_to_csv('time_speed_classification_report_output.csv', time_speed_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 

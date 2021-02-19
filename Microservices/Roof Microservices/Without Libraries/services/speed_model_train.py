@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 from numpy import argmax
 
@@ -103,6 +105,14 @@ time_speed_get_fog_accuracy = 0
 time_speed_get_cloud_accuracy = 0
 time_speed_model_train = 0
 
+
+def write_to_csv(fileName, data):
+    with open(fileName, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
+
 @app.route('/speed/predict', methods=['GET'])
 # @cache.cached(timeout=300)
 def predict_data():
@@ -114,6 +124,7 @@ def predict_data():
     time_speed_predict = time.time() - start_time
     print("---speed time_speed_predict %s seconds ---" % time_speed_predict)
     print("----speed predict amount of data = %s ------" % len(number_array))
+    write_to_csv('time_speed_predict.csv', time_speed_predict)
     return encodedNumpyData
 
 
@@ -128,6 +139,8 @@ def output_data():
     time_speed_output = time.time() - start_time
     print("---speed time_speed_output %s seconds ---" % time_speed_output)
     print("----speed output amount of data = %s ------" % len(number_array))
+    write_to_csv('time_speed_output.csv', time_speed_output)
+
     return encodedNumpyData
 
 
@@ -383,7 +396,7 @@ def get_cloud_accuracy():
 
 
 def model_train():
-    global time_speed_predict
+    global time_speed_model_train
     start_time = time.time()
     global y_predict_array
 
@@ -489,6 +502,7 @@ def model_train():
         print("y_pred", y_predict_array)
         time_speed_model_train = time.time() - start_time
         print("---speed time_speed_model_train %s seconds ---" % time_speed_model_train)
+        write_to_csv('time_speed_model_train.csv', time_speed_model_train)
 
 
 def predict_output():

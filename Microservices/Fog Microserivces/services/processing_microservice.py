@@ -379,7 +379,7 @@ def ac_control_y_train():
 def get_air_condition_data_roof():
     global air_condition_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/ac_data")
+        req = requests.get("http://192.168.1.100:3001/roof/ac_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -393,7 +393,7 @@ def get_air_condition_data_roof():
 def get_passenger_count_data_roof():
     global passenger_count_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/passenger_data")
+        req = requests.get("http://192.168.1.100:3001/roof/passenger_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -407,7 +407,7 @@ def get_passenger_count_data_roof():
 def get_window_opening_data_roof():
     global window_opening_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/window_data")
+        req = requests.get("http://192.168.1.100:3001/roof/window_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -421,7 +421,7 @@ def get_window_opening_data_roof():
 def get_speed_data_roof():
     global speed_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/speed_data")
+        req = requests.get("http://192.168.1.100:3001/roof/speed_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -436,7 +436,7 @@ def get_speed_data_roof():
 def get_driver_rush_data_roof():
     global driver_rush_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/driver_rush_data")
+        req = requests.get("http://192.168.1.100:3001/roof/driver_rush_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -450,7 +450,7 @@ def get_driver_rush_data_roof():
 def get_visibility_data_roof():
     global visibility_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/visibility_data")
+        req = requests.get("http://192.168.1.100:3001/roof/visibility_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -464,7 +464,7 @@ def get_visibility_data_roof():
 def get_rain_intensity_data_roof():
     global rain_intensity_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/rain_intensity_data")
+        req = requests.get("http://192.168.1.100:3001/roof/rain_intensity_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -478,7 +478,7 @@ def get_rain_intensity_data_roof():
 def get_pitch_data_roof():
     global pitch_data_array
     try:
-        req = requests.get("http://192.168.1.102:3001/roof/pitch_data")
+        req = requests.get("http://192.168.1.100:3001/roof/pitch_data")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -491,7 +491,7 @@ def get_pitch_data_roof():
 
 def get_performance_data_roof():
     try:
-        req = requests.get("http://192.168.1.102:3006/roof/performance")
+        req = requests.get("http://192.168.1.100:3006/roof/performance")
         performance = float(req.text)
 
     except requests.exceptions.ConnectionError:

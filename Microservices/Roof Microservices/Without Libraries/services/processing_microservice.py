@@ -1,4 +1,5 @@
 # Load libraries
+import csv
 from threading import Timer
 
 from sklearn.model_selection import train_test_split
@@ -110,6 +111,12 @@ time_function_ac_control_train_split = 0
 time_function_speed_train_split = 0
 
 
+def write_to_csv(fileName, data):
+    with open(fileName, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
 # Sent Data To the FOG
 
 @app.route('/roof/speed_data', methods=['GET'])
@@ -124,6 +131,7 @@ def speed_data():
     time_get_roof_speed_data = time.time() - start_time
     print("---speed time_get_roof_speed_data %s seconds ---" % time_get_roof_speed_data)
     print("----roof speed_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_speed_data.csv', time_get_roof_speed_data)
     return encodedNumpyData
 
 
@@ -140,6 +148,7 @@ def driver_rush_data():
     time_get_roof_driver_rush_data = time.time() - start_time
     print("--- time_get_roof_driver_rush_data %s seconds ---" % time_get_roof_driver_rush_data)
     print("----roof driver_rush_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_driver_rush_data.csv', time_get_roof_driver_rush_data)
     return encodedNumpyData
 
 
@@ -155,6 +164,8 @@ def visibility_data():
     time_get_roof_visibility_data = time.time() - start_time
     print("---speed time_get_roof_visibility_data %s seconds ---" % time_get_roof_visibility_data)
     print("----roof visibility_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_visibility_data.csv', time_get_roof_visibility_data)
+
     return encodedNumpyData
 
 
@@ -170,6 +181,7 @@ def rain_intensity_data():
     time_get_roof_rain_intensity_data = time.time() - start_time
     print("-- time_get_roof_rain_intensity_data %s seconds ---" % time_get_roof_rain_intensity_data)
     print("----roof rain_intensity_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_rain_intensity_data.csv', time_get_roof_rain_intensity_data)
     return encodedNumpyData
 
 
@@ -185,6 +197,7 @@ def pitch_data():
     time_get_roof_pitch_data = time.time() - start_time
     print("--- time_get_roof_pitch_data %s seconds ---" % time_get_roof_pitch_data)
     print("----roof pitch_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_pitch_data.csv', time_get_roof_pitch_data)
     return encodedNumpyData
 
 
@@ -200,6 +213,7 @@ def ac_data():
     time_get_roof_ac_data = time.time() - start_time
     print("--- time_get_roof_ac_data %s seconds ---" % time_get_roof_ac_data)
     print("----roof ac_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_ac_data.csv', time_get_roof_ac_data)
     return encodedNumpyData
 
 
@@ -212,9 +226,10 @@ def passenger_data():
     number_array = passenger_count_data_array
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    time_get_roof_speed_data = time.time() - start_time
+    time_get_roof_passenger_data = time.time() - start_time
     print("--- time_get_roof_passenger_data %s seconds ---" % time_get_roof_passenger_data)
     print("----roof passenger_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_passenger_data.csv', time_get_roof_passenger_data)
     return encodedNumpyData
 
 
@@ -230,6 +245,7 @@ def window_data():
     time_get_roof_window_data = time.time() - start_time
     print("--- time_get_roof_window_data %s seconds ---" % time_get_roof_window_data)
     print("----roof window_data amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_roof_window_data.csv', time_get_roof_window_data)
     return encodedNumpyData
 
 
@@ -247,6 +263,7 @@ def speed_input_list():
     time_get_speed_input = time.time() - start_time
     print("--- time_get_speed_input %s seconds ---" % time_get_speed_input)
     print("----speed input amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_speed_input.csv', time_get_speed_input)
     return encodedNumpyData
 
 
@@ -263,6 +280,7 @@ def speed_x_train():
     time_get_speed_x_train = time.time() - start_time
     print("--- time_get_speed_x_train %s seconds ---" % time_get_speed_x_train)
     print("----speed x_train amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_speed_x_train.csv', time_get_speed_x_train)
     return encodedNumpyData
 
 
@@ -278,6 +296,7 @@ def speed_x_test():
     time_get_speed_x_test = time.time() - start_time
     print("--- time_get_speed_x_test %s seconds ---" % time_get_speed_x_test)
     print("----speed x_test_amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_speed_x_test.csv', time_get_speed_x_test)
     return encodedNumpyData
 
 
@@ -293,6 +312,7 @@ def speed_y_test():
     time_get_speed_y_test = time.time() - start_time
     print("--- time_get_speed_y_test %s seconds ---" % time_get_speed_y_test)
     print("----speed y_test_amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_speed_y_test.csv', time_get_speed_y_test)
     return encodedNumpyData
 
 
@@ -308,6 +328,7 @@ def speed_y_train():
     time_get_speed_y_train = time.time() - start_time
     print("--- time_get_speed_y_train %s seconds ---" % time_get_speed_y_train)
     print("----speed x_test_amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_speed_y_train.csv', time_get_speed_y_train)
     return encodedNumpyData
 
 
@@ -326,6 +347,7 @@ def ac_control_input_list():
     time_get_ac_control_input = time.time() - start_time
     print("--- time_get_ac_control_input %s seconds ---" % time_get_ac_control_input)
     print("----ac_control input amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_ac_control_input.csv', time_get_ac_control_input)
     return encodedNumpyData
 
 
@@ -339,9 +361,10 @@ def ac_control_x_train():
     number_array = ac_x_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    time_get_roof_speed_data = time.time() - start_time
+    time_get_ac_control_x_train = time.time() - start_time
     print("--- time_get_ac_control_x_train %s seconds ---" % time_get_ac_control_x_train)
     print("----ac_control x_train amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_ac_control_x_train.csv', time_get_ac_control_x_train)
     return encodedNumpyData
 
 
@@ -358,6 +381,7 @@ def ac_control_x_test():
     time_get_ac_control_x_test = time.time() - start_time
     print("--- time_get_ac_control_x_test %s seconds ---" % time_get_ac_control_x_test)
     print("----ac_control x_test amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_ac_control_x_test.csv', time_get_ac_control_x_test)
     return encodedNumpyData
 
 
@@ -373,6 +397,7 @@ def ac_control_y_test():
     time_get_ac_control_y_test = time.time() - start_time
     print("--- time_get_ac_control_y_test %s seconds ---" % time_get_ac_control_y_test)
     print("----ac_control y_test amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_ac_control_y_test.csv', time_get_ac_control_y_test)
     return encodedNumpyData
 
 
@@ -389,6 +414,7 @@ def ac_control_y_train():
     time_get_ac_control_y_train = time.time() - start_time
     print("--- time_get_ac_control_y_train %s seconds ---" % time_get_ac_control_y_train)
     print("----ac_control y_train amount of data = %s ------" % len(number_array))
+    write_to_csv('time_get_ac_control_y_train.csv', time_get_ac_control_y_train)
     return encodedNumpyData
 
 
