@@ -34,7 +34,7 @@ time_get_speed_predict_data = 0
 
 
 def write_to_csv(fileName, data):
-    with open(fileName, 'w', newline='') as file:
+    with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Data:", data])
 

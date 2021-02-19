@@ -112,7 +112,7 @@ time_function_speed_train_split = 0
 
 
 def write_to_csv(fileName, data):
-    with open(fileName, 'w', newline='') as file:
+    with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Data:", data])
 
@@ -645,6 +645,7 @@ def ac_control_train_split():
 
     time_function_ac_control_train_split = time.time() - start_time
     print("--- time_function_ac_control_train_split %s seconds ---" % time_function_ac_control_train_split)
+    write_to_csv('time_function_ac_control_train_split.csv', time_function_ac_control_train_split)
 
 
 # Speed Train Split
@@ -694,6 +695,7 @@ def speed_train_split():
 
         time_function_speed_train_split = time.time() - start_time
         print("--- time_function_speed_train_split %s seconds ---" % time_function_speed_train_split)
+        write_to_csv('time_function_speed_train_split.csv', time_function_speed_train_split)
         # print(speed_y_train_data)
 
 

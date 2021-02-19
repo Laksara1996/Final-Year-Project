@@ -107,10 +107,9 @@ time_speed_model_train = 0
 
 
 def write_to_csv(fileName, data):
-    with open(fileName, 'w', newline='') as file:
+    with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Data:", data])
-
 
 
 @app.route('/speed/predict', methods=['GET'])

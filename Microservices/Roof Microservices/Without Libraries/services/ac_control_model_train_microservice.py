@@ -106,10 +106,9 @@ time_ac_control_model_train = 0
 
 
 def write_to_csv(fileName, data):
-    with open(fileName, 'w', newline='') as file:
+    with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Data:", data])
-
 
 
 @app.route('/ac_control/predict', methods=['GET'])
@@ -121,7 +120,7 @@ def predict_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     time_ac_control_predict = time.time() - start_time
-    write_to_csv('predictData.csv',time_ac_control_predict)
+    write_to_csv('time_ac_control_predict.csv',time_ac_control_predict)
     print("---ac control_predict_data %s seconds ---" % time_ac_control_predict)
     print("----ac control_predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
@@ -154,7 +153,7 @@ def get_x_train_data():
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     time_ac_control_get_x_train_data = time.time() - start_time
-    write_to_csv('time_ac_control_get_x_train_data.csv', time_ac_control_get_x_train_data)
+    # write_to_csv('time_ac_control_get_x_train_data.csv', time_ac_control_get_x_train_data)
     print("---ac control time_get_x_train_data %s seconds ---" % time_ac_control_get_x_train_data)
     return finalNumpyArray
 

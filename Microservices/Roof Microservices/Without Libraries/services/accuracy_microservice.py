@@ -63,7 +63,7 @@ time_speed_accuracy = 0
 
 
 def write_to_csv(fileName, data):
-    with open(fileName, 'w', newline='') as file:
+    with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Data:", data])
 
@@ -71,6 +71,7 @@ def write_to_csv(fileName, data):
 @app.route('/ac_control/accuracy', methods=['GET'])
 def ac_status_accuracy():
     global ac_accuracy
+    global time_ac_control_accuracy
 
     start_time = time.time()
     accuracy_value = ac_accuracy
@@ -88,7 +89,7 @@ def speed_accuracy_output():
     accuracy_value = speed_accuracy
     time_speed_accuracy = time.time() - start_time
     print("---ac accuracy %s seconds ---" % time_speed_accuracy)
-    write_to_csv('time_ac_control_get_y_test_data.csv', time_ac_control_get_y_test_data)
+    write_to_csv('time_speed_accuracy.csv', time_speed_accuracy)
 
     return str(accuracy_value)
 
@@ -106,7 +107,7 @@ def get_ac_control_y_test_data():
         return "Service unavailable"
     time_get_ac_control_y_test_data = time.time() - start_time
     print("--- time_get_ac_control_y_test_data %s seconds ---" % time_get_ac_control_y_test_data)
-    write_to_csv('time_ac_control_get_y_test_data.csv', time_ac_control_get_y_test_data)
+    write_to_csv('time_ac_control_get_y_test_data.csv', time_get_ac_control_y_test_data)
     return finalNumpyArray
 
 
