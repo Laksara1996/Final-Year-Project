@@ -88,4 +88,4 @@ def automated_data_request():
 data_request_automated = RepeatedTimer(1, automated_data_request)
 
 if __name__ == '__main__':
-    app.run(port=4006, debug=True)
+    app.run(port=4006, debug=True, host='0.0.0.0')

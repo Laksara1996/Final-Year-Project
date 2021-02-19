@@ -23,27 +23,39 @@ class NumpyArrayEncoder(JSONEncoder):
 
 
 app = Flask(__name__)
+time_get_ac_status_confusion = 0
+time_get_speed_confusion = 0
+time_get_ac_control_y_test_data = 0
+time_get_ac_control_predict_data = 0
+time_get_speed_y_test_data = 0
+time_get_speed_predict_data = 0
 
 
 @app.route('/ac_control/confusion_matrix', methods=['GET'])
 def ac_status_confuion():
+    global time_get_ac_status_confusion
     start_time = time.time()
     ac_control_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    time_get_ac_status_confusion = time.time() - start_time
+    print("---time_get_ac_status_confusion %s seconds ---" % time_get_ac_status_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
 
 @app.route('/speed/confusion_matrix', methods=['GET'])
 def speed_confuion():
+    global time_get_speed_confusion
     start_time = time.time()
     speed_confusion_matrix_function()
-    print("--- %s seconds ---" % (time.time() - start_time))
+    time_get_speed_confusion = time.time() - start_time
+    print("---time_get_speed_confusion %s seconds ---" % time_get_speed_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
 
 def get_ac_control_y_test_data():
+    global time_get_ac_control_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
@@ -52,10 +64,14 @@ def get_ac_control_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_y_test_data = time.time() - start_time
+    print("---time_get_ac_control_y_test_data %s seconds ---" % time_get_ac_control_y_test_data)
     return finalNumpyArray
 
 
 def get_ac_control_predict_data():
+    global time_get_ac_control_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3003/ac_control/predict")
         decodedArrays = json.loads(req.text)
@@ -64,10 +80,14 @@ def get_ac_control_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_predict_data = time.time() - start_time
+    print("---time_get_ac_control_predict_data %s seconds ---" % time_get_ac_control_predict_data)
     return finalNumpyArray
 
 
 def get_speed_y_test_data():
+    global time_get_speed_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_test")
         decodedArrays = json.loads(req.text)
@@ -76,10 +96,14 @@ def get_speed_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_y_test_data = time.time() - start_time
+    print("---time_get_speed_y_test_data %s seconds ---" % time_get_speed_y_test_data)
     return finalNumpyArray
 
 
 def get_speed_predict_data():
+    global time_get_speed_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3201/speed/predict")
         decodedArrays = json.loads(req.text)
@@ -88,6 +112,8 @@ def get_speed_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_predict_data = time.time() - start_time
+    print("---time_get_speed_predict_data %s seconds ---" % time_get_speed_predict_data)
     return finalNumpyArray
 
 
@@ -123,4 +149,4 @@ print("Execution Time:")
 print(b-a)
 
 if __name__ == '__main__':
-    app.run(port=3004,host='0.0.0.0', debug=True)
+    app.run(port=3004, host='0.0.0.0', debug=True)

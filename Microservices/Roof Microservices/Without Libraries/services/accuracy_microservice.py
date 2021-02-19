@@ -52,28 +52,40 @@ app = Flask(__name__)
 
 ac_accuracy = 0
 speed_accuracy = 0
+time_ac_control_accuracy = 0
+time_speed_accuracy = 0
+time_get_ac_control_y_test_data = 0
+time_get_ac_control_predict_data = 0
+time_get_speed_y_test_data = 0
+time_get_speed_predict_data = 0
 
 
 @app.route('/ac_control/accuracy', methods=['GET'])
 def ac_status_accuracy():
     global ac_accuracy
+    global time_ac_control_accuracy
 
     start_time = time.time()
     accuracy_value = ac_accuracy
-    print("---ac accuracy %s seconds ---" % (time.time() - start_time))
+    time_ac_control_accuracy = time.time() - start_time
+    print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
     return str(accuracy_value)
 
 
 @app.route('/speed/accuracy', methods=['GET'])
 def speed_accuracy_output():
     global speed_accuracy
+    global time_speed_accuracy
     start_time = time.time()
     accuracy_value = speed_accuracy
-    print("---speed accuracy %s seconds ---" % (time.time() - start_time))
+    time_speed_accuracy = time.time() - start_time
+    print("---ac accuracy %s seconds ---" % time_speed_accuracy)
     return str(accuracy_value)
 
 
 def get_ac_control_y_test_data():
+    global time_get_ac_control_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
@@ -82,10 +94,14 @@ def get_ac_control_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_y_test_data = time.time() - start_time
+    print("--- time_get_ac_control_y_test_data %s seconds ---" % time_get_ac_control_y_test_data)
     return finalNumpyArray
 
 
 def get_ac_control_predict_data():
+    global time_get_ac_control_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3003/ac_control/predict")
         decodedArrays = json.loads(req.text)
@@ -94,10 +110,14 @@ def get_ac_control_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_predict_data = time.time() - start_time
+    print("---time_get_ac_control_predict_data %s seconds ---" % time_get_ac_control_predict_data)
     return finalNumpyArray
 
 
 def get_speed_y_test_data():
+    global time_get_speed_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_test")
         decodedArrays = json.loads(req.text)
@@ -106,10 +126,14 @@ def get_speed_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_y_test_data = time.time() - start_time
+    print("---time_get_speed_y_test_data %s seconds ---" % time_get_speed_y_test_data)
     return finalNumpyArray
 
 
 def get_speed_predict_data():
+    global time_get_speed_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3201/speed/predict")
         decodedArrays = json.loads(req.text)
@@ -118,10 +142,14 @@ def get_speed_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_predict_data = time.time() - start_time
+    print("---time_get_speed_predict_data %s seconds ---" % time_get_speed_predict_data)
     return finalNumpyArray
 
 
 def ac_control_accuracy():
+    # global time_ac_control_accuracy
+    start_time = time.time()
     global ac_accuracy
 
     y_test = get_ac_control_y_test_data()
@@ -132,9 +160,13 @@ def ac_control_accuracy():
 
     ac_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('AC Control Accuracy: ', ac_accuracy)
+    # time_ac_control_accuracy = time.time() - start_time
+    # print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
 
 
 def speed_accuracy_check():
+    # global time_speed_accuracy
+    # start_time = time.time()
     global speed_accuracy
     y_test = get_speed_y_test_data()
     predict_data = get_speed_predict_data()
@@ -144,15 +176,16 @@ def speed_accuracy_check():
 
     speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('Speed Accuracy: ', speed_accuracy)
+    # time_ac_control_accuracy = time.time() - start_time
+    # print("---ac accuracy %s seconds ---" % time_ac_control_accuracy)
 
 
 ac_accuracy_automated = RepeatedTimer(25, ac_control_accuracy)
 speed_accuracy_automated = RepeatedTimer(25, speed_accuracy_check)
 
-
 b = datetime.datetime.now()
 print("Execution Time:")
-print(b-a)
+print(b - a)
 
 if __name__ == '__main__':
     app.run(port=3002, host='0.0.0.0', debug=True)

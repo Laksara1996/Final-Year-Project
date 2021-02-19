@@ -83,16 +83,36 @@ app = Flask(__name__)
 # cache = Cache(app)
 
 y_predict_array = []
-
+time_speed_predict = 0
+time_speed_output = 0
+time_speed_get_x_train_data = 0
+time_speed_get_y_train_data = 0
+time_speed_get_x_test_data = 0
+time_speed_get_y_test_data = 0
+time_speed_get_input_data = 0
+time_speed_get_fog_wh = 0
+time_speed_get_fog_bh = 0
+time_speed_get_fog_wo = 0
+time_speed_get_fog_bo = 0
+time_speed_get_cloud_wh = 0
+time_speed_get_cloud_bh = 0
+time_speed_get_cloud_wo = 0
+time_speed_get_cloud_bo = 0
+time_speed_get_roof_accuracy = 0
+time_speed_get_fog_accuracy = 0
+time_speed_get_cloud_accuracy = 0
+time_speed_model_train = 0
 
 @app.route('/speed/predict', methods=['GET'])
 # @cache.cached(timeout=300)
 def predict_data():
+    global time_speed_predict
     start_time = time.time()
     number_array = predict_output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---speed predict_data %s seconds ---" % (time.time() - start_time))
+    time_speed_predict = time.time() - start_time
+    print("---speed time_speed_predict %s seconds ---" % time_speed_predict)
     print("----speed predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
@@ -100,16 +120,20 @@ def predict_data():
 @app.route('/speed/output', methods=['GET'])
 # @cache.cached(timeout=300)
 def output_data():
+    global time_speed_output
     start_time = time.time()
     number_array = output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---speed output_data %s seconds ---" % (time.time() - start_time))
+    time_speed_output = time.time() - start_time
+    print("---speed time_speed_output %s seconds ---" % time_speed_output)
     print("----speed output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
 def get_x_train_data():
+    global time_speed_get_x_train_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/x_train")
         decodedArrays = json.loads(req.text)
@@ -118,10 +142,14 @@ def get_x_train_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_x_train_data = time.time() - start_time
+    print("---speed time_speed_get_x_train_data %s seconds ---" % time_speed_get_x_train_data)
     return finalNumpyArray
 
 
 def get_y_train_data():
+    global time_speed_get_y_train_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_train")
         decodedArrays = json.loads(req.text)
@@ -130,10 +158,14 @@ def get_y_train_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_y_train_data = time.time() - start_time
+    print("---speed time_speed_get_y_train_data %s seconds ---" % time_speed_get_y_train_data)
     return finalNumpyArray
 
 
 def get_x_test_data():
+    global time_speed_get_x_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/x_test")
         decodedArrays = json.loads(req.text)
@@ -142,10 +174,14 @@ def get_x_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_x_test_data = time.time() - start_time
+    print("---speed time_speed_get_x_test_data %s seconds ---" % time_speed_get_x_test_data)
     return finalNumpyArray
 
 
 def get_y_test_data():
+    global time_speed_get_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_test")
         decodedArrays = json.loads(req.text)
@@ -154,10 +190,14 @@ def get_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_y_test_data = time.time() - start_time
+    print("---speed time_speed_get_y_test_data %s seconds ---" % time_speed_get_y_test_data)
     return finalNumpyArray
 
 
 def get_input_data():
+    global time_speed_get_input_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/input")
         decodedArrays = json.loads(req.text)
@@ -166,10 +206,14 @@ def get_input_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_input_data = time.time() - start_time
+    print("---speed time_speed_get_input_data %s seconds ---" % time_speed_get_input_data)
     return finalNumpyArray
 
 
 def get_fog_wh():
+    global time_speed_get_fog_wh
+    start_time = time.time()
     try:
         req = requests.get("http://192.168.1.112:4201/fog/wh")
         decodedArrays = json.loads(req.text)
@@ -178,10 +222,14 @@ def get_fog_wh():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_fog_wh = time.time() - start_time
+    print("---speed time_speed_get_fog_wh %s seconds ---" % time_speed_get_fog_wh)
     return finalNumpyArray
 
 
 def get_fog_bh():
+    global time_speed_get_fog_bh
+    start_time = time.time()
     try:
         req = requests.get("http://192.168.1.112:4201/fog/bh")
         decodedArrays = json.loads(req.text)
@@ -190,10 +238,14 @@ def get_fog_bh():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_fog_bh = time.time() - start_time
+    print("---speed time_speed_get_fog_bh %s seconds ---" % time_speed_get_fog_bh)
     return finalNumpyArray
 
 
 def get_fog_wo():
+    global time_speed_get_fog_wo
+    start_time = time.time()
     try:
         req = requests.get("http://192.168.1.112:4201/fog/wo")
         decodedArrays = json.loads(req.text)
@@ -202,10 +254,14 @@ def get_fog_wo():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_fog_wo = time.time() - start_time
+    print("---speed time_speed_get_fog_wo %s seconds ---" % time_speed_get_fog_wo)
     return finalNumpyArray
 
 
 def get_fog_bo():
+    global time_speed_get_fog_bo
+    start_time = time.time()
     try:
         req = requests.get("http://192.168.1.112:4201/fog/bo")
         decodedArrays = json.loads(req.text)
@@ -214,10 +270,14 @@ def get_fog_bo():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_fog_bo = time.time() - start_time
+    print("---speed time_speed_get_fog_bo %s seconds ---" % time_speed_get_fog_bo)
     return finalNumpyArray
 
 
 def get_cloud_wh():
+    global time_speed_get_cloud_wh
+    start_time = time.time()
     try:
         req = requests.get("http://34.126.124.227:5201/cloud/wh")
         decodedArrays = json.loads(req.text)
@@ -226,10 +286,14 @@ def get_cloud_wh():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_cloud_wh = time.time() - start_time
+    print("---speed time_speed_get_cloud_wh %s seconds ---" % time_speed_get_cloud_wh)
     return finalNumpyArray
 
 
 def get_cloud_bh():
+    global time_speed_get_cloud_bh
+    start_time = time.time()
     try:
         req = requests.get("http://34.126.124.227:5201/cloud/bh")
         decodedArrays = json.loads(req.text)
@@ -238,10 +302,14 @@ def get_cloud_bh():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_cloud_bh = time.time() - start_time
+    print("---speed time_speed_get_cloud_bh %s seconds ---" % time_speed_get_cloud_bh)
     return finalNumpyArray
 
 
 def get_cloud_wo():
+    global time_speed_get_cloud_wo
+    start_time = time.time()
     try:
         req = requests.get("http://34.126.124.227:5201/cloud/wo")
         decodedArrays = json.loads(req.text)
@@ -250,10 +318,14 @@ def get_cloud_wo():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_cloud_wo = time.time() - start_time
+    print("---speed time_speed_get_cloud_wo %s seconds ---" % time_speed_get_cloud_wo)
     return finalNumpyArray
 
 
 def get_cloud_bo():
+    global time_speed_get_cloud_bo
+    start_time = time.time()
     try:
         req = requests.get("http://34.126.124.227:5201/cloud/bo")
         decodedArrays = json.loads(req.text)
@@ -262,40 +334,57 @@ def get_cloud_bo():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_cloud_bo = time.time() - start_time
+    print("---speed time_speed_get_cloud_bo %s seconds ---" % time_speed_get_cloud_bo)
     return finalNumpyArray
 
 
 def get_roof_accuracy():
+    global time_speed_get_roof_accuracy
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_roof_accuracy = time.time() - start_time
+    print("---speed time_speed_get_roof_accuracy %s seconds ---" % time_speed_get_roof_accuracy)
     return accuracy
 
 
 def get_fog_accuracy():
+    global time_speed_get_fog_accuracy
+    start_time = time.time()
     try:
         req = requests.get("http://192.168.1.112:4002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_fog_accuracy = time.time() - start_time
+    print("---speed time_speed_get_fog_accuracy %s seconds ---" % time_speed_get_fog_accuracy)
     return accuracy
 
 
 def get_cloud_accuracy():
+    global time_speed_get_cloud_accuracy
+    start_time = time.time()
     try:
         req = requests.get("http://34.126.124.227:5002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_speed_get_cloud_accuracy = time.time() - start_time
+    print("---speed time_speed_get_cloud_accuracy %s seconds ---" % time_speed_get_cloud_accuracy)
+
     return accuracy
 
 
 def model_train():
+    global time_speed_predict
+    start_time = time.time()
     global y_predict_array
 
     y_train = get_y_train_data()
@@ -398,6 +487,8 @@ def model_train():
         y_predict_array = np.array(y_predict)
 
         print("y_pred", y_predict_array)
+        time_speed_model_train = time.time() - start_time
+        print("---speed time_speed_model_train %s seconds ---" % time_speed_model_train)
 
 
 def predict_output():

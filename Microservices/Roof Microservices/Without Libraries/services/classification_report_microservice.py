@@ -23,27 +23,39 @@ class NumpyArrayEncoder(JSONEncoder):
 
 
 app = Flask(__name__)
+time_ac_classification_report_output = 0
+time_speed_classification_report_output = 0
+time_get_ac_control_y_test_data = 0
+time_get_ac_control_predict_data = 0
+time_get_speed_y_test_data = 0
+time_get_speed_predict_data = 0
 
 
 @app.route('/ac_control/classification_report', methods=['GET'])
 def ac_classification_report_output():
+    global time_ac_classification_report_output
     start_time = time.time()
     ac_control_classification_report_function()
-    print("---classification_report ac %s seconds ---" % (time.time() - start_time))
+    time_ac_classification_report_output = time.time() - start_time
+    print("---time_ac_classification_report_output ac %s seconds ---" % time_ac_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 
 
 @app.route('/speed/classification_report', methods=['GET'])
 def speed_classification_report_output():
+    global time_speed_classification_report_output
     start_time = time.time()
     speed_classification_report_function()
-    print("---classification_report speed %s seconds ---" % (time.time() - start_time))
+    time_speed_classification_report_output = time.time() - start_time
+    print("---time_speed_classification_report_output ac %s seconds ---" % time_speed_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 
 
 def get_ac_control_y_test_data():
+    global time_get_ac_control_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
@@ -52,10 +64,14 @@ def get_ac_control_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_y_test_data = time.time() - start_time
+    print("---time_get_ac_control_y_test_data %s seconds ---" % time_get_ac_control_y_test_data)
     return finalNumpyArray
 
 
 def get_ac_control_predict_data():
+    global time_get_ac_control_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3003/ac_control/predict")
         decodedArrays = json.loads(req.text)
@@ -64,10 +80,14 @@ def get_ac_control_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_ac_control_predict_data = time.time() - start_time
+    print("---time_get_ac_control_predict_data  %s seconds ---" % time_get_ac_control_predict_data)
     return finalNumpyArray
 
 
 def get_speed_y_test_data():
+    global time_get_speed_y_test_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_test")
         decodedArrays = json.loads(req.text)
@@ -76,10 +96,14 @@ def get_speed_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_y_test_data = time.time() - start_time
+    print("---time_ac_classification_report_output ac %s seconds ---" % time_get_speed_y_test_data)
     return finalNumpyArray
 
 
 def get_speed_predict_data():
+    global time_get_speed_predict_data
+    start_time = time.time()
     try:
         req = requests.get("http://localhost:3201/speed/predict")
         decodedArrays = json.loads(req.text)
@@ -88,6 +112,8 @@ def get_speed_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_get_speed_predict_data = time.time() - start_time
+    print("---time_get_speed_predict_data %s seconds ---" % time_get_speed_predict_data)
     return finalNumpyArray
 
 
