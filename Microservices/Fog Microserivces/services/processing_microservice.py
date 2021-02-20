@@ -710,6 +710,9 @@ def automated_functions():
 
 ac_train_split_automated = RepeatedTimer(20, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(20, speed_train_split)
+processing_time_automated = RepeatedTimer(1, processing_time)
+
+
 
 b = datetime.datetime.now()
 print("Execution Time:")
