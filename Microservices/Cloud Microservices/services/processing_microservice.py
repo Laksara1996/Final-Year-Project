@@ -1,4 +1,5 @@
 # Load libraries
+import csv
 from threading import Timer
 
 from sklearn.model_selection import train_test_split
@@ -56,6 +57,38 @@ class RepeatedTimer(object):
 
 app = Flask(__name__)
 
+
+time_get_fog_speed_data = 0
+time_get_fog_driver_rush_data = 0
+time_get_fog_visibility_data = 0
+time_get_fog_rain_intensity_data = 0
+time_get_fog_pitch_data = 0
+time_get_fog_ac_data = 0
+time_get_fog_passenger_data = 0
+time_get_fog_window_data = 0
+time_get_speed_input = 0
+time_get_speed_x_train = 0
+time_get_speed_x_test = 0
+time_get_speed_y_test = 0
+time_get_speed_y_train = 0
+time_get_ac_control_input = 0
+time_get_ac_control_x_test = 0
+time_get_ac_control_x_train = 0
+time_get_ac_control_y_test = 0
+time_get_ac_control_y_train = 0
+time_testbed_pitch_data = 0
+time_testbed_rain_intensity_data = 0
+time_testbed_visibility_data = 0
+time_testbed_driver_rush_data = 0
+time_testbed_vehicle_speed_data = 0
+time_testbed_air_condition_data = 0
+time_testbed_passenger_count_data = 0
+time_testbed_window_opening_data = 0
+time_function_ac_control_train_split = 0
+time_function_speed_train_split = 0
+total = 0
+
+
 # app.config.from_mapping(config)
 # cache = Cache(app)
 
@@ -81,17 +114,26 @@ speed_y_test_data = []
 speed_input = []
 
 
+def write_to_csv(fileName, data):
+    with open(fileName, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
 # Speed REST Apis
 
 @app.route('/speed/input', methods=['GET'])
 # @cache.cached(timeout=300)
 def speed_input_list():
     global speed_input
+    global time_get_speed_input
     start_time = time.time()
     number_array = speed_input
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_speed_input = time.time() - start_time
     print("---input %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_speed_input.csv', time_get_speed_input)
     return encodedNumpyData
 
 
@@ -99,11 +141,14 @@ def speed_input_list():
 # @cache.cached(timeout=300)
 def speed_x_train():
     global speed_x_train_data
+    global time_get_speed_x_train
 
     start_time = time.time()
     number_array = speed_x_train_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_speed_x_train = time.time() - start_time
+    write_to_csv('time_get_speed_x_train.csv', time_get_speed_x_train)
     print("---x_train %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
@@ -112,11 +157,14 @@ def speed_x_train():
 # @cache.cached(timeout=300)
 def speed_x_test():
     global speed_x_test_data
+    global time_get_speed_x_test
     start_time = time.time()
     number_array = speed_x_test_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_speed_x_test = time.time() - start_time
     print("---x_test %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_speed_x_test.csv', time_get_speed_x_test)
     return encodedNumpyData
 
 
@@ -124,11 +172,14 @@ def speed_x_test():
 # @cache.cached(timeout=300)
 def speed_y_test():
     global speed_y_test_data
+    global time_get_speed_y_test
     start_time = time.time()
     number_array = speed_y_test_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_speed_y_test = time.time() - start_time
     print("---y_test %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_speed_y_test.csv', time_get_speed_y_test)
     return encodedNumpyData
 
 
@@ -136,10 +187,13 @@ def speed_y_test():
 # @cache.cached(timeout=300)
 def speed_y_train():
     global speed_y_train_data
+    global time_get_speed_y_train
     start_time = time.time()
     number_array = speed_y_train_data
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_speed_y_train = time.time() - start_time
+    write_to_csv('time_get_speed_y_train.csv', time_get_speed_y_train)
     print("---y_train %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
@@ -150,12 +204,15 @@ def speed_y_train():
 # @cache.cached(timeout=300)
 def ac_control_input_list():
     global ac_input
+    global time_get_ac_control_input
 
     start_time = time.time()
     number_array = ac_input
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_ac_control_input = time.time() - start_time
     print("---input %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_ac_control_input.csv', time_get_ac_control_input)
     return encodedNumpyData
 
 
@@ -163,12 +220,15 @@ def ac_control_input_list():
 # @cache.cached(timeout=300)
 def ac_control_x_train():
     global ac_x_train
+    global time_get_ac_control_x_train
 
     start_time = time.time()
     number_array = ac_x_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---x_train %s seconds ---" % (time.time() - start_time))
+    time_get_ac_control_x_train = time.time() - start_time
+    write_to_csv('time_get_ac_control_x_train.csv', time_get_ac_control_x_train)
     return encodedNumpyData
 
 
@@ -176,12 +236,15 @@ def ac_control_x_train():
 # @cache.cached(timeout=300)
 def ac_control_x_test():
     global ac_x_test
+    global time_get_ac_control_x_test
 
     start_time = time.time()
     number_array = ac_x_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_ac_control_x_test = time.time() - start_time
     print("---x_test %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_ac_control_x_test.csv', time_get_ac_control_x_test)
     return encodedNumpyData
 
 
@@ -189,12 +252,15 @@ def ac_control_x_test():
 # @cache.cached(timeout=300)
 def ac_control_y_test():
     global ac_y_test
+    global time_get_ac_control_y_test
 
     start_time = time.time()
     number_array = ac_y_test
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---y_test %s seconds ---" % (time.time() - start_time))
+    time_get_ac_control_y_test = time.time() - start_time
+    write_to_csv('time_get_ac_control_y_test.csv', time_get_ac_control_y_test)
     return encodedNumpyData
 
 
@@ -202,12 +268,15 @@ def ac_control_y_test():
 # @cache.cached(timeout=300)
 def ac_control_y_train():
     global ac_y_train
+    global time_get_ac_control_y_train
 
     start_time = time.time()
     number_array = ac_y_train
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_get_ac_control_y_train = time.time() - start_time
     print("---y_train %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_ac_control_y_train.csv', time_get_ac_control_y_train)
     return encodedNumpyData
 
 

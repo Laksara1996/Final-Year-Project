@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 
 from sklearn.metrics import classification_report
@@ -21,21 +23,36 @@ class NumpyArrayEncoder(JSONEncoder):
 
 app = Flask(__name__)
 
+time_ac_classification_report_output = 0
+time_speed_classification_report_output = 0
+
+
+def write_to_csv(fileName, data):
+    with open(fileName, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
 
 @app.route('/ac_control/classification_report', methods=['GET'])
 def ac_classification_report_output():
+    global time_ac_classification_report_output
     start_time = time.time()
     ac_control_classification_report_function()
+    time_ac_classification_report_output = time.time() - start_time
     print("---classification_report ac %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_ac_classification_report_output.csv', time_ac_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 
 
 @app.route('/speed/classification_report', methods=['GET'])
 def speed_classification_report_output():
+    global time_speed_classification_report_output
     start_time = time.time()
     speed_classification_report_function()
     print("---classification_report speed %s seconds ---" % (time.time() - start_time))
+    time_speed_classification_report_output = time.time() - start_time
+    write_to_csv('time_speed_classification_report_output.csv', time_speed_classification_report_output)
     return "classification report"
     # return str(confusion_matrix_value)
 

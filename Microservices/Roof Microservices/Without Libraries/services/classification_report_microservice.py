@@ -27,10 +27,11 @@ class NumpyArrayEncoder(JSONEncoder):
 app = Flask(__name__)
 time_ac_classification_report_output = 0
 time_speed_classification_report_output = 0
-time_get_ac_control_y_test_data = 0
-time_get_ac_control_predict_data = 0
-time_get_speed_y_test_data = 0
-time_get_speed_predict_data = 0
+total = 0
+# time_get_ac_control_y_test_data = 0
+# time_get_ac_control_predict_data = 0
+# time_get_speed_y_test_data = 0
+# time_get_speed_predict_data = 0
 
 
 def write_to_csv(fileName, data):
@@ -147,6 +148,19 @@ def speed_classification_report_function():
     print("predict len", len(predict_data))
 
     print(classification_report(y_test[:len(predict_data)], predict_data))
+
+
+@app.route('/roof/classification/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def speed_time():
+    global total
+    global time_ac_classification_report_output
+    global time_speed_classification_report_output
+
+    total = time_ac_classification_report_output + time_speed_classification_report_output
+
+    write_to_csv('classification_time_Total.csv', total)
+    return total
 
 
 b = datetime.datetime.now()

@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 from numpy import argmax
 
@@ -84,6 +86,27 @@ app = Flask(__name__)
 
 y_predict_array = []
 
+
+time_ac_control_predict = 0
+time_ac_control_output = 0
+time_ac_control_get_x_train_data = 0
+time_ac_control_get_y_train_data = 0
+time_ac_control_get_x_test_data = 0
+time_ac_control_get_y_test_data = 0
+time_ac_control_get_input_data = 0
+time_ac_control_get_fog_wh = 0
+time_ac_control_get_fog_bh = 0
+time_ac_control_get_fog_wo = 0
+time_ac_control_get_fog_bo = 0
+time_ac_control_get_cloud_wh = 0
+time_ac_control_get_cloud_bh = 0
+time_ac_control_get_cloud_wo = 0
+time_ac_control_get_cloud_bo = 0
+time_ac_control_get_roof_accuracy = 0
+time_ac_control_get_fog_accuracy = 0
+time_ac_control_get_cloud_accuracy = 0
+time_ac_control_model_train = 0
+
 # Weight Matrix Define
 
 input_nodes = 2
@@ -95,25 +118,37 @@ wo = np.random.rand(hidden_nodes, output_labels)
 bo = np.random.randn(output_labels)
 
 
+def write_to_csv(fileName, data):
+    with open(fileName, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
+
 @app.route('/ac_control/predict', methods=['GET'])
 # @cache.cached(timeout=300)
 def predict_data():
+    global time_ac_control_predict
     start_time = time.time()
     number_array = predict_output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_ac_control_predict = time.time() - start_time
     print("---ac_control predict_data %s seconds ---" % (time.time() - start_time))
     print("----ac_control predict amount of data = %s ------" % len(number_array))
+    write_to_csv('time_ac_control_predict.csv',time_ac_control_predict)
     return encodedNumpyData
 
 
 @app.route('/ac_control/output', methods=['GET'])
 # @cache.cached(timeout=300)
 def output_data():
+    global time_ac_control_output
     start_time = time.time()
     number_array = output()
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_ac_control_output = time.time() - start_time
+    write_to_csv('time_ac_control_output.csv', time_ac_control_output)
     print("---ac_control output_data %s seconds ---" % (time.time() - start_time))
     print("----ac_control output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
@@ -123,27 +158,32 @@ def output_data():
 # @cache.cached(timeout=300)
 def wh_data():
     global wh
-
+    global time_ac_control_get_fog_wh
     start_time = time.time()
     number_array = wh
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_ac_control_get_fog_wh = time.time() - start_time
     print("---fog wh %s seconds ---" % (time.time() - start_time))
     print("----fog wh amount of data = %s ------" % len(number_array))
+    write_to_csv('time_ac_control_get_fog_wh.csv', time_ac_control_get_fog_wh)
     return encodedNumpyData
+
 
 
 @app.route('/fog/bh', methods=['GET'])
 # @cache.cached(timeout=300)
 def bh_data():
     global bh
-
+    global time_ac_control_get_fog_bh
     start_time = time.time()
     number_array = bh
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_ac_control_get_fog_bh = time.time() - start_time
     print("---fog bh %s seconds ---" % (time.time() - start_time))
     print("----fog bh amount of data = %s ------" % len(number_array))
+    write_to_csv('time_ac_control_get_fog_bh.csv', time_ac_control_get_fog_bh)
     return encodedNumpyData
 
 
@@ -151,12 +191,15 @@ def bh_data():
 # @cache.cached(timeout=300)
 def wo_data():
     global wo
-
+    global time_ac_control_get_cloud_wo
     start_time = time.time()
     number_array = wo
     numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)
+    time_ac_control_get_cloud_wo = time.time() - start_time
+    # use dump() to write array into file
     print("---fog wo %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_ac_control_get_cloud_wo.csv', time_ac_control_get_cloud_wo)
     print("----fog wo amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
@@ -165,12 +208,14 @@ def wo_data():
 # @cache.cached(timeout=300)
 def bo_data():
     global bo
-
+    global time_ac_control_get_cloud_bo
     start_time = time.time()
     number_array = bo
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    time_ac_control_get_cloud_bo = time.time() - start_time
     print("---fog bo %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_ac_control_get_cloud_bo.csv', time_ac_control_get_cloud_bo)
     print("----fog bo amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
@@ -304,6 +349,8 @@ def get_cloud_accuracy():
 
 
 def model_train():
+    global time_ac_control_model_train
+    start_time = time.time()
     global y_predict_array, wh, bh, wo, bo
     y_train = get_x_train_data()
     x_train = get_x_train_data()
@@ -392,6 +439,8 @@ def model_train():
         y_predict_array = np.array(y_predict)
 
         print("y_pred", y_predict_array)
+        time_ac_control_model_train = time.time() - start_time
+        write_to_csv('time_ac_control_model_train.csv', time_ac_control_model_train)
 
 
 def predict_output():

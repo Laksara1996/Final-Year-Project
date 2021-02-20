@@ -103,6 +103,7 @@ time_ac_control_get_roof_accuracy = 0
 time_ac_control_get_fog_accuracy = 0
 time_ac_control_get_cloud_accuracy = 0
 time_ac_control_model_train = 0
+total = 0
 
 
 def write_to_csv(fileName, data):
@@ -120,7 +121,7 @@ def predict_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     time_ac_control_predict = time.time() - start_time
-    write_to_csv('time_ac_control_predict.csv',time_ac_control_predict)
+    write_to_csv('time_ac_control_predict.csv', time_ac_control_predict)
     print("---ac control_predict_data %s seconds ---" % time_ac_control_predict)
     print("----ac control_predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
@@ -514,7 +515,26 @@ def output():
     return y_predict_array
 
 
+@app.route('/roof/ac_control/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def ac_time():
+    global total
+    global time_ac_control_predict
+    global time_ac_control_output
+    global time_ac_control_get_x_train_data
+    global time_ac_control_get_y_train_data
+    global time_ac_control_get_x_test_data
+    global time_ac_control_get_y_test_data
+    global time_ac_control_get_input_data
+    global time_ac_control_model_train
+    total = time_ac_control_predict + time_ac_control_output + time_ac_control_get_x_train_data + time_ac_control_get_y_train_data + \
+            time_ac_control_get_x_test_data + time_ac_control_get_y_test_data + time_ac_control_get_input_data + time_ac_control_model_train
+    write_to_csv('ac_control_Total.csv', total)
+    return total
+
+
 model_train_automated = RepeatedTimer(15, model_train)
+time_automated = RepeatedTimer(1, ac_time)
 
 b = datetime.datetime.now()
 print("Execution Time:")

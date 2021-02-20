@@ -162,6 +162,5 @@ def data_request_automated_for_minute():
 data_request_automated = RepeatedTimer(1, automated_data_request)
 data_request_automated_for_minute = RepeatedTimer(60, data_request_automated_for_minute)
 
-
 if __name__ == '__main__':
-    app.run(port=4006, debug=True, host='0.0.0.0')
+    app.run(port=5006, debug=True, host='0.0.0.0')

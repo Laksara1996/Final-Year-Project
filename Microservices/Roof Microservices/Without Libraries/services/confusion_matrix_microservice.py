@@ -25,12 +25,14 @@ class NumpyArrayEncoder(JSONEncoder):
 
 
 app = Flask(__name__)
+
 time_get_ac_status_confusion = 0
 time_get_speed_confusion = 0
-time_get_ac_control_y_test_data = 0
-time_get_ac_control_predict_data = 0
-time_get_speed_y_test_data = 0
-time_get_speed_predict_data = 0
+total = 0
+# time_get_ac_control_y_test_data = 0
+# time_get_ac_control_predict_data = 0
+# time_get_speed_y_test_data = 0
+# time_get_speed_predict_data = 0
 
 
 def write_to_csv(fileName, data):
@@ -152,6 +154,19 @@ def speed_confusion_matrix_function():
     confusion_matrix_value = confusion_matrix(y_test[:len(predict_data)], predict_data)
     print(confusion_matrix_value)
     # return confusion_matrix_value
+
+
+@app.route('/roof/confusion/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def speed_time():
+    global total
+    global time_get_ac_status_confusion
+    global time_get_speed_confusion
+
+    total = time_get_ac_status_confusion + time_get_speed_confusion
+
+    write_to_csv('confusion_time_Total.csv', total)
+    return total
 
 
 b = datetime.datetime.now()

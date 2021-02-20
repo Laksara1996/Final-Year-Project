@@ -1,4 +1,6 @@
 # Load libraries
+import csv
+
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import requests
@@ -17,21 +19,36 @@ class NumpyArrayEncoder(JSONEncoder):
 
 app = Flask(__name__)
 
+time_get_ac_status_confusion = 0
+time_get_speed_confusion = 0
+
+
+def write_to_csv(fileName, data):
+    with open(fileName, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Data:", data])
+
 
 @app.route('/ac_control/confusion_matrix', methods=['GET'])
 def ac_status_confuion():
+    global time_get_ac_status_confusion
     start_time = time.time()
     ac_control_confusion_matrix_function()
+    time_get_ac_status_confusion = time.time() - start_time
     print("--- %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_ac_status_confusion.csv', time_get_ac_status_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 
 
 @app.route('/speed/confusion_matrix', methods=['GET'])
 def speed_confuion():
+    global time_get_speed_confusion
     start_time = time.time()
     speed_confusion_matrix_function()
+    time_get_speed_confusion = time.time() - start_time
     print("--- %s seconds ---" % (time.time() - start_time))
+    write_to_csv('time_get_speed_confusion.csv', time_get_speed_confusion)
     return "confusion matrix"
     # return str(confusion_matrix_value)
 

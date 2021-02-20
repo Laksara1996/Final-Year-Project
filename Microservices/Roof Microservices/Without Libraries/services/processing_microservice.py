@@ -109,6 +109,7 @@ time_testbed_passenger_count_data = 0
 time_testbed_window_opening_data = 0
 time_function_ac_control_train_split = 0
 time_function_speed_train_split = 0
+total = 0
 
 
 def write_to_csv(fileName, data):
@@ -699,6 +700,39 @@ def speed_train_split():
         # print(speed_y_train_data)
 
 
+@app.route('/roof/processing/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def processing_time():
+    global total
+    global time_get_roof_speed_data
+    global time_get_roof_driver_rush_data
+    global time_get_roof_visibility_data
+    global time_get_roof_rain_intensity_data
+    global time_get_roof_pitch_data
+    global time_get_roof_ac_data
+    global time_get_roof_passenger_data
+    global time_get_roof_window_data
+    global time_get_speed_input
+    global time_get_speed_x_train
+    global time_get_speed_x_test
+    global time_get_speed_y_test
+    global time_get_speed_y_train
+    global time_get_ac_control_input
+    global time_get_ac_control_x_test
+    global time_get_ac_control_x_train
+    global time_get_ac_control_y_test
+    global time_get_ac_control_y_train
+    global time_function_ac_control_train_split
+    global time_function_speed_train_split
+    total = time_get_roof_speed_data + time_get_roof_driver_rush_data + time_get_roof_visibility_data + time_get_roof_rain_intensity_data + \
+            time_get_roof_pitch_data + time_get_roof_ac_data + time_get_roof_passenger_data + time_get_roof_passenger_data + time_get_roof_window_data + \
+            time_get_speed_input + time_get_speed_x_train + time_get_speed_x_test + time_get_speed_y_test + time_get_speed_y_train + time_get_ac_control_input + \
+            time_get_ac_control_x_test + time_get_ac_control_x_train + time_get_ac_control_y_test + time_get_ac_control_y_train + time_function_ac_control_train_split + \
+            time_function_ac_control_train_split + time_function_speed_train_split
+    write_to_csv('processing_Total.csv', total)
+    return total
+
+
 def automated_data_request():
     get_passenger_count_data()
     get_window_opening_data()
@@ -717,7 +751,7 @@ def automated_train_split():
 
 data_request_automated = RepeatedTimer(5, automated_data_request)
 train_split_automated = RepeatedTimer(11, automated_train_split)
-
+time_automated = RepeatedTimer(1, processing_time)
 
 b = datetime.datetime.now()
 print("Execution Time:")
