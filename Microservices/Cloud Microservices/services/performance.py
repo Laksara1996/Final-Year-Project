@@ -116,7 +116,7 @@ def network_io():
     write_to_csv('dropout.csv', dropout)
 
 
-def net_usage(inf="wlp2s0"):  # change the inf variable according to the interface
+def net_usage(inf="ens4"):  # change the inf variable according to the interface
     net_stat = psutil.net_io_counters(pernic=True, nowrap=True)[inf]
     net_in_1 = net_stat.bytes_recv
     net_out_1 = net_stat.bytes_sent

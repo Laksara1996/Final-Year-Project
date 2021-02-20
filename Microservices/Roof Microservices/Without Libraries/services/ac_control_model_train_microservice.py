@@ -472,7 +472,7 @@ def model_train():
 
         roof_accuracy = get_roof_accuracy()
         fog_accuracy = get_fog_accuracy()
-        # cloud_accuracy = get_cloud_accuracy()
+        cloud_accuracy = get_cloud_accuracy()
 
         if fog_accuracy > roof_accuracy:
             wh = get_fog_wh()
@@ -480,11 +480,11 @@ def model_train():
             wo = get_fog_wo()
             bo = get_fog_bo()
 
-            # if cloud_accuracy > fog_accuracy:
-            #     wh = get_cloud_wh()
-            #     bh = get_cloud_bh()
-            #     wo = get_cloud_wo()
-            #     bo = get_cloud_bo()
+            if cloud_accuracy > fog_accuracy:
+                wh = get_cloud_wh()
+                bh = get_cloud_bh()
+                wo = get_cloud_wo()
+                bo = get_cloud_bo()
 
             # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)

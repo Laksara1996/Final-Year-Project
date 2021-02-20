@@ -682,6 +682,7 @@ def processing_time():
             time_get_speed_input + time_get_speed_x_train + time_get_speed_x_test + time_get_speed_y_test + time_get_speed_y_train + time_get_ac_control_input + \
             time_get_ac_control_x_test + time_get_ac_control_x_train + time_get_ac_control_y_test + time_get_ac_control_y_train + time_function_ac_control_train_split + \
             time_function_ac_control_train_split + time_function_speed_train_split
+    write_to_csv('processing_time_Total.csv', total)
     return total
 
 

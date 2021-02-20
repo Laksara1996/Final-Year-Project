@@ -57,10 +57,10 @@ def write_to_csv(fileName, data):
         writer.writerow(["Data:", data])
 
 
-def measure_temp():
-    global raspberry_temperature_data
-    raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
-    return raspberry_temperature_data.replace("temp=", "")
+# def measure_temp():
+#     global raspberry_temperature_data
+#     raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
+#     return raspberry_temperature_data.replace("temp=", "")
 
 
 @app.route('/roof/performance', methods=['GET'])
@@ -116,7 +116,7 @@ def network_io():
     write_to_csv('dropout.csv', dropout)
 
 
-def net_usage(inf="wlp2s0"):  # change the inf variable according to the interface
+def net_usage(inf="wlan0"):  # change the inf variable according to the interface
     net_stat = psutil.net_io_counters(pernic=True, nowrap=True)[inf]
     net_in_1 = net_stat.bytes_recv
     net_out_1 = net_stat.bytes_sent

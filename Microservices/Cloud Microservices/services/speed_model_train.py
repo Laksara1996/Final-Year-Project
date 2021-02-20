@@ -100,6 +100,7 @@ time_speed_get_roof_accuracy = 0
 time_speed_get_fog_accuracy = 0
 time_speed_get_cloud_accuracy = 0
 time_speed_model_train = 0
+total = 0
 
 
 input_nodes = 5
@@ -381,7 +382,28 @@ def output():
     return y_predict_array
 
 
+@app.route('/roof/speed/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def speed_time():
+    global total
+    global time_speed_predict
+    global time_speed_output
+    global time_speed_get_x_train_data
+    global time_speed_get_y_train_data
+    global time_speed_get_x_test_data
+    global time_speed_get_y_test_data
+    global time_speed_get_input_data
+    global time_speed_model_train
+    total = time_speed_predict + time_speed_output + time_speed_get_x_train_data + time_speed_get_y_train_data + \
+            time_speed_get_x_test_data + time_speed_get_y_test_data + time_speed_get_input_data + time_speed_model_train
+
+    write_to_csv('speed_time_Total.csv', total)
+    return total
+
+
 model_train_automated = RepeatedTimer(90, model_train)
+time_automated = RepeatedTimer(1, speed_time)
+
 
 if __name__ == '__main__':
     app.run(port=5201, host='0.0.0.0', debug=True)

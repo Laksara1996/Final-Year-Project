@@ -101,7 +101,7 @@ time_ac_control_get_roof_accuracy = 0
 time_ac_control_get_fog_accuracy = 0
 time_ac_control_get_cloud_accuracy = 0
 time_ac_control_model_train = 0
-
+total = 0
 
 # Weight Matrix Define
 
@@ -373,7 +373,27 @@ def output():
     return y_predict_array
 
 
+@app.route('/roof/ac_control/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def ac_time():
+    global total
+    global time_ac_control_predict
+    global time_ac_control_output
+    global time_ac_control_get_x_train_data
+    global time_ac_control_get_y_train_data
+    global time_ac_control_get_x_test_data
+    global time_ac_control_get_y_test_data
+    global time_ac_control_get_input_data
+    global time_ac_control_model_train
+    total = time_ac_control_predict + time_ac_control_output + time_ac_control_get_x_train_data + time_ac_control_get_y_train_data + \
+            time_ac_control_get_x_test_data + time_ac_control_get_y_test_data + time_ac_control_get_input_data + time_ac_control_model_train
+    write_to_csv('ac_control_Total.csv', total)
+    return total
+
+
 model_train_automated = RepeatedTimer(90, model_train)
+time_automated = RepeatedTimer(1, ac_time)
+
 
 if __name__ == '__main__':
     app.run(port=5003, host='0.0.0.0', debug=True)

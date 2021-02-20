@@ -490,6 +490,39 @@ def get_performance_fog():
         return "service unavailable"
 
 
+@app.route('/fog/processing/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def processing_time():
+    global total
+    global time_get_fog_speed_data
+    global time_get_fog_driver_rush_data
+    global time_get_fog_visibility_data
+    global time_get_fog_rain_intensity_data
+    global time_get_fog_pitch_data
+    global time_get_fog_ac_data
+    global time_get_fog_passenger_data
+    global time_get_fog_window_data
+    global time_get_speed_input
+    global time_get_speed_x_train
+    global time_get_speed_x_test
+    global time_get_speed_y_test
+    global time_get_speed_y_train
+    global time_get_ac_control_input
+    global time_get_ac_control_x_test
+    global time_get_ac_control_x_train
+    global time_get_ac_control_y_test
+    global time_get_ac_control_y_train
+    global time_function_ac_control_train_split
+    global time_function_speed_train_split
+    total = time_get_fog_speed_data + time_get_fog_driver_rush_data + time_get_fog_visibility_data + time_get_fog_rain_intensity_data + \
+            time_get_fog_pitch_data + time_get_fog_ac_data + time_get_fog_passenger_data + time_get_fog_passenger_data + time_get_fog_window_data + \
+            time_get_speed_input + time_get_speed_x_train + time_get_speed_x_test + time_get_speed_y_test + time_get_speed_y_train + time_get_ac_control_input + \
+            time_get_ac_control_x_test + time_get_ac_control_x_train + time_get_ac_control_y_test + time_get_ac_control_y_train + time_function_ac_control_train_split + \
+            time_function_ac_control_train_split + time_function_speed_train_split
+    write_to_csv('processing_time_Total.csv', total)
+    return total
+
+
 performance_automated = RepeatedTimer(1, get_performance_fog)
 
 
@@ -506,6 +539,7 @@ def automated_functions():
 
 ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(70, speed_train_split)
+time_automated = RepeatedTimer(5, processing_time)
 
 # data_sent_automated = RepeatedTimer(70, send_data)
 

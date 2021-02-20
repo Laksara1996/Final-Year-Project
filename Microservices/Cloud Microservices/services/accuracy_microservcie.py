@@ -56,6 +56,7 @@ time_ac_control_accuracy = 0
 time_ac_control_accuracy_function = 0
 time_speed_accuracy = 0
 time_speed_accuracy_function = 0
+total = 0
 
 
 def write_to_csv(fileName, data):
@@ -163,8 +164,22 @@ def speed_accuracy_calculator():
     print('Accuracy: ', ac_accuracy)
 
 
-ac_accuracy_automated = RepeatedTimer(100, ac_control_accuracy)
-# speed_accuracy_automated = RepeatedTimer(100, speed_accuracy_calculator)
+@app.route('/roof/accuracy/time', methods=['GET'])
+# @cache.cached(timeout=300)
+def accuracy_time():
+    global total
+    global time_ac_control_accuracy
+    global time_speed_accuracy
+
+    total = time_ac_control_accuracy + time_speed_accuracy
+
+    write_to_csv('accuracy_time_Total.csv', total)
+    return total
+
+
+ac_accuracy_automated = RepeatedTimer(50, ac_control_accuracy)
+speed_accuracy_automated = RepeatedTimer(50, speed_accuracy_calculator)
+time_automated = RepeatedTimer(5, accuracy_time)
 
 
 if __name__ == '__main__':
