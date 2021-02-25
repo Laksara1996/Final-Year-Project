@@ -81,6 +81,14 @@ app = Flask(__name__)
 
 y_predict_array = []
 
+input_nodes = 2
+hidden_nodes = 8
+output_labels = 6
+wh = np.random.rand(input_nodes, hidden_nodes)
+bh = np.random.randn(hidden_nodes)
+wo = np.random.rand(hidden_nodes, output_labels)
+bo = np.random.randn(output_labels)
+
 
 @app.route('/speed/predict', methods=['GET'])
 # @cache.cached(timeout=300)
@@ -93,11 +101,52 @@ def predict_data():
     return encodedNumpyData
 
 
-@app.route('/speed/output', methods=['GET'])
+@app.route('/roof/wh', methods=['GET'])
 # @cache.cached(timeout=300)
-def output_data():
+def wh_data():
+    global wh
+
     start_time = time.time()
-    number_array = output()
+    number_array = wh
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---output_data %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+@app.route('/roof/bh', methods=['GET'])
+# @cache.cached(timeout=300)
+def bh_data():
+    global bh
+
+    start_time = time.time()
+    number_array = bh
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---output_data %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+@app.route('/roof/wo', methods=['GET'])
+# @cache.cached(timeout=300)
+def wo_data():
+    global wo
+
+    start_time = time.time()
+    number_array = wo
+    numpyData = {"array": number_array}
+    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
+    print("---output_data %s seconds ---" % (time.time() - start_time))
+    return encodedNumpyData
+
+
+@app.route('/roof/bo', methods=['GET'])
+# @cache.cached(timeout=300)
+def bo_data():
+    global bo
+
+    start_time = time.time()
+    number_array = bo
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---output_data %s seconds ---" % (time.time() - start_time))
@@ -293,7 +342,7 @@ def get_cloud_accuracy():
 
 
 def model_train():
-    global y_predict_array
+    global y_predict_array, wh, wo, bh, bo
 
     y_train = get_y_train_data()
     # print("y_train", y_train)
@@ -310,13 +359,13 @@ def model_train():
             # print("Y_train i", y_train[i])
             one_hot_labels[i, y_train[i]] = 1
 
-        input_nodes = 5
-        hidden_nodes = 8
-        output_labels = 6
-        wh = np.random.rand(input_nodes, hidden_nodes)
-        bh = np.random.randn(hidden_nodes)
-        wo = np.random.rand(hidden_nodes, output_labels)
-        bo = np.random.randn(output_labels)
+        # input_nodes = 5
+        # hidden_nodes = 8
+        # output_labels = 6
+        # wh = np.random.rand(input_nodes, hidden_nodes)
+        # bh = np.random.randn(hidden_nodes)
+        # wo = np.random.rand(hidden_nodes, output_labels)
+        # bo = np.random.randn(output_labels)
         lr = 10e-4
 
         error_cost = []
@@ -401,13 +450,6 @@ def model_train():
 def predict_output():
     global y_predict_array
     # model_train()
-
-    return y_predict_array
-
-
-def output():
-    global y_predict_array
-    # y_predict = model_train()
 
     return y_predict_array
 

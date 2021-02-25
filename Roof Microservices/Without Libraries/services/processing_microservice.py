@@ -551,23 +551,20 @@ def speed_train_split():
         # print(speed_y_train_data)
 
 
-def automated_data_request():
-    get_passenger_count_data()
-    get_window_opening_data()
-    get_air_condition_data()
-    get_pitch_data()
-    get_rain_intensity_data()
-    get_visibility_data()
-    get_driver_rush_data()
-    get_vehicle_speed_data()
-
-
 def automated_train_split():
     ac_control_train_split()
     speed_train_split()
 
 
-data_request_automated = RepeatedTimer(5, automated_data_request)
+passenger_data_automated = RepeatedTimer(5, get_passenger_count_data)
+window_data_automated = RepeatedTimer(5, get_window_opening_data)
+ac_data_automated = RepeatedTimer(5, get_air_condition_data)
+pitch_data_automated = RepeatedTimer(5, get_pitch_data)
+rain_intensity_data_automated = RepeatedTimer(5, get_rain_intensity_data)
+visibility_data_automated = RepeatedTimer(5, get_visibility_data)
+driver_rush_data_automated = RepeatedTimer(5, get_driver_rush_data)
+speed_data_automated = RepeatedTimer(5, get_vehicle_speed_data)
+
 train_split_automated = RepeatedTimer(11, automated_train_split)
 
 if __name__ == '__main__':

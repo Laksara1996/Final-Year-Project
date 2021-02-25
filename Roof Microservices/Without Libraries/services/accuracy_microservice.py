@@ -124,8 +124,8 @@ def ac_control_accuracy():
     y_test = get_ac_control_y_test_data()
     predict_data = get_ac_control_predict_data()
 
-    # print("y_test len", len(y_test))
-    # print("predict len", len(predict_data))
+    print("y_test len", len(y_test))
+    print("predict len", len(predict_data))
 
     ac_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('Accuracy ac: ', ac_accuracy)
