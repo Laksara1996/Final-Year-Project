@@ -35,7 +35,7 @@ public class DataService {
 	private ArrayList<Double> drivers_wellbeing = new ArrayList<Double>();
 	private ArrayList<Double> driver_rush = new ArrayList<Double>();
 
-	private int [] number_of_requests = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	private int [] number_of_requests = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
 	private Instant start;
 	private Instant end;
