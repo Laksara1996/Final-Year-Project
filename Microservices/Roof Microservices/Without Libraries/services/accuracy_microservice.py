@@ -114,7 +114,7 @@ def get_ac_control_y_test_data():
 
 
 def get_ac_control_predict_data():
-    global time_get_ac_control_predict_data
+    # global time_get_ac_control_predict_data
     start_time = time.time()
     try:
         req = requests.get("http://localhost:3003/ac_control/predict")
@@ -124,13 +124,13 @@ def get_ac_control_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    time_get_ac_control_predict_data = time.time() - start_time
-    print("---time_get_ac_control_predict_data %s seconds ---" % time_get_ac_control_predict_data)
+    # time_get_ac_control_predict_data = time.time() - start_time
+    # print("---time_get_ac_control_predict_data %s seconds ---" % time_get_ac_control_predict_data)
     return finalNumpyArray
 
 
 def get_speed_y_test_data():
-    global time_get_speed_y_test_data
+    # global time_get_speed_y_test_data
     start_time = time.time()
     try:
         req = requests.get("http://localhost:3001/speed/y_test")
@@ -140,14 +140,14 @@ def get_speed_y_test_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    time_get_speed_y_test_data = time.time() - start_time
-    print("---time_get_speed_y_test_data %s seconds ---" % time_get_speed_y_test_data)
+    # time_get_speed_y_test_data = time.time() - start_time
+    # print("---time_get_speed_y_test_data %s seconds ---" % time_get_speed_y_test_data)
     return finalNumpyArray
 
 
 def get_speed_predict_data():
-    global time_get_speed_predict_data
-    start_time = time.time()
+    # global time_get_speed_predict_data
+    # start_time = time.time()
     try:
         req = requests.get("http://localhost:3201/speed/predict")
         decodedArrays = json.loads(req.text)
@@ -156,8 +156,8 @@ def get_speed_predict_data():
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
-    time_get_speed_predict_data = time.time() - start_time
-    print("---time_get_speed_predict_data %s seconds ---" % time_get_speed_predict_data)
+    # time_get_speed_predict_data = time.time() - start_time
+    # print("---time_get_speed_predict_data %s seconds ---" % time_get_speed_predict_data)
     return finalNumpyArray
 
 
@@ -185,8 +185,8 @@ def speed_accuracy_check():
     y_test = get_speed_y_test_data()
     predict_data = get_speed_predict_data()
 
-    print("y_test len", len(y_test))
-    print("predict len", len(predict_data))
+    # print("y_test len", len(y_test))
+    # print("predict len", len(predict_data))
 
     speed_accuracy = accuracy_score(y_test[:len(predict_data)], predict_data)
     print('Speed Accuracy: ', speed_accuracy)

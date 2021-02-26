@@ -7,6 +7,7 @@ import numpy as np
 from dask.tests.test_system import psutil
 from flask import Flask
 from json import JSONEncoder
+import requests
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -49,6 +50,8 @@ memory_usage_data = 0
 raspberry_temperature_data = 0
 performance_data = 0
 total = 0
+passenger_count_data_array = []
+testbed_ip_address = "192.168.1.112"
 
 
 def write_to_csv(fileName, data):
@@ -61,6 +64,31 @@ def write_to_csv(fileName, data):
 #     global raspberry_temperature_data
 #     raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
 #     return raspberry_temperature_data.replace("temp=", "")
+
+
+def get_passenger_count_data():
+    global passenger_count_data_array
+    # global time_testbed_passenger_count_data
+    # start_time = time.time()
+    try:
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/time")
+        req_text = req.text[1:-1]
+        number = ""
+        # number_array = []
+        for i in req_text:
+            if i == ',':
+                # number_array.append(number)
+                passenger_count_data_array.append(float(number))
+                number = ""
+                continue
+            number = number + i
+        # number_array = [float(i) for i in number_array]
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    # time_testbed_passenger_count_data = time.time() - start_time
+    # print("--- time_testbed_passenger_count_data %s seconds ---" % time_testbed_passenger_count_data)
+    # return number_array
 
 
 @app.route('/roof/performance', methods=['GET'])
@@ -147,6 +175,7 @@ def performance_time():
 
 
 def automated_data_request():
+    get_passenger_count_data()
     get_cpu_measure_data()
     performance()
     get_memory_usage()

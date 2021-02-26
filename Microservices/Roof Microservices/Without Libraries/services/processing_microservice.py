@@ -1,5 +1,4 @@
 # Load libraries
-import csv
 from threading import Timer
 
 from sklearn.model_selection import train_test_split
@@ -12,7 +11,7 @@ import json
 from json import JSONEncoder
 import time
 import datetime
-
+import csv
 a = datetime.datetime.now()
 
 
@@ -49,16 +48,10 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-# config = {
-#     "DEBUG": True,  # some Flask specific configs
-#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-#     "CACHE_DEFAULT_TIMEOUT": 300
-# }
-
 app = Flask(__name__)
 
-# app.config.from_mapping(config)
-# cache = Cache(app)
+# Ip adresses of system devices
+testbed_ip_address = "192.168.1.112"
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -166,7 +159,6 @@ def visibility_data():
     print("---speed time_get_roof_visibility_data %s seconds ---" % time_get_roof_visibility_data)
     print("----roof visibility_data amount of data = %s ------" % len(number_array))
     write_to_csv('time_get_roof_visibility_data.csv', time_get_roof_visibility_data)
-
     return encodedNumpyData
 
 
@@ -426,7 +418,7 @@ def get_pitch_data():
     global time_testbed_pitch_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/pitch")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/pitch")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -451,7 +443,7 @@ def get_rain_intensity_data():
     global time_testbed_rain_intensity_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/rainIntensity")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/rainIntensity")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -477,7 +469,7 @@ def get_visibility_data():
     global time_testbed_visibility_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/visibility")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/visibility")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -502,7 +494,7 @@ def get_driver_rush_data():
     global time_testbed_driver_rush_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/driver_rush")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/driver_rush")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -527,7 +519,7 @@ def get_vehicle_speed_data():
     global time_testbed_vehicle_speed_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/vehicleSpeed")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/vehicleSpeed")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -553,7 +545,7 @@ def get_air_condition_data():
     global time_testbed_air_condition_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/airConditionStatus")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/airConditionStatus")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -578,7 +570,7 @@ def get_passenger_count_data():
     global time_testbed_passenger_count_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/passengerCount")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/passengerCount")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -603,7 +595,7 @@ def get_window_opening_data():
     global time_testbed_window_opening_data
     start_time = time.time()
     try:
-        req = requests.get("http://192.168.1.112:5000//data/windowOpening")
+        req = requests.get("http://" + testbed_ip_address + ":5000//data/windowOpening")
         req_text = req.text[1:-1]
         number = ""
         # number_array = []
@@ -626,10 +618,10 @@ def get_window_opening_data():
 # AC Train Split
 
 def ac_control_train_split():
-    global air_condition_data_array, window_opening_data_array, passenger_count_data_array, ac_x_train, ac_x_test, \
-        ac_y_train, ac_y_test, ac_input
     global time_function_ac_control_train_split
     start_time = time.time()
+    global air_condition_data_array, window_opening_data_array, passenger_count_data_array, ac_x_train, ac_x_test, \
+        ac_y_train, ac_y_test, ac_input
 
     window_opening_data = [int(i) for i in window_opening_data_array]
     passenger_count_data = [int(i) for i in passenger_count_data_array]
@@ -733,29 +725,27 @@ def processing_time():
     return total
 
 
-def automated_data_request():
-    get_passenger_count_data()
-    get_window_opening_data()
-    get_air_condition_data()
-    get_pitch_data()
-    get_rain_intensity_data()
-    get_visibility_data()
-    get_driver_rush_data()
-    get_vehicle_speed_data()
-
-
 def automated_train_split():
     ac_control_train_split()
     speed_train_split()
 
 
-data_request_automated = RepeatedTimer(5, automated_data_request)
+passenger_data_automated = RepeatedTimer(5, get_passenger_count_data)
+window_data_automated = RepeatedTimer(5, get_window_opening_data)
+ac_data_automated = RepeatedTimer(5, get_air_condition_data)
+pitch_data_automated = RepeatedTimer(5, get_pitch_data)
+rain_intensity_data_automated = RepeatedTimer(5, get_rain_intensity_data)
+visibility_data_automated = RepeatedTimer(5, get_visibility_data)
+driver_rush_data_automated = RepeatedTimer(5, get_driver_rush_data)
+speed_data_automated = RepeatedTimer(5, get_vehicle_speed_data)
+
+
 train_split_automated = RepeatedTimer(11, automated_train_split)
 time_automated = RepeatedTimer(1, processing_time)
 
 b = datetime.datetime.now()
 print("Execution Time:")
-print(b-a)
+print(b - a)
 
 if __name__ == '__main__':
     app.run(port=3001, host='0.0.0.0')
