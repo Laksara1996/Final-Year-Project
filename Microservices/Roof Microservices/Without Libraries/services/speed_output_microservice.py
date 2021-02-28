@@ -4,8 +4,6 @@ from numpy import argmax
 
 import requests
 from flask import Flask
-from flask_caching import Cache
-import os
 
 import json
 from json import JSONEncoder
@@ -87,6 +85,7 @@ y_predict_array = []
 def output_data():
     start_time = time.time()
     number_array = output()
+    number_array = np.array(number_array)
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---output_data %s seconds ---" % (time.time() - start_time))

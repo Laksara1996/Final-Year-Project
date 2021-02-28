@@ -97,7 +97,7 @@ total = 0
 
 y_predict_array = []
 
-input_nodes = 2
+input_nodes = 5
 hidden_nodes = 8
 output_labels = 6
 wh = np.random.rand(input_nodes, hidden_nodes)
