@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class NavigationClass extends StatefulWidget {
   @override
@@ -25,7 +28,9 @@ class _NavigationClassState extends State<NavigationClass> {
 
   String _startAddress = '';
   String _destinationAddress = '';
+  String _avalableFuel = '';
   String _placeDistance;
+  String _canGo;
 
   Set<Marker> markers = {};
 
@@ -123,6 +128,44 @@ class _NavigationClassState extends State<NavigationClass> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<int> getData() async {
+    final response = await http.get('http://172.17.217.1:6202//cloud/can_go');
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var result = json.decode(response.body);
+      print(result["array"]);
+
+      setState(() {
+        _canGo = result["array"].toString();
+      });
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<int> sentData(String _placeDistance, String _avalableFuel) async {
+    var bodyEncoded =
+        json.encode({'distance': _placeDistance, 'fuel': _avalableFuel});
+    final response = await http.post(
+        'http://172.17.217.1:6201/cloud/add_mobile_data',
+        headers: {"Content-Type": "application/json"},
+        body: bodyEncoded);
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
     }
   }
 
@@ -247,6 +290,9 @@ class _NavigationClassState extends State<NavigationClass> {
           _placeDistance = totalDistance.toStringAsFixed(2);
           print('DISTANCE: $totalDistance km');
         });
+
+        sentData(_placeDistance, _avalableFuel);
+        getData();
 
         return true;
       }
@@ -474,18 +520,38 @@ class _NavigationClassState extends State<NavigationClass> {
                               }),
                           SizedBox(height: 10),
                           _textField(
-                            label: 'Available Fuel',
-                            hint: 'Amount of Fuel',
-                            initialValue: '',
-                            prefixIcon: Icon(Icons.backpack_rounded),
-                            controller: fuelController,
-                            width: width,
-                          ),
+                              label: 'Available Fuel',
+                              hint: 'Amount of Fuel',
+                              initialValue: '',
+                              prefixIcon: Icon(Icons.backpack_rounded),
+                              controller: fuelController,
+                              width: width,
+                              locationCallback: (String value) {
+                                setState(() {
+                                  _avalableFuel = value;
+                                });
+                              }),
                           SizedBox(height: 10),
                           Visibility(
                             visible: _placeDistance == null ? false : true,
                             child: Text(
-                              'DISTANCE: $_placeDistance km',
+                              'DISTANCE: $_placeDistance km ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: _canGo == null ? false : true,
+                            child: _canGo == "1"  ? Text(
+                              'Fuel is Sufficient ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ):Text(
+                              'Fuel is not Sufficient ',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -504,6 +570,7 @@ class _NavigationClassState extends State<NavigationClass> {
                                       if (polylineCoordinates.isNotEmpty)
                                         polylineCoordinates.clear();
                                       _placeDistance = null;
+                                      _canGo = null;
                                     });
 
                                     _calculateDistance().then((isCalculated) {
