@@ -1,13 +1,9 @@
 # Load libraries
-import csv
-
 import numpy as np
 from numpy import argmax
 
 import requests
 from flask import Flask
-from flask_caching import Cache
-import os
 
 import json
 from json import JSONEncoder
@@ -15,6 +11,11 @@ from json import JSONEncoder
 import time
 from threading import Timer
 import datetime
+import csv
+
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 a = datetime.datetime.now()
 
@@ -73,20 +74,20 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-# config = {
-#     "DEBUG": True,  # some Flask specific configs
-#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-#     "CACHE_DEFAULT_TIMEOUT": 300
-# }
+cred = credentials.Certificate(
+    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+doc_ref = db.collection('Global_Accuracy').document('test')
 
 app = Flask(__name__)
 
-# app.config.from_mapping(config)
-# cache = Cache(app)
+# ip adresses
+cloud_ip_address = "34.126.124.227"
 
-y_predict_array = []
-
-
+# global time variables
 time_ac_control_predict = 0
 time_ac_control_output = 0
 time_ac_control_get_x_train_data = 0
@@ -107,6 +108,9 @@ time_ac_control_get_fog_accuracy = 0
 time_ac_control_get_cloud_accuracy = 0
 time_ac_control_model_train = 0
 total = 0
+
+
+y_predict_array = []
 
 # Weight Matrix Define
 
@@ -271,7 +275,7 @@ def get_y_test_data():
 
 def get_cloud_wh():
     try:
-        req = requests.get("http://34.126.124.227:5003/cloud/wh")
+        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -283,7 +287,7 @@ def get_cloud_wh():
 
 def get_cloud_bh():
     try:
-        req = requests.get("http://34.126.124.227:5003/cloud/bh")
+        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -295,7 +299,7 @@ def get_cloud_bh():
 
 def get_cloud_wo():
     try:
-        req = requests.get("http://34.126.124.227:5003/cloud/wo")
+        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -307,7 +311,7 @@ def get_cloud_wo():
 
 def get_cloud_bo():
     try:
-        req = requests.get("http://34.126.124.227:5003/cloud/bo")
+        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -329,6 +333,16 @@ def get_input_data():
     return finalNumpyArray
 
 
+def get_global_fog_accuracy():
+    try:
+        req = requests.get("http://localhost:4500/ac_control/accuracy")
+        accuracy = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return accuracy
+
+
 def get_fog_accuracy():
     try:
         req = requests.get("http://localhost:4002/ac_control/accuracy")
@@ -341,7 +355,7 @@ def get_fog_accuracy():
 
 def get_cloud_accuracy():
     try:
-        req = requests.get("http://34.126.124.227:5002/ac_control/accuracy")
+        req = requests.get("http://" + cloud_ip_address + ":5002/ac_control/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -422,7 +436,7 @@ def model_train():
         # End of for loop (End of training phase)
 
         cloud_accuracy = get_cloud_accuracy()
-        fog_accuracy = get_fog_accuracy()
+        fog_accuracy = get_global_fog_accuracy()
 
         if cloud_accuracy > fog_accuracy:
             wh = get_cloud_wh()
