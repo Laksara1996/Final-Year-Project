@@ -182,7 +182,7 @@ def get_vehicle_ac_status_accuracy():
     global global_ac_accuracy, global_ac_wh, global_ac_wo, global_ac_bh, global_ac_bo
 
     try:
-        req = requests.get("http://localhost:4002/ac_control/accuracy")
+        req = requests.get("http://localhost:5002/ac_control/accuracy")
         accuracy = float(req.text)
 
         length = get_ac_control_predict_data_length()
@@ -199,33 +199,10 @@ def get_vehicle_ac_status_accuracy():
         return "Service unavailable"
 
 
-def get_second_vehicle_ac_status_accuracy():
-    global global_ac_accuracy, global_ac_wh, global_ac_wo, global_ac_bh, global_ac_bo
-
-    try:
-        req = requests.get("http://localhost:4102/ac_control/accuracy")
-        accuracy = float(req.text)
-
-        length = get_second_ac_control_predict_data_length()
-
-        if length > 100:
-            if accuracy > global_ac_accuracy:
-                global_ac_accuracy = accuracy
-
-                global_ac_wo = get_second_ac_control_wo()
-                global_ac_wh = get_second_ac_control_wh()
-                global_ac_bo = get_second_ac_control_bo()
-                global_ac_bh = get_second_ac_control_bh()
-        print("ac", global_ac_accuracy)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-
-
 def get_vehicle_speed_accuracy():
     global global_speed_accuracy, global_speed_bh, global_speed_bo, global_speed_wh, global_speed_wo
     try:
-        req = requests.get("http://localhost:4002/speed/accuracy")
+        req = requests.get("http://localhost:5002/speed/accuracy")
         accuracy = float(req.text)
 
         length = get_speed_predict_data_length()
@@ -244,32 +221,9 @@ def get_vehicle_speed_accuracy():
     return accuracy
 
 
-def get_second_vehicle_speed_accuracy():
-    global global_speed_accuracy, global_speed_bh, global_speed_bo, global_speed_wh, global_speed_wo
-    try:
-        req = requests.get("http://localhost:4102/speed/accuracy")
-        accuracy = float(req.text)
-
-        length = get_second_speed_predict_data_length()
-        print("speed length", length)
-        if length > 100:
-            if accuracy > global_speed_accuracy:
-                global_speed_accuracy = accuracy
-
-                global_speed_wo = get_second_speed_fog_wo()
-                global_speed_wh = get_second_speed_fog_wh()
-                global_speed_bo = get_second_speed_fog_bo()
-                global_speed_bh = get_second_speed_fog_bh()
-        print("speed", global_speed_accuracy)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
-
-
 def get_ac_control_predict_data_length():
     try:
-        req = requests.get("http://localhost:4003/ac_control/predict")
+        req = requests.get("http://localhost:5003/ac_control/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -281,7 +235,7 @@ def get_ac_control_predict_data_length():
 
 def get_ac_control_wh():
     try:
-        req = requests.get("http://localhost:4003//fog/wh")
+        req = requests.get("http://localhost:5003//fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -293,7 +247,7 @@ def get_ac_control_wh():
 
 def get_ac_control_bh():
     try:
-        req = requests.get("http://localhost:4003/fog/bh")
+        req = requests.get("http://localhost:5003/fog/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -305,7 +259,7 @@ def get_ac_control_bh():
 
 def get_ac_control_wo():
     try:
-        req = requests.get("http://localhost:4003/fog/wo")
+        req = requests.get("http://localhost:5003/fog/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -317,7 +271,7 @@ def get_ac_control_wo():
 
 def get_ac_control_bo():
     try:
-        req = requests.get("http://localhost:4003/fog/bo")
+        req = requests.get("http://localhost:5003/fog/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -329,7 +283,7 @@ def get_ac_control_bo():
 
 def get_speed_predict_data_length():
     try:
-        req = requests.get("http://localhost:4006/speed/predict")
+        req = requests.get("http://localhost:5201/speed/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -341,7 +295,7 @@ def get_speed_predict_data_length():
 
 def get_speed_fog_wh():
     try:
-        req = requests.get("http://localhost:4006/fog/wh")
+        req = requests.get("http://localhost:5201/fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -353,7 +307,7 @@ def get_speed_fog_wh():
 
 def get_speed_fog_bh():
     try:
-        req = requests.get("http://localhost:4006/fog/bh")
+        req = requests.get("http://localhost:5201/fog/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -365,7 +319,7 @@ def get_speed_fog_bh():
 
 def get_speed_fog_wo():
     try:
-        req = requests.get("http://localhost:4006/fog/wo")
+        req = requests.get("http://localhost:5201/fog/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -377,127 +331,7 @@ def get_speed_fog_wo():
 
 def get_speed_fog_bo():
     try:
-        req = requests.get("http://localhost:4006/fog/bo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_second_ac_control_predict_data_length():
-    try:
-        req = requests.get("http://localhost:4103/ac_control/predict")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_ac_control_wh():
-    try:
-        req = requests.get("http://localhost:4103//fog/wh")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_ac_control_bh():
-    try:
-        req = requests.get("http://localhost:4103/fog/bh")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_ac_control_wo():
-    try:
-        req = requests.get("http://localhost:4103/fog/wo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_ac_control_bo():
-    try:
-        req = requests.get("http://localhost:4103/fog/bo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_speed_predict_data_length():
-    try:
-        req = requests.get("http://localhost:4301/speed/predict")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return len(finalNumpyArray)
-
-
-def get_second_speed_fog_wh():
-    try:
-        req = requests.get("http://localhost:4301/fog/wh")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_second_speed_fog_bh():
-    try:
-        req = requests.get("http://localhost:4301/fog/bh")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_second_speed_fog_wo():
-    try:
-        req = requests.get("http://localhost:4301/fog/wo")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_second_speed_fog_bo():
-    try:
-        req = requests.get("http://localhost:4301/fog/bo")
+        req = requests.get("http://localhost:5201/fog/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -508,10 +342,8 @@ def get_second_speed_fog_bo():
 
 
 ac_accuracy_automated_1 = RepeatedTimer(40, get_vehicle_ac_status_accuracy)
-ac_accuracy_automated_2 = RepeatedTimer(40, get_second_vehicle_ac_status_accuracy)
 
 speed_accuracy_automated_1 = RepeatedTimer(40, get_vehicle_speed_accuracy)
-speed_accuracy_automated_2 = RepeatedTimer(40, get_second_vehicle_speed_accuracy)
 
 if __name__ == '__main__':
-    app.run(port=4500)
+    app.run(port=5500)

@@ -11,10 +11,6 @@ from json import JSONEncoder
 import time
 from threading import Timer
 
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -50,15 +46,6 @@ class RepeatedTimer(object):
 
 
 app = Flask(__name__)
-
-# Use the application default credentials
-cred = credentials.Certificate(
-    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
-
-doc_ref = db.collection('Global_Accuracy').document('test')
 
 ac_accuracy = 0
 speed_accuracy = 0
@@ -253,47 +240,8 @@ def speed_accuracy_calculator():
     print('Accuracy: ', ac_accuracy)
 
 
-def send_accuracy_data():
-    global speed_accuracy, ac_accuracy
-
-    ac_wh = get_ac_cloud_wh()
-    ac_bh = get_ac_cloud_bh()
-    ac_wo = get_ac_cloud_wo()
-    ac_bo = get_ac__cloud_bo()
-
-    speed_wh = get_speed_cloud_wh()
-    speed_bh = get_speed_cloud_bh()
-    speed_wo = get_speed_cloud_wo()
-    speed_bo = get_speed_cloud_bo()
-
-    doc = doc_ref.get()
-    if doc.exists:
-        result = doc.to_dict()
-        if result["ac_accuracy"] < ac_accuracy:
-            doc_ref.set({
-                'ac_accuracy': ac_accuracy,
-                'ac_wh': ac_wh,
-                'ac_bh': ac_bh,
-                'ac_wo': ac_wo,
-                'ac_bo': ac_bo,
-            })
-        if result["speed_accuracy"] < speed_accuracy:
-            doc_ref.set({
-                'speed_accuracy': speed_accuracy,
-                'speed_wh': speed_wh,
-                'speed_bh': speed_bh,
-                'speed_wo': speed_wo,
-                'speed_bo': speed_bo,
-            })
-    else:
-        print(u'No such document!')
-
-
 ac_accuracy_automated = RepeatedTimer(100, ac_control_accuracy)
 speed_accuracy_automated = RepeatedTimer(100, speed_accuracy_calculator)
-
-
-data_sent_automated = RepeatedTimer(110, send_accuracy_data)
 
 if __name__ == '__main__':
     app.run(port=5002, debug=True)

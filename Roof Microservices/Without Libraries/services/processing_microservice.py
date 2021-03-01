@@ -83,6 +83,14 @@ ac_input = []
 
 # Sent Data To the FOG
 
+
+@app.route('/')
+# @cache.cached(timeout=300)
+def test_check():
+    hello = 'Hello World!!!'.encode()
+    return hello
+
+
 @app.route('/roof/speed_data', methods=['GET'])
 # @cache.cached(timeout=300)
 def speed_data():
@@ -559,6 +567,7 @@ def automated_train_split():
 passenger_data_automated = RepeatedTimer(5, get_passenger_count_data)
 window_data_automated = RepeatedTimer(5, get_window_opening_data)
 ac_data_automated = RepeatedTimer(5, get_air_condition_data)
+
 pitch_data_automated = RepeatedTimer(5, get_pitch_data)
 rain_intensity_data_automated = RepeatedTimer(5, get_rain_intensity_data)
 visibility_data_automated = RepeatedTimer(5, get_visibility_data)

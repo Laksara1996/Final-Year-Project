@@ -215,7 +215,7 @@ def get_input_data():
 
 def get_fog_wh():
     try:
-        req = requests.get("http://localhost:4003/fog/wh")
+        req = requests.get("http://localhost:4500/ac/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -227,7 +227,7 @@ def get_fog_wh():
 
 def get_fog_bh():
     try:
-        req = requests.get("http://localhost:4003/fog/bh")
+        req = requests.get("http://localhost:4500/ac/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -239,7 +239,7 @@ def get_fog_bh():
 
 def get_fog_wo():
     try:
-        req = requests.get("http://localhost:4003/fog/wo")
+        req = requests.get("http://localhost:4500/ac/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -251,7 +251,7 @@ def get_fog_wo():
 
 def get_fog_bo():
     try:
-        req = requests.get("http://localhost:4003/fog/bo")
+        req = requests.get("http://localhost:4500/ac/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -263,7 +263,7 @@ def get_fog_bo():
 
 def get_cloud_wh():
     try:
-        req = requests.get("http://localhost:5003/cloud/wh")
+        req = requests.get("http://localhost:5500/ac/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -275,7 +275,7 @@ def get_cloud_wh():
 
 def get_cloud_bh():
     try:
-        req = requests.get("http://localhost:5003/cloud/bh")
+        req = requests.get("http://localhost:5500/ac/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -287,7 +287,7 @@ def get_cloud_bh():
 
 def get_cloud_wo():
     try:
-        req = requests.get("http://localhost:5003/cloud/wo")
+        req = requests.get("http://localhost:5500/ac/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -299,7 +299,7 @@ def get_cloud_wo():
 
 def get_cloud_bo():
     try:
-        req = requests.get("http://localhost:5003/cloud/bo")
+        req = requests.get("http://localhost:5500/ac/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -321,7 +321,7 @@ def get_roof_accuracy():
 
 def get_fog_accuracy():
     try:
-        req = requests.get("http://localhost:4500/ac_control/accuracy")
+        req = requests.get("http://localhost:4500/ac/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -331,7 +331,7 @@ def get_fog_accuracy():
 
 def get_cloud_accuracy():
     try:
-        req = requests.get("http://localhost:5002/ac_control/accuracy")
+        req = requests.get("http://localhost:5500/ac/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:

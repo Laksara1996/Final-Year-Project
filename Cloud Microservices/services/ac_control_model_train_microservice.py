@@ -103,17 +103,6 @@ def predict_data():
     return encodedNumpyData
 
 
-@app.route('/ac_control/output', methods=['GET'])
-# @cache.cached(timeout=300)
-def output_data():
-    start_time = time.time()
-    number_array = output()
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    print("---output_data %s seconds ---" % (time.time() - start_time))
-    return encodedNumpyData
-
-
 @app.route('/cloud/wh', methods=['GET'])
 # @cache.cached(timeout=300)
 def wh_data():
@@ -309,13 +298,6 @@ def model_train():
 
 
 def predict_output():
-    global y_predict_array
-    # y_predict = model_train()
-
-    return y_predict_array
-
-
-def output():
     global y_predict_array
     # y_predict = model_train()
 

@@ -87,15 +87,16 @@ y_predict_array = []
 def output_data():
     start_time = time.time()
     number_array = output()
+    number_array = np.array(number_array)
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     print("---output_data %s seconds ---" % (time.time() - start_time))
     return encodedNumpyData
 
 
-def get_roof_wh():
+def get_fog_wh():
     try:
-        req = requests.get("http://localhost:4201/fog/wh")
+        req = requests.get("http://localhost:4006/fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -105,9 +106,9 @@ def get_roof_wh():
     return finalNumpyArray
 
 
-def get_roof_bh():
+def get_fog_bh():
     try:
-        req = requests.get("http://localhost:4201/fog/bh")
+        req = requests.get("http://localhost:4006/fog/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -117,9 +118,9 @@ def get_roof_bh():
     return finalNumpyArray
 
 
-def get_roof_wo():
+def get_fog_wo():
     try:
-        req = requests.get("http://localhost:4201/fog/wo")
+        req = requests.get("http://localhost:4006/fog/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -129,9 +130,9 @@ def get_roof_wo():
     return finalNumpyArray
 
 
-def get_roof_bo():
+def get_fog_bo():
     try:
-        req = requests.get("http://localhost:4201/fog/bo")
+        req = requests.get("http://localhost:4006/fog/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -154,10 +155,10 @@ def get_input_data():
 
 
 def output():
-    wh = get_roof_wh()
-    bh = get_roof_bh()
-    bo = get_roof_bo()
-    wo = get_roof_wo()
+    wh = get_fog_wh()
+    bh = get_fog_bh()
+    bo = get_fog_bo()
+    wo = get_fog_wo()
 
     x = get_input_data()
 
@@ -177,4 +178,4 @@ def output():
 # model_train_automated = RepeatedTimer(15, model_train)
 
 if __name__ == '__main__':
-    app.run(port=4202)
+    app.run(port=4212)

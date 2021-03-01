@@ -81,7 +81,7 @@ app = Flask(__name__)
 
 y_predict_array = []
 
-input_nodes = 2
+input_nodes = 5
 hidden_nodes = 8
 output_labels = 6
 wh = np.random.rand(input_nodes, hidden_nodes)
@@ -215,7 +215,9 @@ def get_input_data():
 
 def get_fog_wh():
     try:
-        req = requests.get("http://localhost:4201/fog/wh")
+        req = requests.get("http://localhost:4500/speed/wh")
+        print("req")
+        print(req.text)
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -227,7 +229,7 @@ def get_fog_wh():
 
 def get_fog_bh():
     try:
-        req = requests.get("http://localhost:4201/fog/bh")
+        req = requests.get("http://localhost:4500/speed/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -239,7 +241,7 @@ def get_fog_bh():
 
 def get_fog_wo():
     try:
-        req = requests.get("http://localhost:4201/fog/wo")
+        req = requests.get("http://localhost:4500/speed/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -251,7 +253,7 @@ def get_fog_wo():
 
 def get_fog_bo():
     try:
-        req = requests.get("http://localhost:4201/fog/bo")
+        req = requests.get("http://localhost:4500/speed/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -263,7 +265,7 @@ def get_fog_bo():
 
 def get_cloud_wh():
     try:
-        req = requests.get("http://localhost:5201/cloud/wh")
+        req = requests.get("http://localhost:5500/speed/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -275,7 +277,7 @@ def get_cloud_wh():
 
 def get_cloud_bh():
     try:
-        req = requests.get("http://localhost:5201/cloud/bh")
+        req = requests.get("http://localhost:5500/speed/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -287,7 +289,7 @@ def get_cloud_bh():
 
 def get_cloud_wo():
     try:
-        req = requests.get("http://localhost:5201/cloud/wo")
+        req = requests.get("http://localhost:5500/speed/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -299,7 +301,7 @@ def get_cloud_wo():
 
 def get_cloud_bo():
     try:
-        req = requests.get("http://localhost:5201/cloud/bo")
+        req = requests.get("http://localhost:5500/speed/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -332,7 +334,7 @@ def get_fog_accuracy():
 
 def get_cloud_accuracy():
     try:
-        req = requests.get("http://localhost:5002/speed/accuracy")
+        req = requests.get("http://localhost:5500/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:

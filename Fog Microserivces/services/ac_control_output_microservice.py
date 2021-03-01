@@ -178,4 +178,4 @@ def output_train():
 # model_train_automated = RepeatedTimer(15, model_train)
 
 if __name__ == '__main__':
-    app.run(port=4103)
+    app.run(port=4213)

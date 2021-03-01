@@ -108,7 +108,7 @@ def get_speed_y_test_data():
 
 def get_speed_predict_data():
     try:
-        req = requests.get("http://localhost:4201/speed/predict")
+        req = requests.get("http://localhost:4006/speed/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
