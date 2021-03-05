@@ -32,6 +32,9 @@ class ProcessingTests(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_train_split(self):
+        self.app.ac_control_train_split()
+
     def test_home_status_code(self):
         # sends HTTP GET request to the application
         # on the specified path
