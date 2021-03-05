@@ -132,7 +132,7 @@ class _NavigationClassState extends State<NavigationClass> {
   }
 
   Future<int> getData() async {
-    final response = await http.get('http://172.17.217.1:6202//cloud/can_go');
+    final response = await http.get('http://34.126.124.227:6202//cloud/can_go');
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -154,7 +154,7 @@ class _NavigationClassState extends State<NavigationClass> {
     var bodyEncoded =
         json.encode({'distance': _placeDistance, 'fuel': _avalableFuel});
     final response = await http.post(
-        'http://172.17.217.1:6201/cloud/add_mobile_data',
+        'http://34.126.124.227:6201/cloud/add_mobile_data',
         headers: {"Content-Type": "application/json"},
         body: bodyEncoded);
 
@@ -521,7 +521,7 @@ class _NavigationClassState extends State<NavigationClass> {
                           SizedBox(height: 10),
                           _textField(
                               label: 'Available Fuel',
-                              hint: 'Amount of Fuel',
+                              hint: 'Amount of Fuel (l)',
                               initialValue: '',
                               prefixIcon: Icon(Icons.backpack_rounded),
                               controller: fuelController,

@@ -135,6 +135,11 @@ def model_train():
     print("df")
     print(df)
 
+    # dataset = pd.read_csv("datasettt.csv")
+    # df = dataset.iloc[:, [0, 1]]
+
+    print(df)
+
     kmeans = KMeans(n_clusters=4, random_state=0)
     kmeans = kmeans.fit(df)
 
