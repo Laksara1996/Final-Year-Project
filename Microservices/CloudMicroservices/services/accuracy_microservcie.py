@@ -138,6 +138,102 @@ def get_speed_predict_data():
     return finalNumpyArray
 
 
+def get_ac_cloud_wh():
+    try:
+        req = requests.get("http://localhost:5201/cloud/wh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_ac_cloud_bh():
+    try:
+        req = requests.get("http://localhost:5201/cloud/bh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_ac_cloud_wo():
+    try:
+        req = requests.get("http://localhost:5201/cloud/wo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_ac__cloud_bo():
+    try:
+        req = requests.get("http://localhost:5201/cloud/bo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_speed_cloud_wh():
+    try:
+        req = requests.get("http://localhost:5003/cloud/wh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_speed_cloud_bh():
+    try:
+        req = requests.get("http://localhost:5003/cloud/bh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_speed_cloud_wo():
+    try:
+        req = requests.get("http://localhost:5003/cloud/wo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
+def get_speed_cloud_bo():
+    try:
+        req = requests.get("http://localhost:5003/cloud/bo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return finalNumpyArray
+
+
 def ac_control_accuracy():
     global ac_accuracy
 
@@ -174,6 +270,8 @@ def accuracy_time():
     total = time_ac_control_accuracy + time_speed_accuracy
 
     write_to_csv('accuracy_time_Total.csv', total)
+    time_ac_control_accuracy = 0
+    time_speed_accuracy = 0
     return total
 
 

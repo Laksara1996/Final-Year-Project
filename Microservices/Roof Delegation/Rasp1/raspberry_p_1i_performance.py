@@ -7,6 +7,8 @@ import numpy as np
 from dask.tests.test_system import psutil
 from flask import Flask
 from json import JSONEncoder
+import requests
+import json
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -49,6 +51,7 @@ memory_usage_data = 0
 raspberry_temperature_data = 0
 performance_data = 0
 total = 0
+rasp1_status = 0
 
 
 def write_to_csv(fileName, data):
@@ -57,23 +60,18 @@ def write_to_csv(fileName, data):
         writer.writerow(["Data:", data])
 
 
-# def measure_temp():
-#     global raspberry_temperature_data
-#     raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
-#     return raspberry_temperature_data.replace("temp=", "")
-
-
-@app.route('/roof/performance', methods=['GET'])
+@app.route('/roof/rasp1/total_time', methods=['GET'])
 def performance():
-    global performance_data
-    if cpu_usage_data <= 40.0 or memory_usage_data <= 70:
-        performance_data = 0
-    else:
-        performance_data = 1
-    print("performance", performance_data)
-    return str(performance_data)
+    ac_time = get_ac_control_time()
+    speed_time = get_speed_time()
+    rasp1_time = ac_time + speed_time
+    ac_time = 0
+    speed_time = 0
+    print("time", rasp1_time)
+    return str(rasp1_time)
 
 
+@app.route('/roof/rasp1/memory', methods=['GET'])
 def get_memory_usage():
     global memory_usage_data
     memory_usage_data = psutil.virtual_memory().percent
@@ -134,7 +132,6 @@ def net_usage(inf="wlan0"):  # change the inf variable according to the interfac
 
 
 @app.route('/roof/performance/time', methods=['GET'])
-# @cache.cached(timeout=300)
 def performance_time():
     global total
 
@@ -143,7 +140,27 @@ def performance_time():
     global performance_data
     total = cpu_usage_data + memory_usage_data + performance_data
     write_to_csv('performance_tme_total.csv', total)
-    return total
+    return float(total)
+
+
+def get_ac_control_time():
+    try:
+        req = requests.get("http://localhost:3003/roof/ac_control/time")
+        ac_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return ac_time
+
+
+def get_speed_time():
+    try:
+        req = requests.get("http://localhost:3201/roof/speed/time")
+        speed_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return speed_time
 
 
 def automated_data_request():
@@ -155,12 +172,8 @@ def automated_data_request():
     performance_time()
 
 
-def data_request_automated_for_minute():
-    get_system_load()
-
-
 data_request_automated = RepeatedTimer(1, automated_data_request)
-data_request_automated_for_minute = RepeatedTimer(60, data_request_automated_for_minute)
+
 
 if __name__ == '__main__':
     app.run(port=3006, debug=True, host='0.0.0.0')

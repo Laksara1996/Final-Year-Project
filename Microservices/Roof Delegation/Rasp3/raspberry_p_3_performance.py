@@ -1,5 +1,6 @@
 # Load libraries
 import csv
+import json
 import os
 import time
 from threading import Timer
@@ -7,6 +8,7 @@ import numpy as np
 from dask.tests.test_system import psutil
 from flask import Flask
 from json import JSONEncoder
+import requests
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -49,6 +51,20 @@ memory_usage_data = 0
 raspberry_temperature_data = 0
 performance_data = 0
 total = 0
+ac_control_ip = "192.168.1.106"
+speed_ip = "192.168.1.106"
+accuracy_ip = "192.168.1.105"
+confusion_ip = "192.168.1.105"
+classification_ip = "192.168.1.105"
+processing_ip = "192.168.1.100"
+
+
+@app.route('/roof/update/ip', methods=['GET'])
+def send_ip():
+    json_map = {"ac_control_ip": ac_control_ip, "speed_ip": speed_ip, "accuracy_ip": accuracy_ip,
+                "confusion_ip": confusion_ip, "classification_ip": classification_ip, "processing_ip": processing_ip}
+    result = json.dumps(json_map)
+    return result
 
 
 def write_to_csv(fileName, data):
@@ -57,23 +73,15 @@ def write_to_csv(fileName, data):
         writer.writerow(["Data:", data])
 
 
-# def measure_temp():
-#     global raspberry_temperature_data
-#     raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
-#     return raspberry_temperature_data.replace("temp=", "")
-
-
-@app.route('/roof/performance', methods=['GET'])
+@app.route('/roof/rasp3/total_time', methods=['GET'])
 def performance():
-    global performance_data
-    if cpu_usage_data <= 40.0 or memory_usage_data <= 70:
-        performance_data = 0
-    else:
-        performance_data = 1
-    print("performance", performance_data)
-    return str(performance_data)
+    processing_time = get_processing_time()
+    perform_time = performance_time()
+    rasp3_time = processing_time + perform_time
+    return str(rasp3_time)
 
 
+@app.route('/roof/rasp3/memory', methods=['GET'])
 def get_memory_usage():
     global memory_usage_data
     memory_usage_data = psutil.virtual_memory().percent
@@ -143,7 +151,17 @@ def performance_time():
     global performance_data
     total = cpu_usage_data + memory_usage_data + performance_data
     write_to_csv('performance_tme_total.csv', total)
-    return total
+    return float(total)
+
+
+def get_processing_time():
+    try:
+        req = requests.get("http://localhost:3001/roof/processing/time")
+        processing_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return processing_time
 
 
 def automated_data_request():
@@ -153,6 +171,7 @@ def automated_data_request():
     net_usage()
     network_io()
     performance_time()
+    get_processing_time()
 
 
 def data_request_automated_for_minute():
@@ -163,4 +182,4 @@ data_request_automated = RepeatedTimer(1, automated_data_request)
 data_request_automated_for_minute = RepeatedTimer(60, data_request_automated_for_minute)
 
 if __name__ == '__main__':
-    app.run(port=3006, debug=True, host='0.0.0.0')
+    app.run(port=3008, debug=True, host='0.0.0.0')

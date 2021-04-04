@@ -4,6 +4,8 @@ from numpy import argmax
 
 import requests
 from flask import Flask
+from flask_caching import Cache
+import os
 
 import json
 from json import JSONEncoder
@@ -12,6 +14,8 @@ import time
 from threading import Timer
 import datetime
 import csv
+
+a = datetime.datetime.now()
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -68,13 +72,18 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
+# config = {
+#     "DEBUG": True,  # some Flask specific configs
+#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
+#     "CACHE_DEFAULT_TIMEOUT": 300
+# }
+
 app = Flask(__name__)
 
-# ip adresses
-cloud_ip_address = "34.126.124.227"
-fog2_ip_address = "192.168.1.110"
+# app.config.from_mapping(config)
+# cache = Cache(app)
 
-# global time variables
+y_predict_array = []
 time_ac_control_predict = 0
 time_ac_control_output = 0
 time_ac_control_get_x_train_data = 0
@@ -97,19 +106,6 @@ time_ac_control_model_train = 0
 total = 0
 
 
-y_predict_array = []
-
-# Weight Matrix Define
-
-input_nodes = 2
-hidden_nodes = 8
-output_labels = 6
-wh = np.random.rand(input_nodes, hidden_nodes)
-bh = np.random.randn(hidden_nodes)
-wo = np.random.rand(hidden_nodes, output_labels)
-bo = np.random.randn(output_labels)
-
-
 def write_to_csv(fileName, data):
     with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
@@ -125,9 +121,9 @@ def predict_data():
     numpyData = {"array": number_array}
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     time_ac_control_predict = time.time() - start_time
-    print("---ac_control predict_data %s seconds ---" % (time.time() - start_time))
-    print("----ac_control predict amount of data = %s ------" % len(number_array))
-    write_to_csv('time_ac_control_predict.csv',time_ac_control_predict)
+    write_to_csv('time_ac_control_predict.csv', time_ac_control_predict)
+    print("---ac control_predict_data %s seconds ---" % time_ac_control_predict)
+    print("----ac control_predict amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
@@ -141,219 +137,272 @@ def output_data():
     encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
     time_ac_control_output = time.time() - start_time
     write_to_csv('time_ac_control_output.csv', time_ac_control_output)
-    print("---ac_control output_data %s seconds ---" % (time.time() - start_time))
-    print("----ac_control output amount of data = %s ------" % len(number_array))
-    return encodedNumpyData
-
-
-@app.route('/fog/wh', methods=['GET'])
-# @cache.cached(timeout=300)
-def wh_data():
-    global wh
-    global time_ac_control_get_fog_wh
-    start_time = time.time()
-    number_array = wh
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    time_ac_control_get_fog_wh = time.time() - start_time
-    print("---fog wh %s seconds ---" % (time.time() - start_time))
-    print("----fog wh amount of data = %s ------" % len(number_array))
-    write_to_csv('time_ac_control_get_fog_wh.csv', time_ac_control_get_fog_wh)
-    return encodedNumpyData
-
-
-@app.route('/fog/bh', methods=['GET'])
-# @cache.cached(timeout=300)
-def bh_data():
-    global bh
-    global time_ac_control_get_fog_bh
-    start_time = time.time()
-    number_array = bh
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    time_ac_control_get_fog_bh = time.time() - start_time
-    print("---fog bh %s seconds ---" % (time.time() - start_time))
-    print("----fog bh amount of data = %s ------" % len(number_array))
-    write_to_csv('time_ac_control_get_fog_bh.csv', time_ac_control_get_fog_bh)
-    return encodedNumpyData
-
-
-@app.route('/fog/wo', methods=['GET'])
-# @cache.cached(timeout=300)
-def wo_data():
-    global wo
-    global time_ac_control_get_cloud_wo
-    start_time = time.time()
-    number_array = wo
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)
-    time_ac_control_get_cloud_wo = time.time() - start_time
-    # use dump() to write array into file
-    print("---fog wo %s seconds ---" % (time.time() - start_time))
-    write_to_csv('time_ac_control_get_cloud_wo.csv', time_ac_control_get_cloud_wo)
-    print("----fog wo amount of data = %s ------" % len(number_array))
-    return encodedNumpyData
-
-
-@app.route('/fog/bo', methods=['GET'])
-# @cache.cached(timeout=300)
-def bo_data():
-    global bo
-    global time_ac_control_get_cloud_bo
-    start_time = time.time()
-    number_array = bo
-    numpyData = {"array": number_array}
-    encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)  # use dump() to write array into file
-    time_ac_control_get_cloud_bo = time.time() - start_time
-    print("---fog bo %s seconds ---" % (time.time() - start_time))
-    write_to_csv('time_ac_control_get_cloud_bo.csv', time_ac_control_get_cloud_bo)
-    print("----fog bo amount of data = %s ------" % len(number_array))
+    print("---ac control output_data %s seconds ---" % time_ac_control_output)
+    print("----ac control output amount of data = %s ------" % len(number_array))
     return encodedNumpyData
 
 
 def get_x_train_data():
+    global time_ac_control_get_x_train_data
+    start_time = time.time()
     try:
-        req = requests.get("http://" + fog2_ip_address + ":4001/ac_control/x_train")
+        req = requests.get("http://192.168.1.100:3001/ac_control/x_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_x_train_data = time.time() - start_time
+    # write_to_csv('time_ac_control_get_x_train_data.csv', time_ac_control_get_x_train_data)
+    print("---ac control time_get_x_train_data %s seconds ---" % time_ac_control_get_x_train_data)
     return finalNumpyArray
 
 
 def get_y_train_data():
+    global time_ac_control_get_y_train_data
+    start_time = time.time()
     try:
-        req = requests.get("http://" + fog2_ip_address + ":4001/ac_control/y_train")
+        req = requests.get("http://192.168.1.100:3001/ac_control/y_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_y_train_data = time.time() - start_time
+    # write_to_csv('time_ac_control_get_y_train_data.csv', time_ac_control_get_y_train_data)
+    print("---ac control time_get_y_train_data %s seconds ---" % time_ac_control_get_y_train_data)
     return finalNumpyArray
 
 
 def get_x_test_data():
+    global time_ac_control_get_x_test_data
+    start_time = time.time()
     try:
-        req = requests.get("http://" + fog2_ip_address + ":4001/ac_control/x_test")
+        req = requests.get("http://192.168.1.100:3001/ac_control/x_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_x_test_data = time.time() - start_time
+    # write_to_csv('time_ac_control_get_x_test_data.csv', time_ac_control_get_x_test_data)
+    print("---ac control time_get_x_test_data %s seconds ---" % time_ac_control_get_x_test_data)
     return finalNumpyArray
 
 
 def get_y_test_data():
+    global time_ac_control_get_y_test_data
+    start_time = time.time()
     try:
-        req = requests.get("http://" + fog2_ip_address + ":4001/ac_control/y_test")
+        req = requests.get("http://192.168.1.100:3001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_y_test_data = time.time() - start_time
+    # write_to_csv('time_ac_control_get_y_test_data.csv', time_ac_control_get_y_test_data)
+
+
+def get_input_data():
+    global time_ac_control_get_input_data
+    start_time = time.time()
+    try:
+        req = requests.get("http://192.168.1.100:3001/ac_control/input")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_input_data = time.time() - start_time
+    # write_to_csv('time_ac_control_get_input_data.csv', time_ac_control_get_input_data)
+    print("---ac control time_get_input_data %s seconds ---" % time_ac_control_get_input_data)
     return finalNumpyArray
 
 
-def get_cloud_wh():
+def get_fog_wh():
+    global time_ac_control_get_fog_wh
+    start_time = time.time()
     try:
-        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/wh")
+        req = requests.get("http://192.168.1.112:4003/fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_fog_wh = time.time() - start_time
+    # write_to_csv('time_ac_control_get_fog_wh.csv', time_ac_control_get_fog_wh)
+    print("---ac control time_get_fog_wh %s seconds ---" % time_ac_control_get_fog_wh)
+    return finalNumpyArray
+
+
+def get_fog_bh():
+    global time_ac_control_get_fog_bh
+    start_time = time.time()
+    try:
+        req = requests.get("http://192.168.1.112:4003/fog/bh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_fog_bh = time.time() - start_time
+    print("---ac control time_get_fog_bh %s seconds ---" % time_ac_control_get_fog_bh)
+    return finalNumpyArray
+
+
+def get_fog_wo():
+    global time_ac_control_get_fog_wo
+    start_time = time.time()
+    try:
+        req = requests.get("http://192.168.1.112:4003/fog/wo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_fog_wo = time.time() - start_time
+    print("---ac control time_get_fog_wo %s seconds ---" % time_ac_control_get_fog_wo)
+    return finalNumpyArray
+
+
+def get_fog_bo():
+    global time_ac_control_get_fog_bo
+    start_time = time.time()
+    try:
+        req = requests.get("http://192.168.1.112:4003/fog/bo")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_fog_bo = time.time() - start_time
+    print("---ac control time_get_fog_bo %s seconds ---" % time_ac_control_get_fog_bo)
+    return finalNumpyArray
+
+
+# Get weight matrices from cloud
+def get_cloud_wh():
+    global time_ac_control_get_cloud_wh
+    start_time = time.time()
+    try:
+        req = requests.get("http://34.126.124.227:5003/cloud/wh")
+        decodedArrays = json.loads(req.text)
+
+        finalNumpyArray = np.asarray(decodedArrays["array"])
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_cloud_wh = time.time() - start_time
+    print("---ac control time_get_cloud_wh %s seconds ---" % time_ac_control_get_cloud_wh)
     return finalNumpyArray
 
 
 def get_cloud_bh():
+    global time_ac_control_get_cloud_bh
+    start_time = time.time()
     try:
-        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/bh")
+        req = requests.get("http://34.126.124.227:5003/cloud/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_cloud_bh = time.time() - start_time
+    print("---ac control time_get_cloud_bh %s seconds ---" % time_ac_control_get_cloud_bh)
     return finalNumpyArray
 
 
 def get_cloud_wo():
+    global time_ac_control_get_cloud_wo
+    start_time = time.time()
     try:
-        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/wo")
+        req = requests.get("http://34.126.124.227:5003/cloud/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_cloud_wo = time.time() - start_time
+    print("---ac control time_get_cloud_wo %s seconds ---" % time_ac_control_get_cloud_wo)
     return finalNumpyArray
 
 
 def get_cloud_bo():
+    global time_ac_control_get_cloud_bo
+    start_time = time.time()
     try:
-        req = requests.get("http://" + cloud_ip_address + ":5003/cloud/bo")
+        req = requests.get("http://34.126.124.227:5003/cloud/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_cloud_bo = time.time() - start_time
+    print("---ac control time_get_cloud_bo %s seconds ---" % time_ac_control_get_cloud_bo)
     return finalNumpyArray
 
 
-def get_input_data():
+def get_roof_accuracy():
+    global time_ac_control_get_roof_accuracy
+    start_time = time.time()
     try:
-        req = requests.get("http://" + fog2_ip_address + ":4001/ac_control/input")
-        decodedArrays = json.loads(req.text)
-
-        finalNumpyArray = np.asarray(decodedArrays["array"])
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return finalNumpyArray
-
-
-def get_global_fog_accuracy():
-    try:
-        req = requests.get("http://localhost:4500/ac_control/accuracy")
+        req = requests.get("http://192.168.1.105:3002/ac_control/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
+    time_ac_control_get_roof_accuracy = time.time() - start_time
+    print("---ac control time_get_roof_accuracy %s seconds ---" % time_ac_control_get_roof_accuracy)
     return accuracy
 
-#
-# def get_fog_accuracy():
-#     try:
-#         req = requests.get("http://" + fog2_ip_address + ":4002/ac_control/accuracy")
-#         accuracy = float(req.text)
-#
-#     except requests.exceptions.ConnectionError:
-#         return "Service unavailable"
-#     return accuracy
+
+def get_fog_accuracy():
+    global time_ac_control_get_fog_accuracy
+    start_time = time.time()
+    try:
+        req = requests.get("http://192.168.1.112:4002/ac_control/accuracy")
+        accuracy = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    time_ac_control_get_fog_accuracy = time.time() - start_time
+    print("---ac control time_get_fog_accuracy %s seconds ---" % time_ac_control_get_fog_accuracy)
+    return accuracy
 
 
 def get_cloud_accuracy():
+    global time_ac_control_get_cloud_accuracy
+    start_time = time.time()
     try:
-        req = requests.get("http://" + cloud_ip_address + ":5002/ac_control/accuracy")
+        req = requests.get("http://34.126.124.227:5002/ac_control/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
-        return 0.0
+        return "Service unavailable"
+    time_ac_control_get_cloud_accuracy = time.time() - start_time
+    print("---ac control time_get_cloud_accuracy %s seconds ---" % time_ac_control_get_cloud_accuracy)
     return accuracy
 
 
 def model_train():
     global time_ac_control_model_train
     start_time = time.time()
-    global y_predict_array, wh, bh, wo, bo
-    y_train = get_x_train_data()
+    global y_predict_array
+
+    y_train = get_y_train_data()
     x_train = get_x_train_data()
     x_test = get_x_test_data()
     y_test = get_y_test_data()
@@ -365,13 +414,13 @@ def model_train():
         for i in range(len(y_train)):
             one_hot_labels[i, y_train[i]] = 1
 
-        # input_nodes = 2
-        # hidden_nodes = 8
-        # output_labels = 6
-        # wh = np.random.rand(input_nodes, hidden_nodes)
-        # bh = np.random.randn(hidden_nodes)
-        # wo = np.random.rand(hidden_nodes, output_labels)
-        # bo = np.random.randn(output_labels)
+        input_nodes = 2
+        hidden_nodes = 8
+        output_labels = 6
+        wh = np.random.rand(input_nodes, hidden_nodes)
+        bh = np.random.randn(hidden_nodes)
+        wo = np.random.rand(hidden_nodes, output_labels)
+        bo = np.random.randn(output_labels)
         lr = 10e-4
 
         error_cost = []
@@ -421,16 +470,23 @@ def model_train():
 
         # End of for loop (End of training phase)
 
+        roof_accuracy = get_roof_accuracy()
+        fog_accuracy = get_fog_accuracy()
         cloud_accuracy = get_cloud_accuracy()
-        fog_accuracy = get_global_fog_accuracy()
 
-        if cloud_accuracy > fog_accuracy:
-            wh = get_cloud_wh()
-            bh = get_cloud_bh()
-            wo = get_cloud_wo()
-            bo = get_cloud_bo()
+        if fog_accuracy > roof_accuracy:
+            wh = get_fog_wh()
+            bh = get_fog_bh()
+            wo = get_fog_wo()
+            bo = get_fog_bo()
 
-        # Make predictions
+            if cloud_accuracy > fog_accuracy:
+                wh = get_cloud_wh()
+                bh = get_cloud_bh()
+                wo = get_cloud_wo()
+                bo = get_cloud_bo()
+
+            # Make predictions
         predictions = predict(wh, bh, wo, bo, x_test)
 
         y_predict = []
@@ -441,12 +497,13 @@ def model_train():
 
         print("y_pred", y_predict_array)
         time_ac_control_model_train = time.time() - start_time
+        print("---ac control time_model_train %s seconds ---" % time_ac_control_model_train)
         write_to_csv('time_ac_control_model_train.csv', time_ac_control_model_train)
 
 
 def predict_output():
     global y_predict_array
-    # y_predict = model_train()
+    # model_train()
 
     return y_predict_array
 
@@ -476,9 +533,12 @@ def ac_time():
     return total
 
 
-model_train_automated = RepeatedTimer(25, model_train)
+model_train_automated = RepeatedTimer(15, model_train)
 time_automated = RepeatedTimer(1, ac_time)
 
+b = datetime.datetime.now()
+print("Execution Time:")
+print(b - a)
 
 if __name__ == '__main__':
-    app.run(port=4003, host='0.0.0.0')
+    app.run(port=3003, host='0.0.0.0')

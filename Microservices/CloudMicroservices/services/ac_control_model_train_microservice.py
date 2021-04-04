@@ -114,7 +114,6 @@ wo = np.random.rand(hidden_nodes, output_labels)
 bo = np.random.randn(output_labels)
 
 
-
 def write_to_csv(fileName, data):
     with open(fileName, 'a', newline='') as file:
         writer = csv.writer(file)
@@ -388,6 +387,14 @@ def ac_time():
     total = time_ac_control_predict + time_ac_control_output + time_ac_control_get_x_train_data + time_ac_control_get_y_train_data + \
             time_ac_control_get_x_test_data + time_ac_control_get_y_test_data + time_ac_control_get_input_data + time_ac_control_model_train
     write_to_csv('ac_control_Total.csv', total)
+    time_ac_control_predict = 0
+    time_ac_control_output = 0
+    time_ac_control_get_x_train_data = 0
+    time_ac_control_get_y_train_data = 0
+    time_ac_control_get_x_test_data = 0
+    time_ac_control_get_y_test_data = 0
+    time_ac_control_get_input_data = 0
+    time_ac_control_model_train = 0
     return total
 
 

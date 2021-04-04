@@ -13,9 +13,9 @@ from threading import Timer
 import datetime
 import csv
 
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
 a = datetime.datetime.now()
 
@@ -74,13 +74,13 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-cred = credentials.Certificate(
-    'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
-
-doc_ref = db.collection('Global_Accuracy').document('test')
+# cred = credentials.Certificate(
+#     'F:\ACADEMIC\Semester 7\CO 421 CO 425 Final Year Project\Project\Microservices-python-implmentation\FinalYearProject-e8c0676a307f.json')
+# firebase_admin.initialize_app(cred)
+#
+# db = firestore.client()
+#
+# doc_ref = db.collection('Global_Accuracy').document('test')
 
 app = Flask(__name__)
 
@@ -359,7 +359,7 @@ def get_cloud_accuracy():
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
-        return "Service unavailable"
+        return 0.0
     return accuracy
 
 
@@ -487,6 +487,14 @@ def ac_time():
     total = time_ac_control_predict + time_ac_control_output + time_ac_control_get_x_train_data + time_ac_control_get_y_train_data + \
             time_ac_control_get_x_test_data + time_ac_control_get_y_test_data + time_ac_control_get_input_data + time_ac_control_model_train
     write_to_csv('ac_control_Total.csv', total)
+    time_ac_control_predict = 0
+    time_ac_control_output = 0
+    time_ac_control_get_x_train_data = 0
+    time_ac_control_get_y_train_data = 0
+    time_ac_control_get_x_test_data = 0
+    time_ac_control_get_y_test_data = 0
+    time_ac_control_get_input_data = 0
+    time_ac_control_model_train = 0
     return total
 
 

@@ -6,7 +6,6 @@ from numpy import argmax
 
 import requests
 from flask import Flask
-from flask_caching import Cache
 
 import json
 from json import JSONEncoder
@@ -398,6 +397,14 @@ def speed_time():
             time_speed_get_x_test_data + time_speed_get_y_test_data + time_speed_get_input_data + time_speed_model_train
 
     write_to_csv('speed_time_Total.csv', total)
+    time_speed_predict = 0
+    time_speed_output = 0
+    time_speed_get_x_train_data = 0
+    time_speed_get_y_train_data = 0
+    time_speed_get_x_test_data = 0
+    time_speed_get_y_test_data = 0
+    time_speed_get_input_data = 0
+    time_speed_model_train = 0
     return total
 
 

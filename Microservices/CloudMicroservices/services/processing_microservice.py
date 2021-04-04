@@ -14,6 +14,10 @@ import json
 from json import JSONEncoder
 
 import time
+#
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -481,13 +485,13 @@ def speed_train_split():
 #         'window_opening': window_opening_data_array,
 #         'air_condition_status': air_condition_data_array,
 #     })
-
-def get_performance_fog():
-    performance_data = get_performance_data_fog()
-    if performance_data == 0:
-        automated_functions()
-    else:
-        return "service unavailable"
+#
+# def get_performance_fog():
+#     performance_data = get_performance_data_fog()
+#     if performance_data == 0:
+#         automated_functions()
+#     else:
+#         return "service unavailable"
 
 
 @app.route('/fog/processing/time', methods=['GET'])
@@ -520,21 +524,40 @@ def processing_time():
             time_get_ac_control_x_test + time_get_ac_control_x_train + time_get_ac_control_y_test + time_get_ac_control_y_train + time_function_ac_control_train_split + \
             time_function_ac_control_train_split + time_function_speed_train_split
     write_to_csv('processing_time_Total.csv', total)
+    time_get_fog_speed_data = 0
+    time_get_fog_driver_rush_data = 0
+    time_get_fog_visibility_data = 0
+    time_get_fog_rain_intensity_data = 0
+    time_get_fog_pitch_data = 0
+    time_get_fog_ac_data = 0
+    time_get_fog_passenger_data = 0
+    time_get_fog_window_data = 0
+    time_get_speed_input = 0
+    time_get_speed_x_train = 0
+    time_get_speed_x_test = 0
+    time_get_speed_y_test = 0
+    time_get_speed_y_train = 0
+    time_get_ac_control_input = 0
+    time_get_ac_control_x_test = 0
+    time_get_ac_control_x_train = 0
+    time_get_ac_control_y_test = 0
+    time_get_ac_control_y_train = 0
+    time_function_ac_control_train_split = 0
+    time_function_speed_train_split = 0
     return total
 
 
-performance_automated = RepeatedTimer(1, get_performance_fog)
+# performance_automated = RepeatedTimer(1, get_performance_fog)
 
 
-def automated_functions():
-    passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_fog)
-    window_data_automated = RepeatedTimer(60, get_window_opening_data_fog)
-    ac_data_automated = RepeatedTimer(60, get_air_condition_data_fog)
-    pitch_data_automated = RepeatedTimer(60, get_pitch_data_fog)
-    rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_fog)
-    visibility_data_automated = RepeatedTimer(60, get_visibility_data_fog)
-    driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_fog)
-    speed_data_automated = RepeatedTimer(60, get_speed_data_fog)
+passenger_data_automated = RepeatedTimer(60, get_passenger_count_data_fog)
+window_data_automated = RepeatedTimer(60, get_window_opening_data_fog)
+ac_data_automated = RepeatedTimer(60, get_air_condition_data_fog)
+pitch_data_automated = RepeatedTimer(60, get_pitch_data_fog)
+rain_intensity_data_automated = RepeatedTimer(60, get_rain_intensity_data_fog)
+visibility_data_automated = RepeatedTimer(60, get_visibility_data_fog)
+driver_rush_data_automated = RepeatedTimer(60, get_driver_rush_data_fog)
+speed_data_automated = RepeatedTimer(60, get_speed_data_fog)
 
 
 ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)

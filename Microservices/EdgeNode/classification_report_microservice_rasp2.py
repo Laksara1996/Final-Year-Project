@@ -160,9 +160,7 @@ def speed_time():
     total = time_ac_classification_report_output + time_speed_classification_report_output
 
     write_to_csv('classification_time_Total.csv', total)
-    time_ac_classification_report_output = 0
-    time_speed_classification_report_output = 0
-    return str(total)
+    return total
 
 
 b = datetime.datetime.now()

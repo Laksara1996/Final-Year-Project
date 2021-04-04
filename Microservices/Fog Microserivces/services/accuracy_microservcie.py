@@ -183,6 +183,9 @@ def accuracy_time():
     total = time_ac_control_accuracy + time_speed_accuracy
 
     write_to_csv('accuracy_time_Total.csv', total)
+
+    time_ac_control_accuracy = 0
+    time_speed_accuracy = 0
     return total
 
 

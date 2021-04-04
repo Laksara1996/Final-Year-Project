@@ -7,6 +7,11 @@ import numpy as np
 from dask.tests.test_system import psutil
 from flask import Flask
 from json import JSONEncoder
+import requests
+import json
+import psutil
+import sys
+from subprocess import Popen
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -57,23 +62,20 @@ def write_to_csv(fileName, data):
         writer.writerow(["Data:", data])
 
 
-# def measure_temp():
-#     global raspberry_temperature_data
-#     raspberry_temperature_data = os.popen("vcgencmd measure_temp").readline()
-#     return raspberry_temperature_data.replace("temp=", "")
-
-
-@app.route('/roof/performance', methods=['GET'])
+@app.route('/roof/rasp2/total_time', methods=['GET'])
 def performance():
-    global performance_data
-    if cpu_usage_data <= 40.0 or memory_usage_data <= 70:
-        performance_data = 0
-    else:
-        performance_data = 1
-    print("performance", performance_data)
-    return str(performance_data)
+    accuracy_time = get_accuracy_time()
+    classification_time = get_classification_time()
+    confusion_time = get_confusion_time()
+    rasp2_time = accuracy_time + classification_time + confusion_time
+    accuracy_time = 0
+    classification_time = 0
+    confusion_time = 0
+    print("time", rasp2_time)
+    return str(rasp2_time)
 
 
+@app.route('/roof/rasp2/memory', methods=['GET'])
 def get_memory_usage():
     global memory_usage_data
     memory_usage_data = psutil.virtual_memory().percent
@@ -146,6 +148,56 @@ def performance_time():
     return total
 
 
+def get_accuracy_time():
+    try:
+        req = requests.get("http://localhost:3002/roof/accuracy/time")
+        accuracy_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return accuracy_time
+
+
+def get_classification_time():
+    try:
+        req = requests.get("http://localhost:3005/roof/classification/time")
+        classification_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return classification_time
+
+
+def get_confusion_time():
+    try:
+        req = requests.get("http://localhost:3004/roof/confusion/time")
+        confusion_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return confusion_time
+
+
+def get_controller_time():
+    try:
+        req = requests.get("http://localhost:3011/roof/controller/time")
+        controller_time = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return controller_time
+
+
+#
+# def run():
+#     rasp1_status = get_rasp1_status()
+#     if rasp1_status == 1:
+#         for process in psutil.process_iter():
+#             if process.cmdline() == ['python3', 'update.py']:
+#                 print('process found')
+#                 Popen(['python3', 'update.py']
+#             print('process not found')
+
 def automated_data_request():
     get_cpu_measure_data()
     performance()
@@ -155,12 +207,7 @@ def automated_data_request():
     performance_time()
 
 
-def data_request_automated_for_minute():
-    get_system_load()
-
-
 data_request_automated = RepeatedTimer(1, automated_data_request)
-data_request_automated_for_minute = RepeatedTimer(60, data_request_automated_for_minute)
 
 if __name__ == '__main__':
-    app.run(port=3006, debug=True, host='0.0.0.0')
+    app.run(port=3007, debug=True, host='0.0.0.0')

@@ -166,7 +166,9 @@ def speed_time():
     total = time_get_ac_status_confusion + time_get_speed_confusion
 
     write_to_csv('confusion_time_Total.csv', total)
-    return total
+    time_get_ac_status_confusion = 0
+    time_get_speed_confusion = 0
+    return str(total)
 
 
 b = datetime.datetime.now()
