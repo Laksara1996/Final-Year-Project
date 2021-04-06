@@ -72,7 +72,7 @@ app = Flask(__name__)
 
 # ip adresses
 cloud_ip_address = "34.126.124.227"
-fog2_ip_address = "192.168.1.110"
+fog2_ip_address = "localhost"
 
 # global time variables
 time_ac_control_predict = 0
@@ -319,24 +319,24 @@ def get_input_data():
     return finalNumpyArray
 
 
-def get_global_fog_accuracy():
-    try:
-        req = requests.get("http://localhost:4500/ac_control/accuracy")
-        accuracy = float(req.text)
-
-    except requests.exceptions.ConnectionError:
-        return "Service unavailable"
-    return accuracy
-
-#
-# def get_fog_accuracy():
+# def get_global_fog_accuracy():
 #     try:
-#         req = requests.get("http://" + fog2_ip_address + ":4002/ac_control/accuracy")
+#         req = requests.get("http://localhost:4500/ac_control/accuracy")
 #         accuracy = float(req.text)
 #
 #     except requests.exceptions.ConnectionError:
 #         return "Service unavailable"
 #     return accuracy
+
+
+def get_fog_accuracy():
+    try:
+        req = requests.get("http://" + fog2_ip_address + ":4002/ac_control/accuracy")
+        accuracy = float(req.text)
+
+    except requests.exceptions.ConnectionError:
+        return "Service unavailable"
+    return accuracy
 
 
 def get_cloud_accuracy():
@@ -422,7 +422,7 @@ def model_train():
         # End of for loop (End of training phase)
 
         cloud_accuracy = get_cloud_accuracy()
-        fog_accuracy = get_global_fog_accuracy()
+        fog_accuracy = get_fog_accuracy()
 
         if cloud_accuracy > fog_accuracy:
             wh = get_cloud_wh()

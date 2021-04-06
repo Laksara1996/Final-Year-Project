@@ -78,6 +78,7 @@ app = Flask(__name__)
 # cache = Cache(app)
 
 y_predict_array = []
+rasp3_ip_address = "localhost"
 
 
 @app.route('/speed/output', methods=['GET'])
@@ -142,7 +143,7 @@ def get_roof_bo():
 
 def get_input_data():
     try:
-        req = requests.get("http://localhost:3001/speed/input")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/input")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])

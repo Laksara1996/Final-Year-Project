@@ -6,8 +6,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 import requests
-from flask import Flask, jsonify
-from flask_caching import Cache
+from flask import Flask
 
 import json
 
@@ -52,12 +51,6 @@ class RepeatedTimer(object):
         self._timer.cancel()
         self.is_running = False
 
-
-# config = {
-#     "DEBUG": True,  # some Flask specific configs
-#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-#     "CACHE_DEFAULT_TIMEOUT": 300
-# }
 
 app = Flask(__name__)
 
@@ -564,7 +557,6 @@ ac_train_split_automated = RepeatedTimer(70, ac_control_train_split)
 speed_train_split_automated = RepeatedTimer(70, speed_train_split)
 time_automated = RepeatedTimer(5, processing_time)
 
-# data_sent_automated = RepeatedTimer(70, send_data)
 
 if __name__ == '__main__':
     app.run(port=5001, host='0.0.0.0', debug=True)

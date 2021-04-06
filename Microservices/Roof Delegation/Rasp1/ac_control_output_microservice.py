@@ -66,18 +66,13 @@ def predict(wh, bh, wo, bo, X_test):
     return ao
 
 
-# config = {
-#     "DEBUG": True,  # some Flask specific configs
-#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-#     "CACHE_DEFAULT_TIMEOUT": 300
-# }
-
 app = Flask(__name__)
 
-# app.config.from_mapping(config)
-# cache = Cache(app)
-
 y_predict_array = []
+fog_ip_address = "192.168.1.112"
+cloud_ip_address = "34.126.124.227"
+rasp3_ip_address = "localhost"
+rasp2_ip_address = "localhost"
 
 
 @app.route('/ac_control/output', methods=['GET'])
@@ -94,7 +89,7 @@ def output_data():
 
 def get_input_data():
     try:
-        req = requests.get("http://localhost:3001/ac_control/input")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/ac_control/input")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])

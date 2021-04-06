@@ -235,7 +235,7 @@ def get_ac_control_predict_data_length():
 
 def get_ac_control_wh():
     try:
-        req = requests.get("http://localhost:5003//fog/wh")
+        req = requests.get("http://localhost:5003/fog/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])

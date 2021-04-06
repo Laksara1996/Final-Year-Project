@@ -72,6 +72,8 @@ app = Flask(__name__)
 
 fog_ip_address = "192.168.1.112"
 cloud_ip_address = "34.126.124.227"
+rasp3_ip_address = "localhost"
+rasp2_ip_address = "localhost"
 
 time_speed_predict = 0
 time_speed_output = 0
@@ -197,7 +199,7 @@ def get_x_train_data():
     global time_speed_get_x_train_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/x_train")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/x_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -213,7 +215,7 @@ def get_y_train_data():
     global time_speed_get_y_train_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/y_train")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/y_train")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -229,7 +231,7 @@ def get_x_test_data():
     global time_speed_get_x_test_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/x_test")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/x_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -245,7 +247,7 @@ def get_y_test_data():
     global time_speed_get_y_test_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/y_test")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -261,7 +263,7 @@ def get_input_data():
     global time_speed_get_input_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/input")
+        req = requests.get("http://" + rasp3_ip_address + ":3001/speed/input")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -405,7 +407,7 @@ def get_roof_accuracy():
     global time_speed_get_roof_accuracy
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3002/speed/accuracy")
+        req = requests.get("http://" + rasp2_ip_address + ":3002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:

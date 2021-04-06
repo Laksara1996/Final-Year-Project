@@ -11,7 +11,6 @@ import json
 from json import JSONEncoder
 
 import time
-import datetime
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -47,18 +46,11 @@ class RepeatedTimer(object):
         self.is_running = False
 
 
-# config = {
-#     "DEBUG": True,  # some Flask specific configs
-#     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-#     "CACHE_DEFAULT_TIMEOUT": 300
-# }
-
 app = Flask(__name__)
 
-# app.config.from_mapping(config)
-# cache = Cache(app)
+rasp3_ip_address = "localhost"
+cloud_ip_address = "34.126.124.227"
 
-rasp3_ip_address = "192.168.1.105"
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -134,8 +126,8 @@ def speed_data():
     write_to_csv('time_get_fog_speed_data.csv', time_get_fog_speed_data)
     print("----fog speed_data amount of data = %s ------" % len(number_array))
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_speed_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_speed_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -157,8 +149,8 @@ def driver_rush_data():
     print("----fog driver_rush_data amount of data = %s ------" % len(number_array))
     write_to_csv('time_get_fog_driver_rush_data.csv', time_get_fog_driver_rush_data)
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_driver_rush_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_driver_rush_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -179,8 +171,8 @@ def visibility_data():
     print("----fog visibility_data amount of data = %s ------" % len(number_array))
     write_to_csv('time_get_fog_visibility_data.csv', time_get_fog_visibility_data)
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_visibility_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_visibility_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -201,8 +193,8 @@ def rain_intensity_data():
     write_to_csv('time_get_fog_rain_intensity_data.csv', time_get_fog_rain_intensity_data)
     print("----fog rain_intensity_data amount of data = %s ------" % len(number_array))
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_rain_intensity_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_rain_intensity_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -223,8 +215,8 @@ def pitch_data():
     write_to_csv('time_get_fog_pitch_data.csv', time_get_fog_pitch_data)
     print("----fog pitch_data amount of data = %s ------" % len(number_array))
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_pitch_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_pitch_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -245,8 +237,8 @@ def ac_data():
     write_to_csv('time_get_fog_ac_data.csv', time_get_fog_ac_data)
     print("----fog ac_data amount of data = %s ------" % len(number_array))
     try:
-        requests.post("http://localhost:3101/cloud/add_fog_ac_data", data=encodedNumpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_ac_data", data=encodedNumpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -266,8 +258,8 @@ def passenger_data():
     write_to_csv('time_get_fog_passenger_data.csv', time_get_fog_passenger_data)
     print("----fog passenger_data amount of data = %s ------" % len(number_array))
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_passenger_data", data=numpyData)
-        # req = requests.post("http://34.126.124.227:3101/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_passenger_data", data=numpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3101/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -287,8 +279,8 @@ def window_data():
     print("----fog window_data amount of data = %s ------" % len(number_array))
     write_to_csv('time_get_fog_window_data.csv', time_get_fog_window_data)
     try:
-        requests.post("http://34.126.124.227:3101/cloud/add_fog_window_data", data=numpyData)
-        # req = requests.post("http://34.126.124.227:3102/cloud/ac_control/add_cloud_wh", data=numpyData)
+        requests.post("http://" + cloud_ip_address + ":3101/cloud/add_fog_window_data", data=numpyData)
+        # req = requests.post("http://" + cloud_ip_address + ":3102/cloud/ac_control/add_cloud_wh", data=numpyData)
     except requests.exceptions.ConnectionError:
         return "Service unavailable"
     return encodedNumpyData
@@ -681,17 +673,6 @@ def processing_time():
             time_function_ac_control_train_split + time_function_speed_train_split
     write_to_csv('processing_time_Total.csv', total)
     return total
-
-
-# def get_performance_roof():
-#     performance_data = get_performance_data_roof()
-#     if performance_data == 1:
-#         automated_functions()
-#     else:
-#         return "service unavailable"
-
-#
-# performance_automated = RepeatedTimer(1, get_performance_roof)
 
 
 passenger_data_automated = RepeatedTimer(15, get_passenger_count_data_roof)

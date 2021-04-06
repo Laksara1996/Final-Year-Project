@@ -69,8 +69,8 @@ def predict(wh, bh, wo, bo, X_test):
 
 app = Flask(__name__)
 
-fog2_ip_address = "192.168.1.110"
-
+fog2_ip_address = "localhost"
+cloud_ip_address = "34.126.124.227"
 
 y_predict_array = []
 time_speed_predict = 0
@@ -271,7 +271,7 @@ def get_input_data():
 
 def get_cloud_wh():
     try:
-        req = requests.get("http://34.126.124.227:5201/cloud/wh")
+        req = requests.get("http://" + cloud_ip_address + ":5201/cloud/wh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -283,7 +283,7 @@ def get_cloud_wh():
 
 def get_cloud_bh():
     try:
-        req = requests.get("http://34.126.124.227:5201/cloud/bh")
+        req = requests.get("http://" + cloud_ip_address + ":5201/cloud/bh")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -295,7 +295,7 @@ def get_cloud_bh():
 
 def get_cloud_wo():
     try:
-        req = requests.get("http://34.126.124.227:5201/cloud/wo")
+        req = requests.get("http://" + cloud_ip_address + ":5201/cloud/wo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -307,7 +307,7 @@ def get_cloud_wo():
 
 def get_cloud_bo():
     try:
-        req = requests.get("http://34.126.124.227:5201/cloud/bo")
+        req = requests.get("http://" + cloud_ip_address + ":5201/cloud/bo")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -319,7 +319,7 @@ def get_cloud_bo():
 
 def get_global_fog_accuracy():
     try:
-        req = requests.get("http://localhost:4500/speed/accuracy")
+        req = requests.get("http://localhost:4002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
@@ -329,7 +329,7 @@ def get_global_fog_accuracy():
 
 def get_cloud_accuracy():
     try:
-        req = requests.get("http://34.126.124.227:5002/speed/accuracy")
+        req = requests.get("http://" + cloud_ip_address + ":5002/speed/accuracy")
         accuracy = float(req.text)
 
     except requests.exceptions.ConnectionError:
