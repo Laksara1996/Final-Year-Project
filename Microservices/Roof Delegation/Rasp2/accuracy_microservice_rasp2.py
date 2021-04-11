@@ -100,7 +100,7 @@ def get_ac_control_y_test_data():
     global time_get_ac_control_y_test_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/ac_control/y_test")
+        req = requests.get("http://192.168.1.104:3001/ac_control/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -117,7 +117,7 @@ def get_ac_control_predict_data():
     global time_get_ac_control_predict_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3003/ac_control/predict")
+        req = requests.get("http://192.168.1.108:3003/ac_control/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -133,7 +133,7 @@ def get_speed_y_test_data():
     global time_get_speed_y_test_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3001/speed/y_test")
+        req = requests.get("http://192.168.1.104:3001/speed/y_test")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])
@@ -149,7 +149,7 @@ def get_speed_predict_data():
     global time_get_speed_predict_data
     start_time = time.time()
     try:
-        req = requests.get("http://localhost:3201/speed/predict")
+        req = requests.get("http://192.168.1.108:3201/speed/predict")
         decodedArrays = json.loads(req.text)
 
         finalNumpyArray = np.asarray(decodedArrays["array"])

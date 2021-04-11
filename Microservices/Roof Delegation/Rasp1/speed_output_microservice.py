@@ -78,7 +78,8 @@ app = Flask(__name__)
 # cache = Cache(app)
 
 y_predict_array = []
-rasp3_ip_address = "localhost"
+rasp3_ip_address = "192.168.1.104"
+rasp2_ip_address = "192.168.1.105"
 
 
 @app.route('/speed/output', methods=['GET'])

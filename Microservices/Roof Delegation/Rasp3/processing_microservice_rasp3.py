@@ -12,6 +12,7 @@ from json import JSONEncoder
 import time
 import datetime
 import csv
+
 a = datetime.datetime.now()
 
 
@@ -51,7 +52,7 @@ class RepeatedTimer(object):
 app = Flask(__name__)
 
 # Ip adresses of system devices
-testbed_ip_address = "192.168.1.112"
+testbed_ip_address = "192.168.1.109"
 
 air_condition_data_array = []
 passenger_count_data_array = []
@@ -114,7 +115,6 @@ def write_to_csv(fileName, data):
 # Sent Data To the FOG
 
 @app.route('/roof/speed_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_data():
     global speed_data_array
     global time_get_roof_speed_data
@@ -130,7 +130,6 @@ def speed_data():
 
 
 @app.route('/roof/driver_rush_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def driver_rush_data():
     global driver_rush_data_array
     global time_get_roof_driver_rush_data
@@ -147,7 +146,6 @@ def driver_rush_data():
 
 
 @app.route('/roof/visibility_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def visibility_data():
     global visibility_data_array
     global time_get_roof_visibility_data
@@ -163,7 +161,6 @@ def visibility_data():
 
 
 @app.route('/roof/rain_intensity_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def rain_intensity_data():
     global rain_intensity_data_array
     global time_get_roof_rain_intensity_data
@@ -179,7 +176,6 @@ def rain_intensity_data():
 
 
 @app.route('/roof/pitch_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def pitch_data():
     global pitch_data_array
     global time_get_roof_pitch_data
@@ -195,7 +191,6 @@ def pitch_data():
 
 
 @app.route('/roof/ac_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_data():
     global air_condition_data_array
     global time_get_roof_ac_data
@@ -211,7 +206,6 @@ def ac_data():
 
 
 @app.route('/roof/passenger_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def passenger_data():
     global passenger_count_data_array
     global time_get_roof_passenger_data
@@ -227,7 +221,6 @@ def passenger_data():
 
 
 @app.route('/roof/window_data', methods=['GET'])
-# @cache.cached(timeout=300)
 def window_data():
     global window_opening_data_array
     global time_get_roof_window_data
@@ -245,7 +238,6 @@ def window_data():
 # Speed REST Apis
 
 @app.route('/speed/input', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_input_list():
     global speed_input
     global time_get_speed_input
@@ -261,7 +253,6 @@ def speed_input_list():
 
 
 @app.route('/speed/x_train', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_x_train():
     global speed_x_train_data
     global time_get_speed_x_train
@@ -278,7 +269,6 @@ def speed_x_train():
 
 
 @app.route('/speed/x_test', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_x_test():
     global speed_x_test_data
     global time_get_speed_x_test
@@ -294,7 +284,6 @@ def speed_x_test():
 
 
 @app.route('/speed/y_test', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_y_test():
     global speed_y_test_data
     global time_get_speed_y_test
@@ -310,7 +299,6 @@ def speed_y_test():
 
 
 @app.route('/speed/y_train', methods=['GET'])
-# @cache.cached(timeout=300)
 def speed_y_train():
     global speed_y_train_data
     global time_get_speed_y_train
@@ -328,7 +316,6 @@ def speed_y_train():
 # AC REST Apis
 
 @app.route('/ac_control/input', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_control_input_list():
     global ac_input
     global time_get_ac_control_input
@@ -345,7 +332,6 @@ def ac_control_input_list():
 
 
 @app.route('/ac_control/x_train', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_control_x_train():
     global ac_x_train
     global time_get_ac_control_x_train
@@ -362,7 +348,6 @@ def ac_control_x_train():
 
 
 @app.route('/ac_control/x_test', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_control_x_test():
     global ac_x_test
     global time_get_ac_control_x_test
@@ -379,7 +364,6 @@ def ac_control_x_test():
 
 
 @app.route('/ac_control/y_test', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_control_y_test():
     global ac_y_test
     global time_get_ac_control_y_test
@@ -395,7 +379,6 @@ def ac_control_y_test():
 
 
 @app.route('/ac_control/y_train', methods=['GET'])
-# @cache.cached(timeout=300)
 def ac_control_y_train():
     global ac_y_train
     global time_get_ac_control_y_train
@@ -693,7 +676,6 @@ def speed_train_split():
 
 
 @app.route('/roof/processing/time', methods=['GET'])
-# @cache.cached(timeout=300)
 def processing_time():
     global total
     global time_get_roof_speed_data
@@ -759,7 +741,6 @@ rain_intensity_data_automated = RepeatedTimer(5, get_rain_intensity_data)
 visibility_data_automated = RepeatedTimer(5, get_visibility_data)
 driver_rush_data_automated = RepeatedTimer(5, get_driver_rush_data)
 speed_data_automated = RepeatedTimer(5, get_vehicle_speed_data)
-
 
 train_split_automated = RepeatedTimer(11, automated_train_split)
 time_automated = RepeatedTimer(1, processing_time)

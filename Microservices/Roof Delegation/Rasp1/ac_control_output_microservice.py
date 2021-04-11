@@ -69,10 +69,10 @@ def predict(wh, bh, wo, bo, X_test):
 app = Flask(__name__)
 
 y_predict_array = []
-fog_ip_address = "192.168.1.112"
+fog_ip_address = "192.168.1.109"
 cloud_ip_address = "34.126.124.227"
-rasp3_ip_address = "localhost"
-rasp2_ip_address = "localhost"
+rasp3_ip_address = "192.168.1.104"
+rasp2_ip_address = "192.168.1.105"
 
 
 @app.route('/ac_control/output', methods=['GET'])
